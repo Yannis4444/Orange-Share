@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=Orange Share
+Exec=/bin/python3 /path/to/Orange-Share/main.py
