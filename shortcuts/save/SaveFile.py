@@ -63,8 +63,6 @@ class SaveFile(Resource):
     def post(self):
         global last_saving_directory
 
-        print("ofhgdl")
-
         args = parser.parse_args()
 
         filename = args["file"].filename
@@ -81,7 +79,7 @@ class SaveFile(Resource):
             f = file_dialog(directory=last_saving_directory, filename=filename)
         if not f:
             logging.error("Error while saving file: No file was selected")
-            return {"Error": "No file was selected"}, 500
+            return {"message": "No file was selected"}, 500
 
         if not f.endswith(extension):
             f += "." + extension

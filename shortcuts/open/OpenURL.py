@@ -19,7 +19,7 @@ class OpenURL(Resource):
 
         if args["url"] == "":
             logging.error("can't open URL: URL is empty")
-            return {"error": "URL is empty"}, 400
+            return {"message": "URL is empty"}, 400
 
         logging.info("opening URL \"{}\"".format(args["url"]))
 
