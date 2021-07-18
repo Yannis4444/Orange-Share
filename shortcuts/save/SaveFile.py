@@ -77,8 +77,8 @@ class SaveFile(Resource):
         else:
             f = file_dialog(directory=last_saving_directory, filename=filename)
         if not f:
-            logging.error("Error while saving file: No file was selected")
-            return {"message": "No file was selected"}, 500
+            logging.error("Error while saving file: No file destination was selected")
+            return {"message": "No file destination was selected"}, 500
 
         if not f.endswith(extension):
             f += "." + extension
