@@ -2,10 +2,9 @@ import datetime
 import logging
 import os.path
 from typing import Optional
-import wx  # pip install wxpython
+import wx
 import werkzeug
 from flask_restful import Resource, reqparse
-import webview
 
 parser = reqparse.RequestParser()
 parser.add_argument('file',

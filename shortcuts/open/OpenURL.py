@@ -1,7 +1,4 @@
-import logging
-
-from flask_restful import Resource, reqparse, abort
-import webbrowser
+from flask_restful import Resource, reqparse
 
 from shortcuts.open.open_helper import open_url
 
