@@ -11,6 +11,7 @@ parser.add_argument('url',
                     required=True,
                     help='provide an url')
 
+
 class OpenURL(Resource):
     """
     Opens a given URL in the browser.

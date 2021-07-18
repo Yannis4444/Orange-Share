@@ -1,12 +1,10 @@
 import datetime
 import logging
 import os
-import subprocess
-import sys
-import tempfile
 import werkzeug
 from flask_restful import Resource, reqparse
 
+from main import temp_dir
 from shortcuts.open.open_helper import open_file
 
 parser = reqparse.RequestParser()
@@ -16,9 +14,6 @@ parser.add_argument('file',
                     required=True,
                     help='provide a file')
 
-# TODO: global for application, shutdownhook to clear
-# A temporary directory to save the opened files to
-temp_dir = tempfile.TemporaryDirectory()
 
 class OpenFile(Resource):
     """

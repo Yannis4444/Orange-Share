@@ -3,12 +3,9 @@ import logging
 import os
 import subprocess
 import sys
-import tempfile
 import webbrowser
 
-# TODO: global for application
-# A temporary directory to save the opened files to
-temp_dir = tempfile.TemporaryDirectory()
+from main import temp_dir
 
 
 def open_url(url: str):

@@ -86,12 +86,6 @@ class SaveFile(Resource):
 
         last_saving_directory = os.path.dirname(os.path.abspath(f))
 
-        # Tk().withdraw()
-        # f = filedialog.asksaveasfile(mode='w', defaultextension=extension, initialfile=filename)
-        # if f is None:  # asksaveasfile return `None` if dialog closed with "cancel".
-        #     return
-        # f.close()
-
         logging.info("saving File \"{}\"".format(f))
 
         args["file"].save(f)

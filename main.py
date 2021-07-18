@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 import logging
-
+import tempfile
 from flask import Flask
 from flask_restful import Api
-
 import shortcuts
+
+temp_dir = tempfile.TemporaryDirectory()
 
 app = Flask(__name__)
 api = Api(app)
@@ -15,7 +16,6 @@ api.add_resource(shortcuts.open.OpenURL, '/api/open/url')
 api.add_resource(shortcuts.open.OpenText, '/api/open/text')
 api.add_resource(shortcuts.clipboard.ClipboardText, '/api/clipboard/text')
 api.add_resource(shortcuts.save.SaveFile, '/api/save/file')
-
 
 if __name__ == '__main__':
     logging.basicConfig(

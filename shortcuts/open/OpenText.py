@@ -1,4 +1,3 @@
-import tempfile
 import validators
 from flask_restful import Resource, reqparse
 
@@ -9,10 +8,6 @@ parser.add_argument('text',
                     type=str,
                     required=True,
                     help='provide the content as text')
-
-# TODO: global for application
-# A temporary directory to save the opened files to
-temp_dir = tempfile.TemporaryDirectory()
 
 
 class OpenText(Resource):
