@@ -20,7 +20,7 @@ The open shortcut will send the content to the computer and open it in the respe
 the website in the default browser, any other files will be opened in their default applications. To make this work, the
 files are saved in a temporary folder.
 
-**[Download the Shortcut](https://www.icloud.com/shortcuts/5a65133125e24c73bbe30f5bde2d5b52)**
+**[Download the Shortcut](https://www.icloud.com/shortcuts/6b62b82bba344323917aeefbc90eb8c8)**
 
 ### Save
 The save shortcut will open a save-file-dialog with which the selected file can be saved anywhere on the computer.
