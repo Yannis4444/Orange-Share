@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 
 import logging
-import tempfile
 from flask import Flask
 from flask_restful import Api
 import shortcuts
-
-temp_dir = tempfile.TemporaryDirectory()
 
 app = Flask(__name__)
 api = Api(app)
