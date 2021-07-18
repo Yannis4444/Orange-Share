@@ -2,10 +2,9 @@ import datetime
 import logging
 import os.path
 from typing import Optional
-import wx  # pip install wxpython
+import wx
 import werkzeug
 from flask_restful import Resource, reqparse
-import webview
 
 parser = reqparse.RequestParser()
 parser.add_argument('file',
@@ -78,19 +77,13 @@ class SaveFile(Resource):
         else:
             f = file_dialog(directory=last_saving_directory, filename=filename)
         if not f:
-            logging.error("Error while saving file: No file was selected")
-            return {"message": "No file was selected"}, 500
+            logging.error("Error while saving file: No file destination was selected")
+            return {"message": "No file destination was selected"}, 500
 
         if not f.endswith(extension):
             f += "." + extension
 
         last_saving_directory = os.path.dirname(os.path.abspath(f))
-
-        # Tk().withdraw()
-        # f = filedialog.asksaveasfile(mode='w', defaultextension=extension, initialfile=filename)
-        # if f is None:  # asksaveasfile return `None` if dialog closed with "cancel".
-        #     return
-        # f.close()
 
         logging.info("saving File \"{}\"".format(f))
 

@@ -1,11 +1,11 @@
 import datetime
 import logging
 import os
-import subprocess
-import sys
-import tempfile
 import werkzeug
 from flask_restful import Resource, reqparse
+
+from temp_dir import temp_dir
+from shortcuts.open.open_helper import open_file
 
 parser = reqparse.RequestParser()
 parser.add_argument('file',
@@ -14,22 +14,6 @@ parser.add_argument('file',
                     required=True,
                     help='provide a file')
 
-# TODO: global for application, shutdownhook to clear
-# A temporary directory to save the opened files to
-temp_dir = tempfile.TemporaryDirectory()
-
-def open_file(filename: str):
-    """
-    Opens the given file in the default application
-
-    :param filename: The filename
-    """
-
-    if sys.platform == "win32":
-        os.startfile(filename)
-    else:
-        opener = "open" if sys.platform == "darwin" else "xdg-open"
-        subprocess.call([opener, filename], stdout=None)
 
 class OpenFile(Resource):
     """
