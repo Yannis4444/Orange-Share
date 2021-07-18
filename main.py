@@ -12,8 +12,10 @@ api = Api(app)
 
 api.add_resource(shortcuts.open.OpenFile, '/api/open/file')
 api.add_resource(shortcuts.open.OpenURL, '/api/open/url')
+api.add_resource(shortcuts.open.OpenText, '/api/open/text')
 api.add_resource(shortcuts.clipboard.ClipboardText, '/api/clipboard/text')
 api.add_resource(shortcuts.save.SaveFile, '/api/save/file')
+
 
 if __name__ == '__main__':
     logging.basicConfig(

@@ -7,6 +7,8 @@ import tempfile
 import werkzeug
 from flask_restful import Resource, reqparse
 
+from shortcuts.open.open_helper import open_file
+
 parser = reqparse.RequestParser()
 parser.add_argument('file',
                     type=werkzeug.datastructures.FileStorage,
@@ -17,19 +19,6 @@ parser.add_argument('file',
 # TODO: global for application, shutdownhook to clear
 # A temporary directory to save the opened files to
 temp_dir = tempfile.TemporaryDirectory()
-
-def open_file(filename: str):
-    """
-    Opens the given file in the default application
-
-    :param filename: The filename
-    """
-
-    if sys.platform == "win32":
-        os.startfile(filename)
-    else:
-        opener = "open" if sys.platform == "darwin" else "xdg-open"
-        subprocess.call([opener, filename], stdout=None)
 
 class OpenFile(Resource):
     """
