@@ -33,7 +33,15 @@ The clipboard shortcut will copy any text to the clipboard of the computer. Once
 **[Download the Shortcut](https://www.icloud.com/shortcuts/af1a507a945f4226990c3a94e54d04d3)**
 
 ## Installation
-### python libraries
+### Using PIP
+
+You can install Orange-Share using `pip` by running `pip install .` in the base directory of this project.
+
+After that, it can be run using the command `python -m orangeshare`.
+
+### Manual
+
+To run Orange-Share you will need to install the following packages.
 
 ```shell
 pip install flask
@@ -44,14 +52,12 @@ pip install validators
 pip install wxpython
 ```
 
-### Running
 To start the server just run `python main.py`.
 
-### Autostart
-#### Linux
-To run Orange Share at system startup you can copy the `orange-share.desktop` to the `~/.config/autostart` directory.
-You will have to change the path in `Exec=/bin/python3 /path/to/Orange-Share/main.py` to the correct location of the
-`main.py`.
+## Autostart
+### Linux
 
-#### Windows
+To run Orange Share at system startup you can copy the `orange-share.desktop` to the `~/.config/autostart` directory.
+
+### Windows
 Coming soon.

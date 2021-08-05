@@ -1,7 +1,7 @@
 import validators
 from flask_restful import Resource, reqparse
 
-from shortcuts.open.open_helper import open_url, open_text
+from orangeshare.shortcuts.open.open_helper import open_url, open_text
 
 parser = reqparse.RequestParser()
 parser.add_argument('text',

@@ -5,7 +5,7 @@ import subprocess
 import sys
 import webbrowser
 
-from temp_dir import temp_dir
+from orangeshare.temp_dir import temp_dir
 
 
 def open_url(url: str):
