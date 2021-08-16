@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='orangeshare',
-    version='0.1.0',
+    version='0.2.1',
     description='A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS',
     url='https://github.com/Yannis4444/Orange-Share',
     author='Yannis Vierkoetter',
