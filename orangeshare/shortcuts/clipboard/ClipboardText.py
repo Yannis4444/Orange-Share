@@ -24,7 +24,8 @@ class ClipboardText(Resource):
         notification = Notify()
         notification.title = "Orange Share"
         notification.message = "Copied Text to clipboard:\n" + args["text"]
+        notification.icon = "logo/white.svg"
         # TODO: option to show content
-        notification.send()
+        notification.send(block=False)
 
         return {'success': True}
