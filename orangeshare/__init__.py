@@ -34,12 +34,14 @@ class Orangeshare:
         self.app = Flask(__name__, template_folder="ui/templates", static_folder="ui/static")
         self.api = Api(self.app)
 
+        # shortcuts
         self.api.add_resource(shortcuts.open.OpenFile, '/api/open/file')
         self.api.add_resource(shortcuts.open.OpenURL, '/api/open/url')
         self.api.add_resource(shortcuts.open.OpenText, '/api/open/text')
         self.api.add_resource(shortcuts.clipboard.ClipboardText, '/api/clipboard/text')
         self.api.add_resource(shortcuts.save.SaveFile, '/api/save/file')
 
+        # ui
         self.app.add_url_rule("/", methods=["GET"], view_func=index)
         self.app.add_url_rule("/favicon.ico", methods=["GET"], view_func=favicon)
 
