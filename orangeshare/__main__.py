@@ -22,11 +22,10 @@ if __name__ == '__main__':
     args = get_args()
 
     # set logging level
-    if args.verbose:
-        logging.basicConfig(
-            level=logging.DEBUG,
-            format='[%(asctime)s] %(levelname)-8s %(name)-12s %(message)s',
-        )
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format='[%(asctime)s] %(levelname)-8s %(name)-12s %(message)s',
+    )
 
     orangeshare = Orangeshare(args.port)
     orangeshare.run(bool(args.open_ui))

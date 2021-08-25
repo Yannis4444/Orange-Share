@@ -4,7 +4,7 @@ Orange-Share
 A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS
 """
 
-__version__ = "0.2.1"
+__version__ = "0.3.0"
 __author__ = 'Yannis Vierkoetter'
 
 import threading
@@ -13,6 +13,7 @@ from flask import Flask
 from flask_restful import Api
 from orangeshare.shortcuts import *
 from orangeshare.shortcuts.open.open_helper import open_url
+from orangeshare.ui import index, favicon
 
 
 class Orangeshare:
@@ -30,7 +31,7 @@ class Orangeshare:
 
         self.port = port
 
-        self.app = Flask(__name__)
+        self.app = Flask(__name__, template_folder="ui/templates", static_folder="ui/static")
         self.api = Api(self.app)
 
         self.api.add_resource(shortcuts.open.OpenFile, '/api/open/file')
@@ -39,7 +40,8 @@ class Orangeshare:
         self.api.add_resource(shortcuts.clipboard.ClipboardText, '/api/clipboard/text')
         self.api.add_resource(shortcuts.save.SaveFile, '/api/save/file')
 
-        self.api.add_resource()
+        self.app.add_url_rule("/", methods=["GET"], view_func=index)
+        self.app.add_url_rule("/favicon.ico", methods=["GET"], view_func=favicon)
 
     def run(self, open_ui: bool = False):
         """
@@ -49,6 +51,7 @@ class Orangeshare:
         """
 
         if open_ui:
-            threading.Timer(10, open_url, args=("http://localhost:{}".format(self.port),)).start()
+            # TODO: open on first run
+            threading.Timer(2, open_url, args=("http://localhost:{}".format(self.port),)).start()
 
         self.app.run("0.0.0.0", self.port)
