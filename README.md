@@ -37,7 +37,7 @@ The clipboard shortcut will copy any text to the clipboard of the computer. Once
 
 You can install Orange-Share using `pip` by running `pip install .` in the base directory of this project.
 
-After that, it can be run using the command `python -m orangeshare`.
+After that, it can be run using the command `python -m orangeshare` or just `orangeshare`.
 
 ### Manual
 

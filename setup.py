@@ -7,7 +7,7 @@ with open(path.join(this_directory, 'README.md')) as f:
 
 setup(
     name='orangeshare',
-    version='0.4.1',
+    version='0.4.2',
     description='A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS',
     long_description=long_description,
     long_description_content_type='text/markdown',

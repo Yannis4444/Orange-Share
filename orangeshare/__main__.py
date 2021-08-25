@@ -12,10 +12,19 @@ def get_args() -> argparse.Namespace:
     """
 
     parser = argparse.ArgumentParser(description='A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS')
+    parser.add_argument('--version', required=False, action='count', default=0, help="Print the Version")
     parser.add_argument('-p', '--port', required=False, type=int, help="Port number of the measurement server (default: 7616)", metavar="<port>", default=7616)
     parser.add_argument('-o', '--open-ui', required=False, action='count', help="Open the server controls in the browser")
     parser.add_argument('-v', '--verbose', required=False, action='count', default=0, help="enable Verbose output")
-    return parser.parse_args()
+
+    args = parser.parse_args()
+
+    if args.version:
+        from orangeshare import __version__
+        print(__version__)
+        exit(0)
+
+    return args
 
 
 def main():
