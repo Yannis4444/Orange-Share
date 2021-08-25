@@ -15,8 +15,8 @@ const Mainloop = imports.mainloop;
 let active = false;
 let orangeSharePid = null;
 let PORT = 7616;
-let DISABLED_ICON = "icons/gray.svg"
-let ENABLED_ICON = "icons/white.svg"
+let DISABLED_ICON = "orangeshare/logo/gray.svg"
+let ENABLED_ICON = "orangeshare/logo/white.svg"
 let installedVersion = null;
 
 let orangeShare;
