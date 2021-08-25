@@ -18,7 +18,7 @@ def get_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-if __name__ == '__main__':
+def main():
     args = get_args()
 
     # set logging level
@@ -29,3 +29,7 @@ if __name__ == '__main__':
 
     orangeshare = Orangeshare(args.port)
     orangeshare.run(bool(args.open_ui))
+
+
+if __name__ == '__main__':
+    main()
