@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='orangeshare',
-    version='0.2.1',
+    version='0.3.0',
     description='A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS',
     url='https://github.com/Yannis4444/Orange-Share',
     author='Yannis Vierkoetter',
@@ -13,8 +13,11 @@ setup(
         'orangeshare.shortcuts',
         'orangeshare.shortcuts.clipboard',
         'orangeshare.shortcuts.open',
-        'orangeshare.shortcuts.save'
+        'orangeshare.shortcuts.save',
+        'orangeshare.ui',
+        'orangeshare.ui.templates'
     ],
+    # TODO package_data
     install_requires=[
         "flask",
         "flask_restful",

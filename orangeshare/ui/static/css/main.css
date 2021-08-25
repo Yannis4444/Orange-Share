@@ -1,0 +1,32 @@
+:root {
+    --bg: #14161b;
+    --fg: #1b1d24;
+    --inputbg: #22252c;
+    --header: #fff;
+    --text: #ccc;
+}
+
+
+html {
+    background: var(--bg);
+}
+
+h1,
+h2,
+h3 {
+    color: var(--header);
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
+}
+
+p,
+ul,
+ol,
+label {
+    color: var(--text);
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
+}
+
+body > div {
+    background: var(--fg);
+    padding: 10px 20px;
+}
