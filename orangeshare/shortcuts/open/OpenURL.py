@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 
-from shortcuts.open.open_helper import open_url
+from orangeshare.shortcuts.open.open_helper import open_url
 
 parser = reqparse.RequestParser()
 parser.add_argument('url',

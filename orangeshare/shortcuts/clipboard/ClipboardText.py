@@ -1,7 +1,8 @@
 import logging
 from flask_restful import Resource, reqparse
 import pyperclip
-from notifypy import Notify
+
+from orangeshare.notify import notify
 
 parser = reqparse.RequestParser()
 parser.add_argument('text',
@@ -21,10 +22,7 @@ class ClipboardText(Resource):
 
         logging.info("copied to clipboard: {}".format(args["text"] if len(args["text"]) < 64 else args["text"][:64] + "..."))
 
-        notification = Notify()
-        notification.title = "Orange Share"
-        notification.message = "Copied Text to clipboard:\n" + args["text"]
         # TODO: option to show content
-        notification.send()
+        notify("Copied Text to clipboard:\n" + args["text"])
 
         return {'success': True}

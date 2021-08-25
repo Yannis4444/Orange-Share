@@ -4,8 +4,8 @@ import os
 import werkzeug
 from flask_restful import Resource, reqparse
 
-from temp_dir import temp_dir
-from shortcuts.open.open_helper import open_file
+from orangeshare.temp_dir import temp_dir
+from orangeshare.shortcuts.open.open_helper import open_file
 
 parser = reqparse.RequestParser()
 parser.add_argument('file',
