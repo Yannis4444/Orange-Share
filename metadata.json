@@ -1,0 +1,10 @@
+{
+    "name" : "Orange Share",
+    "description" : "A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS",
+    "shell-version" : [
+        "3.36"
+    ],
+    "url" : "https://github.com/Yannis4444/Orange-Share/",
+    "uuid" : "orange-share@Yannis4444.github.com",
+    "version" : 0.5
+}

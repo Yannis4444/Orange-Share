@@ -33,6 +33,22 @@ The clipboard shortcut will copy any text to the clipboard of the computer. Once
 **[Download the Shortcut](https://www.icloud.com/shortcuts/af1a507a945f4226990c3a94e54d04d3)**
 
 ## Installation
+### Gnome Shell Extension
+
+Installing Orange Share as a gnome shell extension can be done by cloning the repo into your local gnome-shell
+extensions directory (usually ~/.local/share/gnome-shell/extensions/):
+
+```
+$ git clone https://github.com/Yannis4444/Orange-Share.git <extensions-dir>/orange-share@Yannis4444.github.com
+```
+
+Once cloned, you may need to restart the shell (Alt+F2 and insert 'r' in the prompt) for the extension to be listed in the extension settings.
+There you can enable the extension.
+When first enabling Orange Share by clicking the icon in the top bar, you will be prompted to install the package.
+
+Once everything is running, you can enable and disable Orange Share by clicking on the icon.
+Double-clicking the icon will open the settings in your browser.
+
 ### Using PIP
 
 You can install Orange-Share using `pip` by running `pip install .` in the base directory of this project.
