@@ -11,6 +11,10 @@ html {
     background: var(--bg);
 }
 
+body {
+    padding: 20px;
+}
+
 h1,
 h2,
 h3 {
@@ -21,7 +25,8 @@ h3 {
 p,
 ul,
 ol,
-label {
+label,
+a {
     color: var(--text);
     font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
 }
@@ -29,4 +34,18 @@ label {
 body > div {
     background: var(--fg);
     padding: 10px 20px;
+    border-radius: 10px;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+a.download.shortcut {
+    background: #004ea3;
+    padding: 8px 12px;
+    margin: 0 auto 24px auto;
+    display: block;
+    width: max-content;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
 }
