@@ -19,6 +19,7 @@ let PORT = 7616;
 let DISABLED_ICON = "orangeshare/logo/gray.svg"
 let ENABLED_ICON = "orangeshare/logo/white.svg"
 let installedVersion = null;
+let lastDoubleClick = 0;
 
 let orangeShare;
 
@@ -57,19 +58,17 @@ const OrangeShare = GObject.registerClass(
 
                 if (action.get_button() === 1) {
                     if (action.get_click_count() === 1) {
-                        this.toggle();
+                        // this.toggle();
+                        Mainloop.timeout_add(250, () => {
+                            if (Date.now() > lastDoubleClick + 250)
+                            this.toggle();
+                        });
                     } else if (action.get_click_count() === 2) {
-                        // TODO: do not take as both single and double click
+                        lastDoubleClick = Date.now();
                         this.openSettings();
                         this.enable();
                     }
                 }
-
-                // let x = Mainloop.timeout_add(1000, () => {
-                //     notify('Hello There', "General Kenobi", "/home/yannis/git/Orange-Share/orangeshare/logo/white.svg");
-                // });
-                // log(x);
-                // Mainloop.timeout_remove(x);
             }));
         }
 
@@ -82,6 +81,11 @@ const OrangeShare = GObject.registerClass(
         }
 
         enable() {
+            if (active) {
+                log("Orange Share was already running");
+                return;
+            }
+
             log("enabling Orange Share");
 
             try {
