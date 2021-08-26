@@ -141,7 +141,8 @@ const OrangeShare = GObject.registerClass(
             Util.spawn(["python", "-m", "webbrowser", "http://localhost:" + PORT]);
         }
 
-        showNotification(message, actionText = null, action = function () {}) {
+        showNotification(message, actionText = null, action = function () {
+        }) {
             // https://gitlab.manjaro.org/applications/pamac/-/blob/master/data/gnome-shell/pamac-updates%40manjaro.org/extension.js
             if (this._notifSource == null) {
                 // We have to prepare this only once
@@ -191,22 +192,63 @@ const OrangeShare = GObject.registerClass(
     });
 
 function init() {
-    // check that the correct version of Orange Share is installed
-    try {
-        installedVersion = GLib.spawn_command_line_sync("orangeshare --version")[1].toString();
-        log("Version " + installedVersion + " of Orange Share is installed");
-    } catch (e) {
-        // not installed
-        log("Orange Share is not installed");
-    }
 }
 
 function enable() {
-    orangeShare = new OrangeShare();
-    Main.panel.addToStatusArea('OrangeShare', orangeShare, 2);
+    // // check that the correct version of Orange Share is installed
+    // try {
+    //     installedVersion = GLib.spawn_command_line_sync("orangeshare --version")[1].toString();
+    //     log("Version " + installedVersion + " of Orange Share is installed");
+    // } catch (e) {
+    //     // not installed
+    //     logError(e);
+    //     log("Orange Share is not installed");
+    // }
+    //
+    // orangeShare = new OrangeShare();
+    // Main.panel.addToStatusArea('OrangeShare', orangeShare, 2);
+
+    // check that the correct version of Orange Share is installed
+
+
+    try {
+        let proc = Gio.Subprocess.new(
+            ["orangeshare", "--version"],
+            Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
+        );
+
+        proc.communicate_utf8_async(null, null, (proc, res) => {
+            try {
+                let [, stdout, stderr] = proc.communicate_utf8_finish(res);
+
+                if (proc.get_successful()) {
+                    installedVersion = stdout;
+                } else {
+                    throw new Error(stderr);
+                }
+            } catch (e) {
+                logError(e);
+                log("Orange Share is not installed");
+            }
+            finally {
+                // run the extension
+                orangeShare = new OrangeShare();
+                Main.panel.addToStatusArea('OrangeShare', orangeShare, 2);
+            }
+        });
+    } catch (e) {
+        // not installed
+        logError(e);
+        log("Orange Share is not installed");
+
+        // run the extension
+        orangeShare = new OrangeShare();
+        Main.panel.addToStatusArea('OrangeShare', orangeShare, 2);
+    }
 }
 
 function disable() {
+    orangeShare.disconnect("button-press-event");
     orangeShare.disable()
     orangeShare.destroy();
 }
