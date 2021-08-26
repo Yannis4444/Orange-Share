@@ -14,7 +14,11 @@ Therefore, all the following shortcuts are links to iCloud.
 When adding the shortcut to your device, you will be asked to configure the IP/hostname as well as the port of the server
 (7616 by default).
 
-## Functions
+## Shortcuts
+
+Shortcuts have to be installed on the iPhone/iPad. In order to do that, the following download links must be
+opened on the respective device.
+
 ### Open
 The open shortcut will send the content to the computer and open it in the respective application. For URLs, it will open
 the website in the default browser, any other files will be opened in their default applications. To make this work, the
