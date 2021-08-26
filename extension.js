@@ -141,7 +141,8 @@ const OrangeShare = GObject.registerClass(
             Util.spawn(["python", "-m", "webbrowser", "http://localhost:" + PORT]);
         }
 
-        showNotification(message, actionText = null, action = function () {}) {
+        showNotification(message, actionText = null, action = function () {
+        }) {
             // https://gitlab.manjaro.org/applications/pamac/-/blob/master/data/gnome-shell/pamac-updates%40manjaro.org/extension.js
             if (this._notifSource == null) {
                 // We have to prepare this only once
@@ -191,6 +192,9 @@ const OrangeShare = GObject.registerClass(
     });
 
 function init() {
+}
+
+function enable() {
     // check that the correct version of Orange Share is installed
     try {
         installedVersion = GLib.spawn_command_line_sync("orangeshare --version")[1].toString();
@@ -199,14 +203,13 @@ function init() {
         // not installed
         log("Orange Share is not installed");
     }
-}
 
-function enable() {
     orangeShare = new OrangeShare();
     Main.panel.addToStatusArea('OrangeShare', orangeShare, 2);
 }
 
 function disable() {
+    orangeShare.disconnect("button-press-event");
     orangeShare.disable()
     orangeShare.destroy();
 }
