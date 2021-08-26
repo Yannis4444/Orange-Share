@@ -82,6 +82,8 @@ const OrangeShare = GObject.registerClass(
         }
 
         enable() {
+            log("enabling Orange Share");
+
             try {
                 if (orangeShareProcess == null) {
                     orangeShareProcess = Gio.Subprocess.new(
@@ -105,6 +107,8 @@ const OrangeShare = GObject.registerClass(
         }
 
         disable() {
+            log("disabling Orange Share");
+
             try {
                 if (orangeShareProcess != null) {
                     orangeShareProcess.force_kill();
@@ -165,10 +169,10 @@ const OrangeShare = GObject.registerClass(
 
         installOrangeShare() {
             // opens a terminal to install orangeshare
-            GLib.spawn_command_line_sync("gnome-terminal -- pip install " + Me.dir.get_path())
+            // GLib.spawn_command_line_sync("gnome-terminal -- pip install " + Me.dir.get_path())
 
             Gio.Subprocess.new(
-                ["orangeshare", "-p", PORT.toString()],
+                ["gnome-terminal", "--", "pip", "install", Me.dir.get_path()],
                 Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
             );
 
@@ -182,8 +186,10 @@ function init() {
     // check that the correct version of Orange Share is installed
     try {
         installedVersion = GLib.spawn_command_line_sync("orangeshare --version")[1].toString();
+        log("Version " + installedVersion + " of Orange Share is installed");
     } catch (e) {
         // not installed
+        log("Orange Share is not installed");
     }
 }
 
