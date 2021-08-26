@@ -59,9 +59,12 @@ const OrangeShare = GObject.registerClass(
                 if (action.get_button() === 1) {
                     if (action.get_click_count() === 1) {
                         // this.toggle();
+                        // set the icon now and maybe revert the change again
+                        this.setIcon(!active);
                         Mainloop.timeout_add(250, () => {
-                            if (Date.now() > lastDoubleClick + 250)
-                            this.toggle();
+                            if (Date.now() > lastDoubleClick + 250) {
+                                this.toggle();
+                            }
                         });
                     } else if (action.get_click_count() === 2) {
                         lastDoubleClick = Date.now();
@@ -83,6 +86,7 @@ const OrangeShare = GObject.registerClass(
         enable() {
             if (active) {
                 log("Orange Share was already running");
+                this.setIcon(true);
                 return;
             }
 
@@ -115,7 +119,7 @@ const OrangeShare = GObject.registerClass(
 
             try {
                 if (orangeShareProcess != null) {
-                    orangeShareProcess.force_kill();
+                    orangeShareProcess.force_exit();
                     orangeShareProcess = null;
                 }
             } catch (e) {
