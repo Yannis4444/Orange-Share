@@ -14,6 +14,7 @@ const Mainloop = imports.mainloop;
 // TODO: different python interpreters
 let active = false;
 let orangeSharePid = null;
+let orangeShareProcess = null;
 let PORT = 7616;
 let DISABLED_ICON = "orangeshare/logo/gray.svg"
 let ENABLED_ICON = "orangeshare/logo/white.svg"
@@ -81,32 +82,41 @@ const OrangeShare = GObject.registerClass(
         }
 
         enable() {
-            active = true;
-            this.setIcon(true);
-            if (orangeSharePid == null) {
-                let [exit, pid, stdin, stdout, stderr] =
-                    GLib.spawn_async_with_pipes(
-                        null, // cwd
-                        ["orangeshare", "-p", PORT.toString()], // args
-                        null, // env
-                        GLib.SpawnFlags.SEARCH_PATH | GLib.SpawnFlags.DO_NOT_REAP_CHILD, //Use env path and no repet
-                        null // child_setup
+            try {
+                if (orangeShareProcess == null) {
+                    orangeShareProcess = Gio.Subprocess.new(
+                        ["orangeshare", "-p", PORT.toString()],
+                        Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
                     );
-
-                orangeSharePid = pid;
+                }
+            } catch (e) {
+                logError(e);
+                this.showNotification("Starting failed");
+                return;
             }
+
+            active = true;
+
+            this.setIcon(true);
+
             this.showNotification("Started Orange Share", "Settings", function () {
                 this.openSettings()
             });
         }
 
         disable() {
+            try {
+                if (orangeShareProcess != null) {
+                    orangeShareProcess.force_kill();
+                    orangeShareProcess = null;
+                }
+            } catch (e) {
+                logError(e);
+            }
+
             active = false;
             this.setIcon(false);
-            if (orangeSharePid != null) {
-                GLib.spawn_command_line_async("kill " + orangeSharePid);
-                orangeSharePid = null;
-            }
+
             this.showNotification("Stopped Orange Share");
         }
 
@@ -157,6 +167,11 @@ const OrangeShare = GObject.registerClass(
             // opens a terminal to install orangeshare
             GLib.spawn_command_line_sync("gnome-terminal -- pip install " + Me.dir.get_path())
 
+            Gio.Subprocess.new(
+                ["orangeshare", "-p", PORT.toString()],
+                Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
+            );
+
             // The exact version is not needed
             installedVersion = "x.x.x";
         }
@@ -165,7 +180,6 @@ const OrangeShare = GObject.registerClass(
 
 function init() {
     // check that the correct version of Orange Share is installed
-    // TODO
     try {
         installedVersion = GLib.spawn_command_line_sync("orangeshare --version")[1].toString();
     } catch (e) {
