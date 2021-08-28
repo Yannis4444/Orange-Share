@@ -4,6 +4,7 @@
     --inputbg: #22252c;
     --header: #fff;
     --text: #ccc;
+    --accent: #004ea3;
 }
 
 
@@ -12,14 +13,17 @@ html {
 }
 
 body {
-    padding: 20px;
+    margin: 0;
+}
+
+* {
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
 }
 
 h1,
 h2,
 h3 {
     color: var(--header);
-    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
 }
 
 p,
@@ -28,19 +32,52 @@ ol,
 label,
 a {
     color: var(--text);
-    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
 }
 
-body > div {
+#header {
+    background: var(--fg);
+    padding: 20px 10px;
+}
+
+#header h1 {
+    font-size: 42px;
+    text-align: center;
+    margin: 0;
+}
+
+#shortcuts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(700px, 1fr));
+    grid-gap: 40px;
+    padding: 40px;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 900px) {
+    #shortcuts {
+        grid-template-columns: 1fr;
+        padding: 40px 0;
+    }
+}
+
+.shortcut {
     background: var(--fg);
     padding: 10px 20px;
     border-radius: 10px;
-    margin: 0 auto;
-    max-width: 800px;
 }
 
-a.download.shortcut {
-    background: #004ea3;
+.shortcut h1 {
+    text-align: center;
+}
+
+.shortcut .info {
+    font-size: 20px;
+    text-align: center;
+}
+
+.button {
+    background: var(--accent);
     padding: 8px 12px;
     margin: 0 auto 24px auto;
     display: block;
@@ -48,4 +85,68 @@ a.download.shortcut {
     text-decoration: none;
     font-weight: bold;
     border-radius: 4px;
+    cursor: pointer;
 }
+
+.popup {
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #0008;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup.active {
+    pointer-events: all;
+    opacity: 1;
+}
+
+.popup > div {
+    background: var(--fg);
+    padding: 10px 40px;
+    border-radius: 10px;
+    max-width: 650px;
+    margin: 20px;
+}
+
+@media screen and (max-width: 600px) {
+    .popup div {
+        border-radius: 0;
+        margin: 0;
+    }
+}
+
+.popup h1 {
+    text-align: center;
+    font-size: 32px;
+}
+
+.popup p {
+    text-align: center;
+    font-size: 16px;
+}
+
+.popup #qrcode {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.popup #qrcode img {
+    padding: 5px;
+    background: #fff;
+}
+
+@media screen and (max-height: 600px) {
+    .popup #qrcode {
+        display: none;
+    }
+}
+

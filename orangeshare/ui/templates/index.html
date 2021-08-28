@@ -6,40 +6,93 @@
 
     <title>Orange Share</title>
 
+    <script type="text/javascript" src="/static/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="/static/js/qrcode.min.js"></script>
+    <script type="text/javascript" src="/static/js/main.js"></script>
+
     <link rel=stylesheet type=text/css href="/static/css/main.css">
 </head>
 <body>
-<div>
+<!--<div>-->
+<!--    <h1>Orange Share</h1>-->
+<!--    <p><a href="https://github.com/Yannis4444/Orange-Share">GitHub</a></p>-->
+<!--    <h2>Shortcuts</h2>-->
+
+<!--    <p>Shortcuts have to be installed on the iPhone/iPad. In order to do that, the following download links must be-->
+<!--        opened on the respective device.</p>-->
+
+<!--    <h3>Open</h3>-->
+<!--    <p>The open shortcut will send the content to the computer and open it in the respective application. For URLs, it-->
+<!--        will open-->
+<!--        the website in the default browser, any other files will be opened in their default applications. To make this-->
+<!--        work, the-->
+<!--        files are saved in a temporary folder.</p>-->
+
+<!--    <a href="https://www.icloud.com/shortcuts/6b62b82bba344323917aeefbc90eb8c8" class="download shortcut">Download</a>-->
+
+<!--    <h3>Save</h3>-->
+<!--    <p>The save shortcut will open a save-file-dialog with which the selected file can be saved anywhere on the-->
+<!--        computer.</p>-->
+
+<!--    <a href="https://www.icloud.com/shortcuts/471a93dd19374c609bd1c37f62c61fc4" class="download shortcut">Download</a>-->
+
+<!--    <h3>Clipboard</h3>-->
+<!--    <p>The clipboard shortcut will copy any text to the clipboard of the computer. Once copied, it can be pasted-->
+<!--        anywhere.</p>-->
+
+<!--    <a href="https://www.icloud.com/shortcuts/af1a507a945f4226990c3a94e54d04d3" class="download shortcut">Download</a>-->
+
+<!--    &lt;!&ndash;    TODO: info about untrusted shortcuts&ndash;&gt;-->
+<!--    &lt;!&ndash;    TODO: check if on iphone -> info for downloading shortcuts&ndash;&gt;-->
+
+
+<!--    <input id="text" type="text" value="https://hogangnono.com" style="width:80%" /><br />-->
+<!--    <div id="qrcode"></div>-->
+<!--</div>-->
+
+<div id="header">
+    <!--    Includes general information and settings-->
+
+    <!--    TODO: Orange Share Icon-->
     <h1>Orange Share</h1>
-    <p><a href="https://github.com/Yannis4444/Orange-Share">GitHub</a></p>
-    <h2>Shortcuts</h2>
-
-    <p>Shortcuts have to be installed on the iPhone/iPad. In order to do that, the following download links must be
-        opened on the respective device.</p>
-
-    <h3>Open</h3>
-    <p>The open shortcut will send the content to the computer and open it in the respective application. For URLs, it
-        will open
-        the website in the default browser, any other files will be opened in their default applications. To make this
-        work, the
-        files are saved in a temporary folder.</p>
-
-    <a href="https://www.icloud.com/shortcuts/6b62b82bba344323917aeefbc90eb8c8" class="download shortcut">Download</a>
-
-    <h3>Save</h3>
-    <p>The save shortcut will open a save-file-dialog with which the selected file can be saved anywhere on the
-        computer.</p>
-
-    <a href="https://www.icloud.com/shortcuts/471a93dd19374c609bd1c37f62c61fc4" class="download shortcut">Download</a>
-
-    <h3>Clipboard</h3>
-    <p>The clipboard shortcut will copy any text to the clipboard of the computer. Once copied, it can be pasted
-        anywhere.</p>
-
-    <a href="https://www.icloud.com/shortcuts/af1a507a945f4226990c3a94e54d04d3" class="download shortcut">Download</a>
-
-    <!--    TODO: info about untrusted shortcuts-->
-    <!--    TODO: check if on iphone -> info for downloading shortcuts-->
 </div>
+
+<div id="shortcuts">
+    <!--    Includes all the shortcuts with download options and settings-->
+    <div class="shortcut">
+        <h1>Open</h1>
+        <p class="info">Open any content on the computer in its respective application.</p>
+        <label class="button" onclick="openDownload(event)" data-name="Open"
+               data-url="https://www.icloud.com/shortcuts/6b62b82bba344323917aeefbc90eb8c8">Download</label>
+    </div>
+    <div class="shortcut">
+        <h1>Save</h1>
+        <p class="info">Open a dialog with which a selected file can be saved anywhere on the computer.</p>
+        <label class="button" onclick="openDownload(event)" data-name="Save"
+               data-url="https://www.icloud.com/shortcuts/471a93dd19374c609bd1c37f62c61fc4">Download</label>
+    </div>
+    <div class="shortcut">
+        <h1>Clipboard</h1>
+        <p class="info">Copy any text to the clipboard of the computer.</p>
+        <label class="button" onclick="openDownload(event)" data-name="Clipboard"
+               data-url="https://www.icloud.com/shortcuts/af1a507a945f4226990c3a94e54d04d3">Download</label>
+    </div>
+</div>
+
+<div id="download" class="popup">
+    <div>
+        <h1 id="downloadHeader">Download</h1>
+
+        <p>Shortcuts have to be installed on the iPhone/iPad they will be used from.</p>
+        <p>You can either scan the QR Code or open the link at the bottom on the device.</p>
+
+        <div id="qrcode"></div>
+
+        <a id="downloadLink" class="button">Download On This Device</a>
+
+<!--        TODO: close-->
+    </div>
+</div>
+
 </body>
 </html>
