@@ -6,6 +6,9 @@ import wx
 import werkzeug
 from flask_restful import Resource, reqparse
 
+from orangeshare import Config
+from orangeshare.notify import notify
+
 parser = reqparse.RequestParser()
 parser.add_argument('file',
                     type=werkzeug.datastructures.FileStorage,
@@ -68,14 +71,18 @@ class SaveFile(Resource):
         if not filename:
             filename = datetime.datetime.now().isoformat()
 
+        config = Config.get_config()
+        if config.config.getboolean("SAVE", "notification", fallback=True):
+            notify("Saving File \"{}\"".format(filename))
+
         extension = filename.split(".")[-1]
         if extension == filename:
             extension = ""
 
         if extension:
-            f = file_dialog(directory=last_saving_directory, filename=filename, extension=extension)
+            f = file_dialog(directory=config.config.get("SAVE", "last_location", fallback=""), filename=filename, extension=extension)
         else:
-            f = file_dialog(directory=last_saving_directory, filename=filename)
+            f = file_dialog(directory=config.config.get("SAVE", "last_location", fallback=""), filename=filename)
         if not f:
             logging.error("Error while saving file: No file destination was selected")
             return {"message": "No file destination was selected"}, 500
@@ -83,7 +90,8 @@ class SaveFile(Resource):
         if not f.endswith(extension):
             f += "." + extension
 
-        last_saving_directory = os.path.dirname(os.path.abspath(f))
+        config.config.set("SAVE", "last_location", os.path.dirname(os.path.abspath(f)))
+        config.save()
 
         logging.info("saving File \"{}\"".format(f))
 

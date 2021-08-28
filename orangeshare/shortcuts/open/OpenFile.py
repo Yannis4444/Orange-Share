@@ -4,6 +4,8 @@ import os
 import werkzeug
 from flask_restful import Resource, reqparse
 
+from orangeshare import Config
+from orangeshare.notify import notify
 from orangeshare.temp_dir import temp_dir
 from orangeshare.shortcuts.open.open_helper import open_file
 
@@ -28,6 +30,10 @@ class OpenFile(Resource):
             filename = datetime.datetime.now().isoformat()
 
         logging.info("opening File \"{}\"".format(filename))
+
+        config = Config.get_config()
+        if config.config.getboolean("OPEN", "notification", fallback=True):
+            notify("Opening File \"{}\"".format(filename))
 
         path = os.path.join(temp_dir.name, filename)
         args["file"].save(path)

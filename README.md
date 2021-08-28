@@ -81,3 +81,8 @@ To run Orange Share at system startup you can copy the `orange-share.desktop` to
 
 ### Windows
 Coming soon.
+
+## Configuration
+
+A configuration file can be found in the user's config directory.
+On Linux for example this would be `~/.config/orangeshare/config.ini`.

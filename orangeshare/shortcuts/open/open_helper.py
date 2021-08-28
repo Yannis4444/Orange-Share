@@ -5,6 +5,8 @@ import subprocess
 import sys
 import webbrowser
 
+from orangeshare import Config
+from orangeshare.notify import notify
 from orangeshare.temp_dir import temp_dir
 
 
@@ -20,6 +22,11 @@ def open_url(url: str):
         return {"message": "URL is empty"}, 400
 
     logging.info("opening URL \"{}\"".format(url))
+
+    config = Config.get_config()
+    if config.config.getboolean("OPEN", "notification", fallback=True):
+        notify("Opening URL \"{}\"".format(url))
+
     webbrowser.open(url)
 
     return {'success': True}
@@ -43,6 +50,10 @@ def open_text(text: str):
     filename = "{}.txt".format(datetime.datetime.now().isoformat())
 
     logging.info("opening Text")
+
+    config = Config.get_config()
+    if config.config.getboolean("OPEN", "notification", fallback=True):
+        notify("Opening Text")
 
     path = os.path.join(temp_dir.name, filename)
     textfile = open(path, "w")

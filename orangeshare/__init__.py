@@ -4,13 +4,15 @@ Orange-Share
 A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS
 """
 
-__version__ = "0.6.0"
+__version__ = "0.7.0"
 __author__ = 'Yannis Vierkoetter'
 
 import threading
 
 from flask import Flask
 from flask_restful import Api
+
+from orangeshare.config import Config
 from orangeshare.shortcuts import *
 from orangeshare.shortcuts.open.open_helper import open_url
 from orangeshare.ui import index, favicon
@@ -52,8 +54,8 @@ class Orangeshare:
         :param open_ui: Open the controls in the browser once the server has started.
         """
 
-        if open_ui:
-            # TODO: open on first run
-            threading.Timer(2, open_url, args=("http://localhost:{}".format(self.port),)).start()
+        if Config.get_config().new_config:
+            # open on first run
+            threading.Timer(1, open_url, args=("http://localhost:{}".format(self.port),)).start()
 
         self.app.run("0.0.0.0", self.port)
