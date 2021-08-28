@@ -54,8 +54,8 @@ class Orangeshare:
         :param open_ui: Open the controls in the browser once the server has started.
         """
 
-        if Config.get_config().new_config:
-            # open on first run
+        # open on first run or when specified
+        if open_ui or Config.get_config().new_config:
             threading.Timer(1, open_url, args=("http://localhost:{}".format(self.port),)).start()
 
         self.app.run("0.0.0.0", self.port)

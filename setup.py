@@ -24,7 +24,8 @@ setup(
         "notify-py",
         "validators",
         "wxpython",
-        "appdirs"
+        "appdirs",
+        "Flask-HTTPAuth"
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
