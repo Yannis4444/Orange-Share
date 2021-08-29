@@ -6,93 +6,48 @@
 
     <title>Orange Share</title>
 
-    <script type="text/javascript" src="/static/js/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="/static/js/qrcode.min.js"></script>
-    <script type="text/javascript" src="/static/js/main.js"></script>
-
     <link rel=stylesheet type=text/css href="/static/css/main.css">
+    <link rel=stylesheet type=text/css href="/static/css/index.css">
 </head>
 <body>
-<!--<div>-->
-<!--    <h1>Orange Share</h1>-->
-<!--    <p><a href="https://github.com/Yannis4444/Orange-Share">GitHub</a></p>-->
-<!--    <h2>Shortcuts</h2>-->
+    <div class="center">
+        <h1><span class="logo"></span><label>Orange Share</label></h1>
 
-<!--    <p>Shortcuts have to be installed on the iPhone/iPad. In order to do that, the following download links must be-->
-<!--        opened on the respective device.</p>-->
-
-<!--    <h3>Open</h3>-->
-<!--    <p>The open shortcut will send the content to the computer and open it in the respective application. For URLs, it-->
-<!--        will open-->
-<!--        the website in the default browser, any other files will be opened in their default applications. To make this-->
-<!--        work, the-->
-<!--        files are saved in a temporary folder.</p>-->
-
-<!--    <a href="https://www.icloud.com/shortcuts/6b62b82bba344323917aeefbc90eb8c8" class="download shortcut">Download</a>-->
-
-<!--    <h3>Save</h3>-->
-<!--    <p>The save shortcut will open a save-file-dialog with which the selected file can be saved anywhere on the-->
-<!--        computer.</p>-->
-
-<!--    <a href="https://www.icloud.com/shortcuts/471a93dd19374c609bd1c37f62c61fc4" class="download shortcut">Download</a>-->
-
-<!--    <h3>Clipboard</h3>-->
-<!--    <p>The clipboard shortcut will copy any text to the clipboard of the computer. Once copied, it can be pasted-->
-<!--        anywhere.</p>-->
-
-<!--    <a href="https://www.icloud.com/shortcuts/af1a507a945f4226990c3a94e54d04d3" class="download shortcut">Download</a>-->
-
-<!--    &lt;!&ndash;    TODO: info about untrusted shortcuts&ndash;&gt;-->
-<!--    &lt;!&ndash;    TODO: check if on iphone -> info for downloading shortcuts&ndash;&gt;-->
-
-
-<!--    <input id="text" type="text" value="https://hogangnono.com" style="width:80%" /><br />-->
-<!--    <div id="qrcode"></div>-->
-<!--</div>-->
-
-<div id="header">
-    <!--    Includes general information and settings-->
-
-    <!--    TODO: Orange Share Icon-->
-    <h1>Orange Share</h1>
-</div>
-
-<div id="shortcuts">
-    <!--    Includes all the shortcuts with download options and settings-->
-    <div class="shortcut">
-        <h1>Open</h1>
-        <p class="info">Open any content on the computer in its respective application.</p>
-        <label class="button" onclick="openDownload(event)" data-name="Open"
-               data-url="https://www.icloud.com/shortcuts/6b62b82bba344323917aeefbc90eb8c8">Download</label>
+<!--        https://tablericons.com/ 40px 2px-->
+        <div class="buttons">
+            <a class="devices">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="40" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+                    <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+                </svg>
+                <label>Connected Devices</label>
+            </a>
+            <a class="shortcuts">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-download" width="40" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                    <polyline points="7 11 12 16 17 11" />
+                    <line x1="12" y1="4" x2="12" y2="16" />
+                </svg>
+                <label>Shortcuts</label>
+            </a>
+            <a class="settings">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="40" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
+                <label>Settings</label>
+            </a>
+            <a class="github">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="40" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+                </svg>
+                <label>GitHub</label>
+            </a>
+        </div>
     </div>
-    <div class="shortcut">
-        <h1>Save</h1>
-        <p class="info">Open a dialog with which a selected file can be saved anywhere on the computer.</p>
-        <label class="button" onclick="openDownload(event)" data-name="Save"
-               data-url="https://www.icloud.com/shortcuts/471a93dd19374c609bd1c37f62c61fc4">Download</label>
-    </div>
-    <div class="shortcut">
-        <h1>Clipboard</h1>
-        <p class="info">Copy any text to the clipboard of the computer.</p>
-        <label class="button" onclick="openDownload(event)" data-name="Clipboard"
-               data-url="https://www.icloud.com/shortcuts/af1a507a945f4226990c3a94e54d04d3">Download</label>
-    </div>
-</div>
-
-<div id="download" class="popup">
-    <div>
-        <h1 id="downloadHeader">Download</h1>
-
-        <p>Shortcuts have to be installed on the iPhone/iPad they will be used from.</p>
-        <p>You can either scan the QR Code or open the link at the bottom on the device.</p>
-
-        <div id="qrcode"></div>
-
-        <a id="downloadLink" class="button">Download On This Device</a>
-
-<!--        TODO: close-->
-    </div>
-</div>
-
 </body>
 </html>
