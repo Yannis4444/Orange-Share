@@ -8,16 +8,25 @@ that allow the user to open and save content from an iPhone or iPad on a compute
 The shortcuts will show up in the share sheet of files, links etc. and allow you to share whatever the content is with
 the computer it is set up with.
 
-Apple does not allow hosting shortcuts anywhere other than iCloud, which is why providing them as files would not work.
-Therefore, all the following shortcuts are links to iCloud.
+By default, you can access the UI with settings for Orange Share on [localhost:7616](http://localhost:7616).
+The UI is only accessible from the host.
 
-When adding the shortcut to your device, you will be asked to configure the IP/hostname as well as the port of the server
-(7616 by default).
+The API which is used by the mobile devices is opened on port 7615 by default.
+It is accessible from devices in the network and secured with Basic Auth.
+Note that due to the http protocol, connection data will be sent over unencrypted connections.
 
 ## Shortcuts
 
 Shortcuts have to be installed on the iPhone/iPad. In order to do that, the following download links must be
 opened on the respective device.
+
+Apple does not allow hosting shortcuts anywhere other than iCloud, which is why providing them as files would not work.
+Therefore, all the following shortcuts are links to iCloud.
+
+TODO: This will be changed
+
+When adding the shortcut to your device, you will be asked to configure the IP/hostname as well as the port of the server
+(7615 by default).
 
 ### Open
 The open shortcut will send the content to the computer and open it in the respective application. For URLs, it will open

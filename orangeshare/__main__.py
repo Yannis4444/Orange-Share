@@ -13,7 +13,8 @@ def get_args() -> argparse.Namespace:
 
     parser = argparse.ArgumentParser(description='A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS')
     parser.add_argument('--version', required=False, action='count', default=0, help="Print the Version")
-    parser.add_argument('-p', '--port', required=False, type=int, help="Port number of the measurement server (default: 7616)", metavar="<port>", default=7616)
+    parser.add_argument('-p', '--api-port', required=False, type=int, help="Port number of the api server (default: 7615)", metavar="<port>", default=7615)
+    parser.add_argument('-u', '--ui-port', required=False, type=int, help="Port number of the UI server (default: 7616)", metavar="<port>", default=7616)
     parser.add_argument('-o', '--open-ui', required=False, action='count', help="Open the server controls in the browser")
     parser.add_argument('-v', '--verbose', required=False, action='count', default=0, help="enable Verbose output")
 
@@ -36,7 +37,7 @@ def main():
         format='[%(asctime)s] %(levelname)-8s %(name)-12s %(message)s',
     )
 
-    orangeshare = Orangeshare(args.port)
+    orangeshare = Orangeshare(args.api_port, args.ui_port)
     orangeshare.run(bool(args.open_ui))
 
 
