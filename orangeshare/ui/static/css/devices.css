@@ -60,11 +60,13 @@
 }
 
 #devices div.qrcode {
-    width: min-content;
     height: 0;
     margin: 0 auto;
     overflow: hidden;
     transition: height 0.2s;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 #devices .button.qrcode.active ~ div.qrcode {
@@ -74,6 +76,8 @@
 #devices div.qrcode img {
     border: 8px solid #fff;
     margin-top: 16px;
+    width: 256px;
+    height: 256px;
 }
 
 #addNew .settings {
