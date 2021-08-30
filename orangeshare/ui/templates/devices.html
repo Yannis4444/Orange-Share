@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>Orange Share</title>
+
+    <script type="text/javascript" src="/static/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="/static/js/qrcode.min.js"></script>
+    <script type="text/javascript" src="/static/js/devices.js"></script>
+
+    <link rel=stylesheet type=text/css href="/static/css/main.css">
+    <link rel=stylesheet type=text/css href="/static/css/devices.css">
+</head>
+<body class="contentpage">
+    <div class="topbar">
+        <a class="home" href="/">
+            <h1><span class="logo"></span><label>Orange Share</label></h1>
+        </a>
+    </div>
+
+    <div class="content">
+        <h1>Connected Devices</h1>
+<!--        TODO: info-->
+        <div id="devices"></div>
+        <div id="addNew">
+            <div class="settings">
+                <svg onclick="closeAddNew(event)" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="40" height="40" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+                <h2>New Device</h2>
+                <label>Device Name</label>
+                <input id="newDeviceName" type="text" placeholder="Name" onkeypress="addNewInputEnter(event)"/>
+            </div>
+            <div class="button" onclick="addNew(event)">
+                <label>add</label>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

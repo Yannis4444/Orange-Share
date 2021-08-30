@@ -1,19 +1,16 @@
-/*:root {*/
-/*    --bg: #14161b;*/
-/*    --fg: #1b1d24;*/
-/*    --inputbg: #22252c;*/
-/*    --header: #fff;*/
-/*    --text: #ccc;*/
-/*    --accent-blue: #1982c4;*/
-/*}*/
-
 :root {
     --bg: #0c1016;
     --fg: #151920;
-    --inputbg: #22252c;
+    --fg-darkened: #12161d;
+    --fg-highlight: #171B22;
+    --border: #555;
     --header: #fff;
     --text: #ccc;
-    --accent-blue: #1982c4;
+    --text-gray: #888;
+    --accent-blue: #1a2f56;
+    --accent-purple: #37296a;
+    --accent-green: #184212;
+    --accent-dark: #111217;
 }
 
 
@@ -23,6 +20,10 @@ html {
 
 body {
     margin: 0;
+}
+
+body.contentpage {
+    padding: 150px 0 40px 0;
 }
 
 * {
@@ -50,122 +51,74 @@ a {
     background-size: contain;
 }
 
+.topbar {
+    background: var(--fg);
+    padding: 20px 16px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    border-bottom: 1px solid var(--border);
+}
 
-/*Overthink from here on*/
+.topbar .home {
+    text-decoration: none;
+}
 
-/*#header {*/
-/*    background: var(--fg);*/
-/*    padding: 20px 10px;*/
-/*}*/
+.topbar .home h1 {
+    font-size: 50px;
+    font-weight: lighter;
+    margin: 0 12px 0 0;
+    cursor: inherit;
+}
 
-/*#header h1 {*/
-/*    font-size: 42px;*/
-/*    text-align: center;*/
-/*    margin: 0;*/
-/*}*/
+.topbar .home h1 .logo {
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    margin: 0 12px;
+    transform: translateY(8px);
+    cursor: inherit;
+}
 
-/*#shortcuts {*/
-/*    display: grid;*/
-/*    grid-template-columns: repeat(auto-fill, minmax(700px, 1fr));*/
-/*    grid-gap: 40px;*/
-/*    padding: 40px;*/
-/*    max-width: 1500px;*/
-/*    margin: 0 auto;*/
-/*}*/
+.topbar .home h1 label {
+    cursor: inherit;
+}
 
-/*@media screen and (max-width: 900px) {*/
-/*    #shortcuts {*/
-/*        grid-template-columns: 1fr;*/
-/*        padding: 40px 0;*/
-/*    }*/
-/*}*/
+.content {
+    width: 90%;
+    max-width: 1200px;
+    background: var(--fg);
+    margin: 0 auto;
+    padding: 20px 20px 40px 20px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+}
 
-/*.shortcut {*/
-/*    background: var(--fg);*/
-/*    padding: 10px 20px;*/
-/*    border-radius: 10px;*/
-/*}*/
+.content h1 {
+    text-align: center;
+    font-weight: normal;
+}
 
-/*.shortcut h1 {*/
-/*    text-align: center;*/
-/*}*/
+input[type=text],
+input[type=number] {
+    color: #fff;
+    background: transparent;
+    outline: none;
+    border-top: none;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    border-left: none;
+    font-size: 20px;
+    padding: 8px 16px;
+}
 
-/*.shortcut .info {*/
-/*    font-size: 20px;*/
-/*    text-align: center;*/
-/*}*/
+input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
 
-/*.button {*/
-/*    background: var(--accent-blue);*/
-/*    padding: 8px 12px;*/
-/*    margin: 0 auto 24px auto;*/
-/*    display: block;*/
-/*    width: max-content;*/
-/*    text-decoration: none;*/
-/*    font-weight: bold;*/
-/*    border-radius: 4px;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.popup {*/
-/*    pointer-events: none;*/
-/*    opacity: 0;*/
-/*    transition: opacity 0.2s;*/
-/*    position: fixed;*/
-/*    top: 0;*/
-/*    left: 0;*/
-/*    width: 100vw;*/
-/*    height: 100vh;*/
-/*    background: #0008;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
-
-/*.popup.active {*/
-/*    pointer-events: all;*/
-/*    opacity: 1;*/
-/*}*/
-
-/*.popup > div {*/
-/*    background: var(--fg);*/
-/*    padding: 10px 40px;*/
-/*    border-radius: 10px;*/
-/*    max-width: 650px;*/
-/*    margin: 20px;*/
-/*}*/
-
-/*@media screen and (max-width: 600px) {*/
-/*    .popup div {*/
-/*        border-radius: 0;*/
-/*        margin: 0;*/
-/*    }*/
-/*}*/
-
-/*.popup h1 {*/
-/*    text-align: center;*/
-/*    font-size: 32px;*/
-/*}*/
-
-/*.popup p {*/
-/*    text-align: center;*/
-/*    font-size: 16px;*/
-/*}*/
-
-/*.popup #qrcode {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    margin: 20px 0;*/
-/*}*/
-
-/*.popup #qrcode img {*/
-/*    padding: 5px;*/
-/*    background: #fff;*/
-/*}*/
-
-/*@media screen and (max-height: 600px) {*/
-/*    .popup #qrcode {*/
-/*        display: none;*/
-/*    }*/
-/*}*/
-
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}

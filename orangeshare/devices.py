@@ -1,3 +1,5 @@
+import base64
+import json
 import logging
 import uuid
 from typing import Dict
@@ -45,6 +47,31 @@ def create_device(name: str) -> str:
 
     return id
 
+def get_qr_code_data(id):
+    """
+    The data to be shown in the QR Code
+
+    :param id: The ID of the Device
+    :return: The data
+    """
+
+    # TODO: actual data
+    data = {"host": "192.168.178.42", "port": 7615, "name": Config.get_config().config.get("DEVICES", id), "id": id}
+    return base64.b64encode(json.dumps(data).encode("utf-8")).decode("utf-8")
+
+def get_device(id):
+    """
+    The info for one device
+
+    :param id: The device
+    :return: The info
+    """
+
+    return {
+        "name": Config.get_config().config.get("DEVICES", id),
+        "id": id,
+        "qrcode": get_qr_code_data(id)
+    }
 
 def get_devices() -> Dict[str, str]:
     """
@@ -53,7 +80,7 @@ def get_devices() -> Dict[str, str]:
     :return:
     """
 
-    return Config.get_config().config["DEVICES"]
+    return {id: get_device(id) for id in Config.get_config().config["DEVICES"].keys()}
 
 
 def delete_device(id: str):

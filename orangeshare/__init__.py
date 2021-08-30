@@ -17,7 +17,7 @@ from orangeshare import devices
 from orangeshare.config import Config
 from orangeshare.shortcuts import *
 from orangeshare.shortcuts.open.open_helper import open_url
-from orangeshare.ui import index, favicon
+import orangeshare.ui
 
 
 class Orangeshare:
@@ -43,22 +43,30 @@ class Orangeshare:
         basic_auth.check_credentials = devices.check_credentials
         self.api_app.config['BASIC_AUTH_FORCE'] = True
 
-        self.api = Api(self.api_app)
+        self.api_api = Api(self.api_app)
 
         # shortcuts
-        self.api.add_resource(shortcuts.open.OpenFile, '/api/open/file')
-        self.api.add_resource(shortcuts.open.OpenURL, '/api/open/url')
-        self.api.add_resource(shortcuts.open.OpenText, '/api/open/text')
-        self.api.add_resource(shortcuts.clipboard.ClipboardText, '/api/clipboard/text')
-        self.api.add_resource(shortcuts.save.SaveFile, '/api/save/file')
+        self.api_api.add_resource(shortcuts.open.OpenFile, '/api/open/file')
+        self.api_api.add_resource(shortcuts.open.OpenURL, '/api/open/url')
+        self.api_api.add_resource(shortcuts.open.OpenText, '/api/open/text')
+        self.api_api.add_resource(shortcuts.clipboard.ClipboardText, '/api/clipboard/text')
+        self.api_api.add_resource(shortcuts.save.SaveFile, '/api/save/file')
 
         # The UI Server
         self.ui_port = ui_port
         self.ui_app = Flask(__name__, template_folder="ui/templates", static_folder="ui/static")
+        self.ui_api = Api(self.ui_app)
 
         # UI
-        self.ui_app.add_url_rule("/", methods=["GET"], view_func=index)
-        self.ui_app.add_url_rule("/favicon.ico", methods=["GET"], view_func=favicon)
+        self.ui_app.add_url_rule("/", methods=["GET"], view_func=orangeshare.ui.index)
+        self.ui_app.add_url_rule("/devices", methods=["GET"], view_func=orangeshare.ui.devices)
+        self.ui_app.add_url_rule("/favicon.ico", methods=["GET"], view_func=orangeshare.ui.favicon)
+
+        # API for the UI
+        self.ui_api.add_resource(orangeshare.ui.api.devices.GetDevices, '/api/devices')
+        self.ui_api.add_resource(orangeshare.ui.api.NewDevice, '/api/devices/new')
+        self.ui_api.add_resource(orangeshare.ui.api.DeleteDevice, '/api/devices/delete')
+
 
     def run(self, open_ui: bool = False):
         """

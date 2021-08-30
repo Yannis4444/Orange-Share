@@ -9,6 +9,8 @@ body > .center {
     width: 100%;
     background: var(--fg);
     padding: 60px 0 80px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
 }
 
 h1 {
@@ -67,22 +69,23 @@ h1 .logo {
     font-weight: bold;
     pointer-events: none;
     margin-left: 70px;
+    outline: none;
 }
 
 .buttons a.devices {
-    background: #1a2f56;
+    background: var(--accent-blue);
 }
 
 .buttons a.shortcuts {
     /*background: rgb(176,84,164);*/
     /*background: linear-gradient(135deg, rgba(176,84,164,1) 0%, rgba(114,64,133,1) 20%, rgba(72,47,114,1) 48%, rgba(27,31,92,1) 89%);*/
-    background: #37296a;
+    background: var(--accent-purple);
 }
 
 .buttons a.settings {
-    background: #184212;
+    background: var(--accent-green);
 }
 
 .buttons a.github {
-    background: #111217;
+    background: var(--accent-dark);
 }
