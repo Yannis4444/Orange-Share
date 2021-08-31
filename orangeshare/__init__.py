@@ -4,7 +4,7 @@ Orange-Share
 A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS
 """
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __author__ = 'Yannis Vierkoetter'
 
 import threading
@@ -60,12 +60,13 @@ class Orangeshare:
         # UI
         self.ui_app.add_url_rule("/", methods=["GET"], view_func=orangeshare.ui.index)
         self.ui_app.add_url_rule("/devices", methods=["GET"], view_func=orangeshare.ui.devices)
+        self.ui_app.add_url_rule("/settings", methods=["GET"], view_func=orangeshare.ui.settings)
         self.ui_app.add_url_rule("/favicon.ico", methods=["GET"], view_func=orangeshare.ui.favicon)
 
         # API for the UI
         self.ui_api.add_resource(orangeshare.ui.api.devices.GetDevices, '/api/devices')
-        self.ui_api.add_resource(orangeshare.ui.api.NewDevice, '/api/devices/new')
-        self.ui_api.add_resource(orangeshare.ui.api.DeleteDevice, '/api/devices/delete')
+        self.ui_api.add_resource(orangeshare.ui.api.devices.NewDevice, '/api/devices/new')
+        self.ui_api.add_resource(orangeshare.ui.api.devices.DeleteDevice, '/api/devices/delete')
 
 
     def run(self, open_ui: bool = False):

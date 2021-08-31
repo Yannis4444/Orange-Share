@@ -33,8 +33,9 @@ class Config:
         else:
             Config._instance = self
 
-        self._config_dir = user_config_dir("orangeshare")
-        self._new_config = not os.path.isfile(os.path.join(self._config_dir, "config.ini"))
+        self.directory = user_config_dir("orangeshare")
+        self.file = os.path.join(self.directory, "config.ini")
+        self._new_config = not os.path.isfile(self.file)
 
         self.config = configparser.ConfigParser()
 
@@ -46,13 +47,13 @@ class Config:
         If the file does not exist, default values will be set.
         """
 
-        logging.info("reading config file: {}".format(os.path.join(self._config_dir, "config.ini")))
+        logging.info("reading config file: {}".format(self.file))
 
         # get default values
         self.config.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), "default.ini"))
 
         # get the actual values
-        self.config.read(os.path.join(self._config_dir, "config.ini"))
+        self.config.read(self.file)
 
         # save the config just in case new values were added
         self.save()
@@ -62,10 +63,10 @@ class Config:
         Saves the config to.
         """
 
-        if not os.path.isdir(self._config_dir):
-            os.mkdir(self._config_dir)
+        if not os.path.isdir(self.directory):
+            os.mkdir(self.directory)
 
-        with open(os.path.join(self._config_dir, "config.ini"), 'w') as configfile:
+        with open(self.file, 'w') as configfile:
             self.config.write(configfile)
 
     @property

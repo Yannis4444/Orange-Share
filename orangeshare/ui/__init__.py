@@ -1,5 +1,6 @@
 from flask import render_template, send_from_directory
 from .api import *
+from orangeshare import Config
 
 
 def favicon():
@@ -11,5 +12,8 @@ def index():
 
 
 def devices():
-    # TODO: get the actual ip and port
     return render_template("devices.html")
+
+
+def settings():
+    return render_template("settings.html", conf_file=Config.get_config().file)

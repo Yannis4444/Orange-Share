@@ -95,9 +95,14 @@ a {
     border: 1px solid var(--border);
 }
 
-.content h1 {
+.content h1,
+.content h2 {
     text-align: center;
     font-weight: normal;
+}
+
+.content h2 {
+    margin-top: 40px;
 }
 
 input[type=text],
