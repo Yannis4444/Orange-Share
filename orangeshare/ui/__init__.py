@@ -12,7 +12,12 @@ def index():
 
 
 def devices():
-    return render_template("devices.html")
+    config = Config.get_config()
+    return render_template("devices.html", ip=config.config.get("HOST", "ip"), hostname=config.config.get("HOST", "hostname"))
+
+
+def shortcuts():
+    return render_template("shortcuts.html")
 
 
 def settings():

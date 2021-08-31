@@ -1,4 +1,6 @@
 import logging
+import socket
+from typing import Optional
 
 from appdirs import *
 import configparser
@@ -41,6 +43,10 @@ class Config:
 
         self._read()
 
+        # will be set from main
+        self.api_port: Optional[int] = None
+        self.ui_port: Optional[int] = None
+
     def _read(self):
         """
         Loads the config from file.
@@ -54,6 +60,23 @@ class Config:
 
         # get the actual values
         self.config.read(self.file)
+
+        # set the ip and hostname if not already included
+        if not self.config.get("HOST", "ip"):
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            try:
+                # doesn't even have to be reachable
+                s.connect(('10.255.255.255', 1))
+                ip = s.getsockname()[0]
+            except Exception:
+                ip = '127.0.0.1'
+            finally:
+                s.close()
+
+            self.config.set("HOST", "ip", ip)
+
+        if not self.config.get("HOST", "hostname"):
+            self.config.set("HOST", "hostname", socket.gethostname())
 
         # save the config just in case new values were added
         self.save()

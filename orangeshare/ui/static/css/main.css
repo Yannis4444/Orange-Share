@@ -62,6 +62,8 @@ a {
 }
 
 .topbar .home {
+    display: block;
+    width: max-content;
     text-decoration: none;
 }
 
@@ -103,6 +105,11 @@ a {
 
 .content h2 {
     margin-top: 40px;
+}
+
+.content p {
+    font-size: 20px;
+    padding: 0 20px;
 }
 
 input[type=text],

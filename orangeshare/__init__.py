@@ -36,6 +36,7 @@ class Orangeshare:
 
         # The API server
         self.api_port = api_port
+        Config.get_config().api_port = api_port
 
         self.api_app = Flask(__name__)
 
@@ -54,12 +55,14 @@ class Orangeshare:
 
         # The UI Server
         self.ui_port = ui_port
+        Config.get_config().ui_port = ui_port
         self.ui_app = Flask(__name__, template_folder="ui/templates", static_folder="ui/static")
         self.ui_api = Api(self.ui_app)
 
         # UI
         self.ui_app.add_url_rule("/", methods=["GET"], view_func=orangeshare.ui.index)
         self.ui_app.add_url_rule("/devices", methods=["GET"], view_func=orangeshare.ui.devices)
+        self.ui_app.add_url_rule("/shortcuts", methods=["GET"], view_func=orangeshare.ui.shortcuts)
         self.ui_app.add_url_rule("/settings", methods=["GET"], view_func=orangeshare.ui.settings)
         self.ui_app.add_url_rule("/favicon.ico", methods=["GET"], view_func=orangeshare.ui.favicon)
 

@@ -8,6 +8,10 @@
     overflow: hidden;
 }
 
+#devices {
+    margin-top: 50px;
+}
+
 #devices:empty:after {
     content: "There are no connected devices";
     font-size: 20px;
@@ -31,8 +35,13 @@
     background: var(--fg-highlight);
 }
 
-#devices > div label {
+#devices > div label.name {
     font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: calc(100% - 80px);
+    display: inline-block;
 }
 
 #devices .button {

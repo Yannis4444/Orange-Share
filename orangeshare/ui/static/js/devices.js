@@ -1,16 +1,3 @@
-// function openDownload(event) {
-//     $("#download").addClass("active");
-//     console.log(event.target.dataset.name);
-//     console.log(event.target.dataset.url);
-//
-//     $("#downloadHeader").html(event.target.dataset.name);
-//     $("#downloadLink").attr("href", event.target.dataset.url);
-//
-//     // https://davidshimjs.github.io/qrcodejs/
-//     var qrcode = new QRCode("qrcode");
-//     qrcode.makeCode(event.target.dataset.url);
-// }
-
 class Device {
     constructor(name, id, data, open=false) {
         console.log(name);
@@ -18,7 +5,7 @@ class Device {
         console.log(data);
         let outerDiv = $("<div></div>");
 
-        let label = $("<label>" + name + "</label>")
+        let label = $("<label class='name' title='" + name + "'>" + name + "</label>")
         outerDiv.append(label);
 
         // https://tablericons.com/ 28px 1px

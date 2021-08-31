@@ -1,6 +1,7 @@
 import base64
 import json
 import logging
+import socket
 import uuid
 from typing import Dict
 
@@ -56,8 +57,12 @@ def get_qr_code_data(id):
     """
 
     # TODO: actual data
-    data = {"host": "192.168.178.42", "port": 7615, "name": Config.get_config().config.get("DEVICES", id), "id": id}
-    return base64.b64encode(json.dumps(data).encode("utf-8")).decode("utf-8")
+    # data = {"host": "192.168.178.42", "port": 7615, "name": Config.get_config().config.get("DEVICES", id), "id": id, "hostname": socket.gethostname()}
+    # return base64.b64encode(json.dumps(data).encode("utf-8")).decode("utf-8")
+
+    config = Config.get_config()
+
+    return "{}\n{}\n{}\n{}\n{}".format(config.config.get("HOST", "ip"), config.api_port, config.config.get("DEVICES", id), id, config.config.get("HOST", "hostname"))
 
 def get_device(id):
     """
@@ -90,4 +95,6 @@ def delete_device(id: str):
     :param id: The ID of the device to delete
     """
 
-    Config.get_config().config.remove_option("DEVICES", id)
+    config = Config.get_config()
+    config.config.remove_option("DEVICES", id)
+    config.save()
