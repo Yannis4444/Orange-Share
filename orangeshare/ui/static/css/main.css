@@ -103,8 +103,14 @@ a {
     font-weight: normal;
 }
 
-.content h2 {
-    margin-top: 40px;
+.content h1.section {
+    font-size: 36px;
+}
+
+.content h2.section {
+    /*margin-top: 40px;*/
+    margin-top: -110px;
+    padding-top: 150px;
 }
 
 .content p {
