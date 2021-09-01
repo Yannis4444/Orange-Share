@@ -22,7 +22,7 @@
 }
 
 #devices > div {
-    padding: 16px 24px;
+    padding: 16px 24px 8px 24px;
     transition: background-color 0.1s;
     background: var(--fg);
 }
@@ -53,7 +53,7 @@
     transition: stroke 0.2s;
     cursor: pointer;
     margin-left: 8px;
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 }
 
 #devices .button.qrcode:hover svg {

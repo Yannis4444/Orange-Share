@@ -1,8 +1,5 @@
 class Device {
     constructor(name, id, data, open=false) {
-        console.log(name);
-        console.log(id);
-        console.log(data);
         let outerDiv = $("<div></div>");
 
         let label = $("<label class='name' title='" + name + "'>" + name + "</label>")
@@ -18,7 +15,6 @@ class Device {
                     "id": id
                 },
                 function(data) {
-                    console.log(data);
                 }
             ).fail(function (response) {
                 alert('Error: ' + response.responseText);
@@ -96,7 +92,6 @@ function addNew(event) {
                 "name": name
             },
             function(data) {
-                console.log(data);
                 new Device(name, data.id, data.qrcode, true);
             }
         ).fail(function (response) {
@@ -120,7 +115,6 @@ $(function() {
     $.get(
         "/api/devices",
         function(devices) {
-            console.log(devices)
             for (let id in devices) {
                 new Device(devices[id].name, devices[id].id, devices[id].qrcode)
             }
