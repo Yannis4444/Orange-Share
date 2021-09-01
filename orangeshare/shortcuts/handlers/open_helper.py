@@ -4,6 +4,7 @@ import os
 import subprocess
 import sys
 import webbrowser
+from typing import Optional
 
 from orangeshare import Config
 from orangeshare.notify import notify
@@ -46,10 +47,9 @@ def open_file(filename: str):
         subprocess.call([opener, filename], stdout=None)
 
 
-def open_text(text: str):
-    filename = "{}.txt".format(datetime.datetime.now().isoformat())
-
-    logging.info("opening Text")
+def open_text(text: str, filename: Optional[str] = None):
+    if not filename:
+        filename = "{}.txt".format(datetime.datetime.now().isoformat())
 
     config = Config.get_config()
     if config.config.getboolean("OPEN", "notification", fallback=True):

@@ -4,7 +4,7 @@ Orange-Share
 A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS
 """
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 __author__ = 'Yannis Vierkoetter'
 
 import threading
@@ -15,8 +15,7 @@ from flask_restful import Api
 
 from orangeshare import devices
 from orangeshare.config import Config
-from orangeshare.shortcuts import *
-from orangeshare.shortcuts.open.open_helper import open_url
+from orangeshare.shortcuts import File, Text
 import orangeshare.ui.api.devices
 import orangeshare.ui.api.host
 
@@ -48,11 +47,13 @@ class Orangeshare:
         self.api_api = Api(self.api_app)
 
         # shortcuts
-        self.api_api.add_resource(shortcuts.open.OpenFile, '/api/open/file')
-        self.api_api.add_resource(shortcuts.open.OpenURL, '/api/open/url')
-        self.api_api.add_resource(shortcuts.open.OpenText, '/api/open/text')
-        self.api_api.add_resource(shortcuts.clipboard.ClipboardText, '/api/clipboard/text')
-        self.api_api.add_resource(shortcuts.save.SaveFile, '/api/save/file')
+        # self.api_api.add_resource(shortcuts.open.OpenFile, '/api/open/file')
+        # self.api_api.add_resource(shortcuts.open.OpenURL, '/api/open/url')
+        # self.api_api.add_resource(shortcuts.open.OpenText, '/api/open/text')
+        # self.api_api.add_resource(shortcuts.clipboard.ClipboardText, '/api/clipboard/text')
+        # self.api_api.add_resource(shortcuts.save.SaveFile, '/api/save/file')
+        self.api_api.add_resource(File.File, '/api/share/file')
+        self.api_api.add_resource(Text.Text, '/api/share/text')
 
         # The UI Server
         self.ui_port = ui_port
