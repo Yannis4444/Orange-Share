@@ -7,7 +7,7 @@ with open(path.join(this_directory, 'README.md')) as f:
 
 setup(
     name='orangeshare',
-    version='1.0.1',
+    version='1.1.0',
     description='A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -25,7 +25,8 @@ setup(
         "validators",
         "wxpython",
         "appdirs",
-        "Flask-BasicAuth"
+        "Flask-BasicAuth",
+        "netifaces"
     ],
     classifiers=[
         'Development Status :: 4 - Beta',

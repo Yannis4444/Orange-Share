@@ -2,13 +2,13 @@ import json
 import logging
 from flask_restful import Resource, reqparse
 
-from orangeshare.devices import create_device, get_devices, get_qr_code_data, get_device, delete_device
+from orangeshare.devices import delete_device
 
 parser = reqparse.RequestParser()
 parser.add_argument('id',
                     type=str,
                     required=True,
-                    help='provide the name')
+                    help='provide the id')
 
 
 class DeleteDevice(Resource):

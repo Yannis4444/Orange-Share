@@ -1,3 +1,80 @@
+.currentconf {
+    margin: 40px auto;
+}
+
+.currentconf td {
+    padding: 4px 8px;
+}
+
+.currentconf td:nth-child(1) {
+    float: right;
+}
+
+.currentconf td:nth-child(2) {
+    font-weight: bold;
+    position: relative;
+}
+
+.currentconf td:nth-child(2):before {
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 1px;
+    left: 50%;
+    position: absolute;
+    background: var(--border);
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+}
+.currentconf td:nth-child(2):hover:before {
+    width: 100%;
+    left: 0;
+}
+
+.currentconf td input {
+    padding: 0;
+    border: none;
+    font-weight: bold;
+    color: var(--text);
+}
+
+#hostip > label {
+    cursor: pointer;
+}
+
+#hostip div {
+    display: none;
+    position: absolute;
+    top: -10px;
+    left: -14px;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 4px 2px #0008;
+}
+
+#hostip.active div {
+    display: block;
+}
+
+#hostip div label {
+    display: block;
+    cursor: pointer;
+    padding: 12px 20px;
+    background: var(--fg);
+    color: var(--text);
+    font-weight: normal;
+    transition: padding 0.2s;
+}
+
+#hostip div label:nth-child(even) {
+    background: var(--fg-darkened);
+}
+
+#hostip div label:hover {
+    padding: 12px 10px 12px 30px;
+}
+
 #devices,
 #addNew {
     width: 90%;
@@ -9,7 +86,7 @@
 }
 
 #devices {
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 #devices:empty:after {

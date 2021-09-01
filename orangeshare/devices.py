@@ -48,22 +48,6 @@ def create_device(name: str) -> str:
 
     return id
 
-def get_qr_code_data(id):
-    """
-    The data to be shown in the QR Code
-
-    :param id: The ID of the Device
-    :return: The data
-    """
-
-    # TODO: actual data
-    # data = {"host": "192.168.178.42", "port": 7615, "name": Config.get_config().config.get("DEVICES", id), "id": id, "hostname": socket.gethostname()}
-    # return base64.b64encode(json.dumps(data).encode("utf-8")).decode("utf-8")
-
-    config = Config.get_config()
-
-    return "{}\n{}\n{}\n{}\n{}".format(config.config.get("HOST", "ip"), config.api_port, config.config.get("DEVICES", id), id, config.config.get("HOST", "hostname"))
-
 def get_device(id):
     """
     The info for one device
@@ -75,7 +59,6 @@ def get_device(id):
     return {
         "name": Config.get_config().config.get("DEVICES", id),
         "id": id,
-        "qrcode": get_qr_code_data(id)
     }
 
 def get_devices() -> Dict[str, str]:

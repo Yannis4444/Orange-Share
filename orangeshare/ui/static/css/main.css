@@ -32,7 +32,8 @@ body.contentpage {
 
 h1,
 h2,
-h3 {
+h3,
+th {
     color: var(--header);
 }
 
@@ -40,7 +41,8 @@ p,
 ul,
 ol,
 label,
-a {
+a,
+td{
     color: var(--text);
 }
 
@@ -116,6 +118,11 @@ a {
 .content p {
     font-size: 20px;
     padding: 0 20px;
+}
+
+.content th,
+.content td {
+    font-size: 20px;
 }
 
 input[type=text],

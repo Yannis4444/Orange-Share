@@ -28,15 +28,19 @@
             To establish the connection, the <a href="/shortcuts#ConnectionManager"><b>Connection Manager Shortcut</b></a> is needed.
         </p>
         <p>
-            To create the QR Code for the connection, the <b>IP</b> and <b>hostname</b> of the Computer running Orange Share are needed.
-            If these values are not correctly set, they can be changed in the <a href="/settings">settings</a>.
+            To create the QR Code for the connection, the <b>IP</b> and <b>Name</b> of the Computer running Orange Share are needed.
+            These values can be adjusted below if needed.
         </p>
-        <p style="margin: 0; text-align: center">
-            IP: <b>{{ip}}</b>
-        </p>
-        <p style="margin: 0; text-align: center">
-            Hostname: <b>{{hostname}}</b>
-        </p>
+        <table class="currentconf">
+            <tr>
+                <td>Name:</td>
+                <td><input id="hostname" type="text" placeholder="name"></td>
+            </tr>
+            <tr>
+                <td>IP:</td>
+                <td id="hostip" class="closeOnBackgroundClick"></td>
+            </tr>
+        </table>
         <div id="devices"></div>
         <div id="addNew">
             <div class="settings">

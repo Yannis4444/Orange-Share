@@ -1,5 +1,4 @@
 from flask import render_template, send_from_directory
-from .api import *
 from orangeshare import Config
 
 
@@ -12,8 +11,7 @@ def index():
 
 
 def devices():
-    config = Config.get_config()
-    return render_template("devices.html", ip=config.config.get("HOST", "ip"), hostname=config.config.get("HOST", "hostname"))
+    return render_template("devices.html")
 
 
 def shortcuts():

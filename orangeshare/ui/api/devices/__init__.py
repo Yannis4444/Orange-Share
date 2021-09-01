@@ -4,12 +4,6 @@ from flask_restful import Resource, reqparse
 
 from orangeshare.devices import get_devices
 
-parser = reqparse.RequestParser()
-parser.add_argument('name',
-                    type=str,
-                    required=True,
-                    help='provide the name')
-
 
 class GetDevices(Resource):
     """

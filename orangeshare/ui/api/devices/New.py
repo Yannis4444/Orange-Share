@@ -1,7 +1,7 @@
 import logging
 from flask_restful import Resource, reqparse
 
-from orangeshare.devices import create_device, get_devices, get_qr_code_data, get_device
+from orangeshare.devices import create_device, get_device
 
 parser = reqparse.RequestParser()
 parser.add_argument('name',
