@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>Orange Share</title>
+
+    <script type="text/javascript" src="/static/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="/static/js/qrcode.min.js"></script>
+    <script type="text/javascript" src="/static/js/shortcuts.js"></script>
+
+    <link rel=stylesheet type=text/css href="/static/css/main.css">
+    <link rel=stylesheet type=text/css href="/static/css/shortcuts.css">
+</head>
+<body class="contentpage">
+<div class="topbar">
+    <a class="home" href="/">
+        <h1><span class="logo"></span><label>Orange Share</label></h1>
+    </a>
+</div>
+
+<div class="content">
+    <h1 class="section">Shortcuts</h1>
+    <!--    TODO: info, how to, untrusted shortcuts-->
+    <p>
+        Orange Share uses several <a href="https://support.apple.com/guide/shortcuts/welcome/ios">shortcuts</a> for different parts of its functionality.
+        These shortcuts have to be installed on the device from which content shall be shared.
+    </p>
+    <p>
+        To install a shortcut, click on a download button below and scan the QR Code with your device's camera app.
+        Click the popup and follow the instructions on screen.
+    </p>
+
+    <h2 class="section">Untrusted Shortcuts</h2>
+    <p>
+        To import the needed shortcuts, you will have to enable <i>Allow Untrusted Shortcuts</i> in your devices settings.
+        This option can be found in Settings > Shortcuts.
+    </p>
+    <p>
+        If you have never before used Shortcuts, chances are, that <i>Allow Untrusted Shortcuts</i> is grayed out.
+        If this is the case, you have to run a shortcut first.
+        To do this, open the Shortcuts App and choose any of the available shortcuts or create one yourself.
+        Once you ran a shortcut, the option to enable untrusted shortcuts should become available.
+    </p>
+
+    <h2 class="section">How to use the Shortcuts</h2>
+    <p>
+        Once the shortcuts are installed, they are shown in the Shortcuts App.
+        Here you can start or edit them.
+        Apart from the Connection Manager, starting the shortcuts from the app won't do anything as they need some input to share.
+    </p>
+    <p>
+        You can find all shortcuts other than the Connection manager in the share sheets of the device.
+        This means that whenever you click <i>share</i> on the device you can find these shortcuts in the list.
+        At the bottom of this list you can find an option to edit the shown entries.
+        Here you can add the Orange Share shortcuts to your favorites if you want them to always be at the top.
+    </p>
+</div>
+
+<div class="content shortcut">
+    <h1 id="ConnectionManager">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="56" height="56"
+             viewBox="0 0 24 24" stroke-width="1" stroke="#cccccc" fill="none" stroke-linecap="round"
+             stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"/>
+            <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"/>
+        </svg><label>Connection Manager</label>
+    </h1>
+
+    <p>
+        This shortcut is always needed to manage the connections to the host computer running Orange Share.
+        It is the only shortcut that needs to be run directly from the Shortcuts App or added to the home screen and run from there.
+    </p>
+    <p>
+        The device is able to save multiple connections while only one can be active at a time.
+        In order to do so, some files will be created on your iCloud (/Shortcuts/orangeshare/).
+        To create and choose between available connections, this shortcut offers a few options to choose from.
+    </p>
+    <p>
+        All shortcuts used to share content use Basic Auth to authenticate the device.
+        Therefore, sharing content without a specifically configured connection is not possible.
+    </p>
+
+    <h2 class="option">Show Current Connection</h2>
+    <p class="indented">
+        This option will show the available information about the currently active connection.
+    </p>
+
+    <h2 class="option">New From QR Code</h2>
+    <p class="indented">
+        This is the most important option.
+        It allows you to scan a QR code from the <a href="/devices">devices section</a> to establish a new connection.
+        When a connection is scanned a second time, it will update some settings like the host ip.
+    </p>
+    <p class="indented">
+        You can also use this option to switch the active connection as it will always set the scanned connection as the active one.
+    </p>
+
+    <h2 class="option">New Manual Connection</h2>
+    <p class="indented">
+        With this option you can create a new connection by entering all the connection details yourself.
+        The usage of this option is more advanced and not advised if you do not know what you are doing.
+    </p>
+
+    <h2 class="option">Choose from Existing</h2>
+    <p class="indented">
+        When choosing this option, you will be prompted with a list of all saved connections.
+        From this list you can choose which connection to activate.
+    </p>
+
+    <h2 class="option">Delete Connections</h2>
+    <p class="indented">
+        This option lets you choose from saved connections to delete them.
+    </p>
+
+    <h2 class="option">Forget all Connections</h2>
+    <p class="indented">
+        This option will delete all currently saved connections.
+    </p>
+
+    <h2 class="option">Toggle Synced Connection Settings</h2>
+    <p class="indented">
+        Connection settings can be synced over iCloud.
+        When this is enabled, all your devices will use the same connection settings.
+        This includes both the active connection and saved connections.
+    </p>
+
+    <div class="qrcode" data-url="https://www.icloud.com/shortcuts/1b8e0f8143cb4126b1df385038a3effc"></div>
+</div>
+
+<div class="content shortcut">
+    <h1 id="Open">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-maximize" width="56" height="56"
+             viewBox="0 0 24 24" stroke-width="1" stroke="#cccccc" fill="none" stroke-linecap="round"
+             stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M4 8v-2a2 2 0 0 1 2 -2h2"/>
+            <path d="M4 16v2a2 2 0 0 0 2 2h2"/>
+            <path d="M16 4h2a2 2 0 0 1 2 2v2"/>
+            <path d="M16 20h2a2 2 0 0 0 2 -2v-2"/>
+        </svg><label>Open</label>
+    </h1>
+
+    <p>
+        The open shortcut will open content it its respective application on the computer.
+    </p>
+    <p>
+        For URLs, it will open the website in the default browser, any other files will be opened in their default applications.
+        To make this work, files are saved in a temporary folder.
+    </p>
+
+    <div class="qrcode" data-url="https://www.icloud.com/shortcuts/278d32893069451e987abc965f1d3780"></div>
+</div>
+
+<div class="content shortcut">
+    <h1 id="Save">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-floppy" width="56"
+             height="56" viewBox="0 0 24 24" stroke-width="1" stroke="#cccccc" fill="none" stroke-linecap="round"
+             stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2"/>
+            <circle cx="12" cy="14" r="2"/>
+            <polyline points="14 4 14 8 8 8 8 4"/>
+        </svg><label>Save</label>
+    </h1>
+
+    <p>
+        The save shortcut will open a save-file-dialog on the computer with which shared content can be saved anywhere on the computer.
+    </p>
+
+    <div class="qrcode" data-url="https://www.icloud.com/shortcuts/55e67abbe30c47d6a14fa50435281be7"></div>
+</div>
+
+<div class="content shortcut">
+    <h1 id="Clipboard">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clipboard" width="56" height="56"
+             viewBox="0 0 24 24" stroke-width="1" stroke="#cccccc" fill="none" stroke-linecap="round"
+             stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"/>
+            <rect x="9" y="3" width="6" height="4" rx="2"/>
+        </svg><label>Clipboard</label>
+    </h1>
+
+    <p>
+        The clipboard shortcut will copy any text to the clipboard of the computer.
+        Once copied, it can be pasted anywhere.
+    </p>
+    <p>
+        Copying files will come soon.
+    </p>
+
+    <div class="qrcode" data-url="https://www.icloud.com/shortcuts/1f427c8806304758b3732bacaa4b76c7"></div>
+</div>
+</body>
+</html>

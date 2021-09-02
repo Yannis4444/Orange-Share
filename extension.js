@@ -13,9 +13,7 @@ const Mainloop = imports.mainloop;
 
 // TODO: different python interpreters
 let active = false;
-let orangeSharePid = null;
 let orangeShareProcess = null;
-let PORT = 7616;
 let DISABLED_ICON = "orangeshare/logo/gray.svg"
 let ENABLED_ICON = "orangeshare/logo/white.svg"
 let installedVersion = null;
@@ -95,7 +93,7 @@ const OrangeShare = GObject.registerClass(
             try {
                 if (orangeShareProcess == null) {
                     orangeShareProcess = Gio.Subprocess.new(
-                        ["orangeshare", "-p", PORT.toString()],
+                        ["orangeshare"],
                         Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
                     );
                 }
@@ -138,7 +136,7 @@ const OrangeShare = GObject.registerClass(
 
         openSettings() {
             log("Opening Settings");
-            Util.spawn(["python", "-m", "webbrowser", "http://localhost:" + PORT]);
+            Util.spawn(["python", "-m", "webbrowser", "http://localhost:7616"]);
         }
 
         showNotification(message, actionText = null, action = function () {

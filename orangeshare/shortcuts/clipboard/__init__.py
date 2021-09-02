@@ -1,1 +1,0 @@
-from .ClipboardText import ClipboardText

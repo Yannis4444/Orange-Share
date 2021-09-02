@@ -1,0 +1,251 @@
+.currentconf {
+    margin: 40px auto;
+}
+
+.currentconf td {
+    padding: 4px 8px;
+}
+
+.currentconf td:nth-child(1) {
+    float: right;
+}
+
+.currentconf td:nth-child(2) {
+    font-weight: bold;
+    position: relative;
+}
+
+.currentconf td:nth-child(2):before {
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 1px;
+    left: 50%;
+    position: absolute;
+    background: var(--border);
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+}
+.currentconf td:nth-child(2):hover:before {
+    width: 100%;
+    left: 0;
+}
+
+.currentconf td input {
+    padding: 0;
+    border: none;
+    font-weight: bold;
+    color: var(--text);
+}
+
+#hostip > label {
+    cursor: pointer;
+}
+
+#hostip div {
+    display: none;
+    position: absolute;
+    top: -10px;
+    left: -14px;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 4px 2px #0008;
+}
+
+#hostip.active div {
+    display: block;
+}
+
+#hostip div label {
+    display: block;
+    cursor: pointer;
+    padding: 12px 20px;
+    background: var(--fg);
+    color: var(--text);
+    font-weight: normal;
+    transition: padding 0.2s;
+}
+
+#hostip div label:nth-child(even) {
+    background: var(--fg-darkened);
+}
+
+#hostip div label:hover {
+    padding: 12px 10px 12px 30px;
+}
+
+#devices,
+#addNew {
+    width: 90%;
+    max-width: 600px;
+    margin: 24px auto 0 auto;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+#devices {
+    margin-top: 40px;
+}
+
+#devices:empty:after {
+    content: "There are no connected devices";
+    font-size: 20px;
+    color: var(--text-gray);
+    text-align: center;
+    display: block;
+    padding: 16px 0;
+}
+
+#devices > div {
+    padding: 16px 24px 8px 24px;
+    transition: background-color 0.1s;
+    background: var(--fg);
+}
+
+#devices > div:nth-child(even) {
+    background: var(--fg-darkened);
+}
+
+#devices > div:hover {
+    background: var(--fg-highlight);
+}
+
+#devices > div label.name {
+    font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: calc(100% - 80px);
+    display: inline-block;
+}
+
+#devices .button {
+    float: right;
+}
+
+#devices .button svg {
+    stroke: var(--text-gray);
+    transition: stroke 0.2s;
+    cursor: pointer;
+    margin-left: 8px;
+    transform: translateY(-2px);
+}
+
+#devices .button.qrcode:hover svg {
+    stroke: var(--text);
+}
+
+#devices .button.qrcode.active svg {
+    stroke: #fff;
+}
+
+#devices .button.delete:hover svg {
+    stroke: #a02424;
+}
+
+#devices div.qrcode {
+    height: 0;
+    margin: 0 auto;
+    overflow: hidden;
+    transition: height 0.2s;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#devices .button.qrcode.active ~ div.qrcode {
+    height: 288px;
+}
+
+#devices div.qrcode img {
+    border: 8px solid #fff;
+    margin-top: 16px;
+    width: 256px;
+    height: 256px;
+}
+
+#addNew .settings {
+    margin-top: -152.8px;
+    transition: margin-top .2s;
+    position: relative;
+}
+
+#addNew.active .settings {
+    margin-top: 0;
+}
+
+#addNew .settings h2 {
+    margin: 16px 0;
+    text-align: center;
+    font-weight: normal;
+    line-height: 32px;
+}
+
+#addNew .icon {
+    display: block;
+    position: absolute;
+    top: -5px;
+    right: 16px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+#addNew .icon:hover {
+    transform: scale(1.2);
+}
+
+#addNew .settings > label {
+    display: block;
+    height: 16px;
+    width: 90%;
+    max-width: 400px;
+}
+
+#addNew .settings > input {
+    display: block;
+    height: 16px;
+    width: calc(90% - 32px);
+    max-width: 368px;
+}
+
+#addNew .settings > label {
+    margin: 20px auto 0 auto;
+    font-size: 16px;
+}
+
+#addNew .settings > input {
+    margin: 8px auto 30px auto;
+}
+
+#addNew .settings > label {
+    margin: 10px auto;
+    font-size: 16px;
+}
+
+#addNew .button {
+    display: block;
+    background: var(--accent-blue);
+    height: 40px;
+    width: 100%;
+    border-radius: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    line-height: 40px;
+    font-size: 24px;
+    margin: 0 auto;
+    transition: margin .2s, width .2s, border-radius .2s;
+}
+
+#addNew .button label {
+    cursor: pointer;
+    text-transform: uppercase
+}
+
+#addNew.active .button {
+    margin: 0 auto 20px auto;
+    width: 50%;
+    border-radius: 20px;
+}

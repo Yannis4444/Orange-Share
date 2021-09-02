@@ -1,0 +1,91 @@
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body > .center {
+    width: 100%;
+    background: var(--fg);
+    padding: 60px 0 80px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+h1 {
+    font-size: 100px;
+    text-align: center;
+    font-weight: lighter;
+    margin: 0 24px 80px 0;
+}
+
+h1 .logo {
+    width: 120px;
+    height: 120px;
+    display: inline-block;
+    margin: 0 24px;
+    transform: translateY(16px);
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 350px));
+    grid-gap: 50px 60px;
+    padding: 0 60px;
+    max-width: 760px;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.buttons a {
+    display: block;
+    background: var(--accent-blue);
+    height: 60px;
+    border-radius: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.5s cubic-bezier(.4,2,.17,1);
+    overflow: hidden;
+}
+
+.buttons a:hover,
+.buttons a:focus{
+    transform: scale(1.1);
+    transition: transform 0.5s cubic-bezier(.4,2.5,.17,1.5);
+}
+
+.buttons a svg {
+    margin: 10px 16px;
+    display: block;
+    pointer-events: none;
+    position: absolute;
+}
+
+.buttons a label {
+    font-size: 20px;
+    line-height: 60px;
+    height: 60px;
+    font-weight: bold;
+    pointer-events: none;
+    margin-left: 70px;
+    outline: none;
+}
+
+.buttons a.devices {
+    background: var(--accent-blue);
+}
+
+.buttons a.shortcuts {
+    /*background: rgb(176,84,164);*/
+    /*background: linear-gradient(135deg, rgba(176,84,164,1) 0%, rgba(114,64,133,1) 20%, rgba(72,47,114,1) 48%, rgba(27,31,92,1) 89%);*/
+    background: var(--accent-purple);
+}
+
+.buttons a.settings {
+    background: var(--accent-green);
+}
+
+.buttons a.github {
+    background: var(--accent-dark);
+}
