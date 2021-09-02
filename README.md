@@ -133,6 +133,16 @@ When first enabling Orange Share by clicking the icon in the top bar, you will b
 Once everything is running, you can enable and disable Orange Share by clicking on the icon.
 Double-clicking the icon will open the settings in your browser.
 
+### Windows
+
+You can find a working `.exe` of Orange Share in the [Releases](https://github.com/Yannis4444/Orange-Share/releases).
+
+You can also create your own executable using [`pyinstaller`](https://github.com/pyinstaller/pyinstaller):
+
+```
+pyinstaller --one-file --collect-all "orangeshare" --name=orangeshare --icon=orangeshare/logo/white.ico main.py
+```
+
 ## Autostart
 ### Linux
 
