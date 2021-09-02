@@ -61,6 +61,7 @@ td{
     left: 0;
     width: 100vw;
     border-bottom: 1px solid var(--border);
+    z-index: 100;
 }
 
 .topbar .home {
@@ -87,14 +88,15 @@ td{
 
 .topbar .home h1 label {
     cursor: inherit;
+    /*color: inherit;*/
 }
 
 .content {
     width: 90%;
-    max-width: 1200px;
+    max-width: 1000px;
     background: var(--fg);
-    margin: 0 auto;
-    padding: 20px 20px 40px 20px;
+    margin: 0 auto 40px auto;
+    padding: 20px 40px 40px 40px;
     border-radius: 16px;
     border: 1px solid var(--border);
 }
@@ -110,14 +112,30 @@ td{
 }
 
 .content h2.section {
+    /*make this link jumpable*/
     /*margin-top: 40px;*/
     margin-top: -110px;
     padding-top: 150px;
 }
 
+.content h2.option {
+    margin-top: 40px;
+    text-align: left;
+    margin-bottom: 0;
+}
+
+.content p.indented {
+    margin-left: 40px;
+}
+
 .content p {
     font-size: 20px;
-    padding: 0 20px;
+    padding: 0;
+}
+
+.content p a:hover,
+.content p a:focus {
+    color: #fff;
 }
 
 .content th,

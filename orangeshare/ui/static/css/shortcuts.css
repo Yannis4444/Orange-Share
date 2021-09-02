@@ -1,0 +1,60 @@
+.content.shortcut h1 {
+    text-align: left;
+    margin-top: -170px;
+    padding-top: 190px;
+    pointer-events: none;
+}
+
+.content.shortcut h1 svg {
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    margin-right: 12px;
+    transform: translateY(11px);
+    cursor: inherit;
+}
+
+.content.shortcut h1 label {
+    font-size: 50px;
+    font-weight: lighter;
+    margin: 0;
+    cursor: inherit;
+}
+
+.qrcode {
+    width: 272px;
+    margin: 40px auto 0 auto;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.qrcode a {
+    display: block;
+    width: min-content;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.2s;
+}
+
+.qrcode.active a {
+    height: 272px;
+}
+
+.qrcode a img {
+    border: 8px solid #fff;
+}
+
+.qrcode span {
+    display: block;
+    color: var(--text);
+    background: var(--accent-blue);
+    height: 40px;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    line-height: 40px;
+    font-size: 24px;
+    margin: 0 auto;
+    transition: margin .2s, width .2s, border-radius .2s;
+}

@@ -2,8 +2,6 @@ let hostname;
 let ip;
 let port;
 
-let ipLabel;
-
 function loadHostSettings(host) {
     hostname = host.name;
     ip = host.interfaces[host.active_interface];
