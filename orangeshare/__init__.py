@@ -4,7 +4,7 @@ Orange-Share
 A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS
 """
 
-__version__ = "1.2.1"
+__version__ = "1.2.2"
 __author__ = 'Yannis Vierkoetter'
 
 import threading
@@ -18,6 +18,7 @@ from orangeshare.config import Config
 from orangeshare.shortcuts import File, Text
 import orangeshare.ui.api.devices
 import orangeshare.ui.api.host
+from orangeshare.shortcuts.handlers.open_helper import open_url
 
 
 class Orangeshare:
@@ -84,7 +85,7 @@ class Orangeshare:
 
         # open on first run or when specified
         if open_ui or Config.get_config().new_config:
-            threading.Timer(1, open_url, args=("http://localhost:{}".format(self.api_port),)).start()
+            threading.Timer(1, open_url, args=("http://localhost:{}".format(self.ui_port),)).start()
 
         threading.Thread(target=self.api_app.run, args=("0.0.0.0", self.api_port,)).start()
         self.ui_app.run("localhost", self.ui_port)
