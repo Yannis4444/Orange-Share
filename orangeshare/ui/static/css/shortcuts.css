@@ -6,16 +6,16 @@
 }
 
 .content.shortcut h1 svg {
-    width: 60px;
-    height: 60px;
+    width: 46px;
+    height: 46px;
     display: inline-block;
-    margin-right: 12px;
-    transform: translateY(11px);
+    margin-right: 8px;
+    transform: translateY(8px);
     cursor: inherit;
 }
 
 .content.shortcut h1 label {
-    font-size: 50px;
+    font-size: 40px;
     font-weight: lighter;
     margin: 0;
     cursor: inherit;
