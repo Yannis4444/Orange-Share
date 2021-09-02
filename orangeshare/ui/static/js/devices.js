@@ -37,7 +37,11 @@ function loadHostSettings(host) {
 
     let ipEntry;
     for (const interface in host.interfaces) {
-        ipEntry = $("<label>" + host.interfaces[interface] + " (" + interface + ")</label>");
+    	if (interface.length < 16) {
+	        ipEntry = $("<label>" + host.interfaces[interface] + " (" + interface + ")</label>");
+    	} else {
+	        ipEntry = $("<label>" + host.interfaces[interface] + "</label>");
+    	}
         ipEntry.on("click", function () {
             ip = host.interfaces[interface];
             ipLabel.html(ip);
