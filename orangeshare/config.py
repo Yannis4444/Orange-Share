@@ -69,8 +69,7 @@ class Config:
         Saves the config to.
         """
 
-        if not os.path.isdir(self.directory):
-            os.mkdir(self.directory)
+        os.makedirs(self.directory, exist_ok=True)
 
         with open(self.file, 'w') as configfile:
             self.config.write(configfile)
