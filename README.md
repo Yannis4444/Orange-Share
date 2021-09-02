@@ -3,52 +3,95 @@ A small python server that accepts requests from an apple shortcut to allow shar
 
 ## How it works
 Orange Share consists of a webserver that should be able to run on any Unix or Windows Computer and a few Shortcuts
-that allow the user to open and save content from an iPhone or iPad on a computer.
+that allow the user to open, save and copy content from an iPhone or iPad to a computer.
 
 The shortcuts will show up in the share sheet of files, links etc. and allow you to share whatever the content is with
 the computer it is set up with.
 
 By default, you can access the UI with settings for Orange Share on [localhost:7616](http://localhost:7616).
+Here you can also find the shortcuts and establish connections to the devices.
 The UI is only accessible from the host.
 
 The API which is used by the mobile devices is opened on port 7615 by default.
 It is accessible from devices in the network and secured with Basic Auth.
+This means that only connected devices are able to send data to the computer.
 Note that due to the http protocol, connection data will be sent over unencrypted connections.
+Orange Share only allows for data to be sent to the computer; it is not possible to get data from the computer,
+even if the correct credentials are known.
+Everything that is sent to the computer is either copied to the clipboard, saved to a temporary directory or will require user input.
 
 ## Shortcuts
 
-Shortcuts have to be installed on the iPhone/iPad. In order to do that, the following download links must be
-opened on the respective device.
+Orange Share uses several [Shortcuts](https://support.apple.com/guide/shortcuts/welcome/ios) for different parts of its functionality.
+These shortcuts have to be installed on the device from which content shall be shared.
 
-Apple does not allow hosting shortcuts anywhere other than iCloud, which is why providing them as files would not work.
-Therefore, all the following shortcuts are links to iCloud.
+The shortcuts can be found in the UI of the application or below.
 
-TODO: This will be changed
+#### Untrusted Shortcuts
 
-When adding the shortcut to your device, you will be asked to configure the IP/hostname as well as the port of the server
-(7615 by default).
+To import the needed shortcuts, you will have to enable `Allow Untrusted Shortcuts` in your devices settings.
+This option can be found in `Settings > Shortcuts`.
+
+If you have never before used Shortcuts, chances are, that `Allow Untrusted Shortcuts` is grayed out.
+If this is the case, you have to run a shortcut first.
+To do this, open the Shortcuts App and choose any of the available shortcuts or create one yourself.
+Once you ran a shortcut, the option should to enable untrusted shortcuts should become available.
+
+#### How to use the Shortcuts
+
+Once the shortcuts are installed, they are shown in the Shortcuts App.
+Here you can start or edit them.
+Apart from the Connection Manager, starting the shortcuts from the app won't do anything as they need some input to share.
+
+You can find all shortcuts other than the Connection manager in the share sheets of the device.
+This means that whenever you click `share` on the device you can find these shortcuts in the list.
+At the bottom of this list you can find an option to edit the shown entries.
+Here you can add the Orange Share shortcuts to your favorites if you want them to always be at the top.
+
+### Content Manager
+
+This shortcut is always needed to manage the connections to the host computer running Orange Share.
+It is the only shortcut that needs to be run directly from the Shortcuts App or added to the home screen and run from there.
+
+The device is able to save multiple connections while only one can be active at a time.
+In order to do so, some files will be created on your iCloud (/Shortcuts/orangeshare/).
+
+[Download](https://www.icloud.com/shortcuts/1b8e0f8143cb4126b1df385038a3effc)
 
 ### Open
-The open shortcut will send the content to the computer and open it in the respective application. For URLs, it will open
-the website in the default browser, any other files will be opened in their default applications. To make this work, the
-files are saved in a temporary folder.
 
-**[Download the Shortcut](https://www.icloud.com/shortcuts/6b62b82bba344323917aeefbc90eb8c8)**
+The open shortcut will open content in its respective application on the computer.
+
+For URLs, it will open the website in the default browser, any other files will be opened in their default applications.
+To make this work, files are saved in a temporary folder.
+
+[Download](https://www.icloud.com/shortcuts/278d32893069451e987abc965f1d3780)
 
 ### Save
-The save shortcut will open a save-file-dialog with which the selected file can be saved anywhere on the computer.
 
-**[Download the Shortcut](https://www.icloud.com/shortcuts/471a93dd19374c609bd1c37f62c61fc4)**
+The save shortcut will open a save-file-dialog on the computer with which shared content can be saved anywhere on the computer.
+
+[Download](https://www.icloud.com/shortcuts/55e67abbe30c47d6a14fa50435281be7)
 
 ### Clipboard
-The clipboard shortcut will copy any text to the clipboard of the computer. Once copied, it can be pasted anywhere.
 
-**[Download the Shortcut](https://www.icloud.com/shortcuts/af1a507a945f4226990c3a94e54d04d3)**
+The clipboard shortcut will copy any text to the clipboard of the computer.
+Once copied, it can be pasted anywhere.
+
+Copying files will come soon.
+
+[Download](https://www.icloud.com/shortcuts/1f427c8806304758b3732bacaa4b76c7)
 
 ## Installation
 ### Gnome Shell Extension
 
-Installing Orange Share as a gnome shell extension can be done by cloning the repo into your local gnome-shell
+#### Gnome Extension
+
+The Gnome Extension is available [here](https://extensions.gnome.org/extension/4469/orange-share/)
+
+#### Manual
+
+Installing Orange Share as a gnome shell extension can also be done by cloning the repo into your local gnome-shell
 extensions directory (usually ~/.local/share/gnome-shell/extensions/):
 
 ```
@@ -57,7 +100,10 @@ $ git clone https://github.com/Yannis4444/Orange-Share.git <extensions-dir>/oran
 
 Once cloned, you may need to restart the shell (Alt+F2 and insert 'r' in the prompt) for the extension to be listed in the extension settings.
 There you can enable the extension.
-When first enabling Orange Share by clicking the icon in the top bar, you will be prompted to install the package.
+
+#### How it works
+
+When first enabling Orange Share by clicking the icon in the top bar, you will be prompted to install the python package.
 
 Once everything is running, you can enable and disable Orange Share by clicking on the icon.
 Double-clicking the icon will open the settings in your browser.
@@ -87,9 +133,6 @@ To start the server just run `python main.py`.
 ### Linux
 
 To run Orange Share at system startup you can copy the `orange-share.desktop` to the `~/.config/autostart` directory.
-
-### Windows
-Coming soon.
 
 ## Configuration
 
