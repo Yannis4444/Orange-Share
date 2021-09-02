@@ -31,8 +31,10 @@ class Host(Resource):
 
         ip_list = {}
         for interface in interfaces():
-            for link in ifaddresses(interface)[AF_INET]:
-                ip_list[interface] = link['addr']
+            ifaddrs = ifaddresses(interface)
+            if AF_INET in ifaddrs:
+                for link in ifaddrs[AF_INET]:
+                    ip_list[interface] = link['addr']
 
         config = Config.get_config()
 
