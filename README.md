@@ -22,7 +22,7 @@ Everything that is sent to the computer is either copied to the clipboard, saved
 
 ## Shortcuts
 
-Orange Share uses several [Shortcuts](https://support.apple.com/guide/shortcuts/welcome/ios) for different parts of its functionality.
+Orange Share uses several [shortcuts](https://support.apple.com/guide/shortcuts/welcome/ios) for different parts of its functionality.
 These shortcuts have to be installed on the device from which content shall be shared.
 
 The shortcuts can be found in the UI of the application or below.
@@ -35,7 +35,7 @@ This option can be found in `Settings > Shortcuts`.
 If you have never before used Shortcuts, chances are, that `Allow Untrusted Shortcuts` is grayed out.
 If this is the case, you have to run a shortcut first.
 To do this, open the Shortcuts App and choose any of the available shortcuts or create one yourself.
-Once you ran a shortcut, the option should to enable untrusted shortcuts should become available.
+Once you ran a shortcut, the option to enable untrusted shortcuts should become available.
 
 #### How to use the Shortcuts
 
@@ -54,7 +54,7 @@ This shortcut is always needed to manage the connections to the host computer ru
 It is the only shortcut that needs to be run directly from the Shortcuts App or added to the home screen and run from there.
 
 The device is able to save multiple connections while only one can be active at a time.
-In order to do so, some files will be created on your iCloud (/Shortcuts/orangeshare/).
+In order to do so, some files will be created on your iCloud (`/Shortcuts/orangeshare/`).
 
 [Download](https://www.icloud.com/shortcuts/1b8e0f8143cb4126b1df385038a3effc)
 
@@ -83,11 +83,36 @@ Copying files will come soon.
 [Download](https://www.icloud.com/shortcuts/1f427c8806304758b3732bacaa4b76c7)
 
 ## Installation
+
+### Using PIP
+
+You can install Orange Share using `pip` by running `pip install .` in the base directory of this project.
+
+After that, it can be run using the command `python -m orangeshare` or just `orangeshare`.
+
+### Manual
+
+To run Orange Share you will need to install the following packages.
+
+```shell
+pip install flask
+pip install flask_restful
+pip install pyperclip
+pip install notify-py
+pip install validators
+pip install wxpython
+pip install appdirs
+pip install Flask-BasicAuth
+pip install netifaces
+```
+
+To start the server just run `python main.py`.
+
 ### Gnome Shell Extension
 
 #### Gnome Extension
 
-The Gnome Extension is available [here](https://extensions.gnome.org/extension/4469/orange-share/)
+The Gnome Extension is available [here](https://extensions.gnome.org/extension/4469/orange-share/).
 
 #### Manual
 
@@ -107,27 +132,6 @@ When first enabling Orange Share by clicking the icon in the top bar, you will b
 
 Once everything is running, you can enable and disable Orange Share by clicking on the icon.
 Double-clicking the icon will open the settings in your browser.
-
-### Using PIP
-
-You can install Orange-Share using `pip` by running `pip install .` in the base directory of this project.
-
-After that, it can be run using the command `python -m orangeshare` or just `orangeshare`.
-
-### Manual
-
-To run Orange-Share you will need to install the following packages.
-
-```shell
-pip install flask
-pip install flask_restful
-pip install pyperclip
-pip install notify-py
-pip install validators
-pip install wxpython
-```
-
-To start the server just run `python main.py`.
 
 ## Autostart
 ### Linux
