@@ -1,5 +1,6 @@
 import argparse
 import logging
+import os
 import sys
 from typing import Optional
 
@@ -34,6 +35,7 @@ def get_args() -> argparse.Namespace:
 
 orangeshare: Optional[Orangeshare] = None
 
+
 def start_in_tray(api_port: int = 7615, ui_port: int = 7616, open_ui: bool = False):
     """
     Creates a tray icon and starts and stops Orange Share from its actions
@@ -46,8 +48,10 @@ def start_in_tray(api_port: int = 7615, ui_port: int = 7616, open_ui: bool = Fal
     from pystray import Icon as icon, Menu as menu, MenuItem as item
     from PIL import Image
 
-    image_active = Image.open("orangeshare/logo/white.png")
-    image_inactive = Image.open("orangeshare/logo/gray.png")
+    # image_active = Image.open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "logo/white.png"))
+    # image_inactive = Image.open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "logo/gray.png"))
+    image_active = Image.open("D:\git\Orange-Share\orangeshare\logo\white.png")
+    image_inactive = Image.open("D:\git\Orange-Share\orangeshare\logo\gray.png")
 
     def get_start_stop_text(icon):
         return "Stop" if orangeshare else "Start"
@@ -64,8 +68,13 @@ def start_in_tray(api_port: int = 7615, ui_port: int = 7616, open_ui: bool = Fal
             icon.icon = image_inactive
 
     def open_settings(icon, item):
-        if orangeshare is not None:
-            orangeshare.open_ui()
+        global orangeshare
+        if orangeshare is None:
+            icon.icon = image_active
+            orangeshare = Orangeshare(api_port, ui_port)
+            orangeshare.run()
+
+        orangeshare.open_ui()
 
     def exit_app(icon, item):
         global orangeshare
