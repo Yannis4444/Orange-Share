@@ -4,10 +4,14 @@ Orange-Share
 A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS
 """
 
-__version__ = "1.2.4"
+__version__ = "1.3.0"
 __author__ = 'Yannis Vierkoetter'
 
+import logging
 import threading
+from multiprocessing import Process
+from typing import Optional
+from werkzeug.serving import make_server
 
 from flask import Flask
 from flask_basicauth import BasicAuth
@@ -19,6 +23,25 @@ from orangeshare.shortcuts import File, Text
 import orangeshare.ui.api.devices
 import orangeshare.ui.api.host
 from orangeshare.shortcuts.handlers.open_helper import open_url
+
+
+class ServerThread(threading.Thread):
+    def __init__(self, app, host, port):
+        threading.Thread.__init__(self)
+
+        self.port = port
+
+        self.srv = make_server(host, port, app)
+        self.ctx = app.app_context()
+        self.ctx.push()
+
+    def run(self):
+        logging.info('starting server on port {}'.format(self.port))
+        self.srv.serve_forever()
+
+    def shutdown(self):
+        logging.info('stopping server on port {}'.format(self.port))
+        self.srv.shutdown()
 
 
 class Orangeshare:
@@ -48,11 +71,6 @@ class Orangeshare:
         self.api_api = Api(self.api_app)
 
         # shortcuts
-        # self.api_api.add_resource(shortcuts.open.OpenFile, '/api/open/file')
-        # self.api_api.add_resource(shortcuts.open.OpenURL, '/api/open/url')
-        # self.api_api.add_resource(shortcuts.open.OpenText, '/api/open/text')
-        # self.api_api.add_resource(shortcuts.clipboard.ClipboardText, '/api/clipboard/text')
-        # self.api_api.add_resource(shortcuts.save.SaveFile, '/api/save/file')
         self.api_api.add_resource(File.File, '/api/share/file')
         self.api_api.add_resource(Text.Text, '/api/share/text')
 
@@ -75,6 +93,15 @@ class Orangeshare:
         self.ui_api.add_resource(orangeshare.ui.api.devices.DeleteDevice, '/api/devices/delete')
         self.ui_api.add_resource(orangeshare.ui.api.host.Host, '/api/host')
 
+        self.api_server: Optional[ServerThread] = None
+        self.ui_server: Optional[ServerThread] = None
+
+    def open_ui(self):
+        """
+        Opens the settings ui
+        """
+
+        open_url("http://localhost:{}".format(self.ui_port))
 
     def run(self, open_ui: bool = False):
         """
@@ -83,9 +110,20 @@ class Orangeshare:
         :param open_ui: Open the controls in the browser once the server has started.
         """
 
+        self.api_server = ServerThread(self.api_app, "0.0.0.0", self.api_port)
+        self.api_server.start()
+
+        self.ui_server = ServerThread(self.ui_app, "localhost", self.ui_port)
+        self.ui_server.start()
+
         # open on first run or when specified
         if open_ui or Config.get_config().new_config:
-            threading.Timer(1, open_url, args=("http://localhost:{}".format(self.ui_port),)).start()
+            # threading.Timer(1, self.open_ui).start()
+            self.open_ui()
 
-        threading.Thread(target=self.api_app.run, args=("0.0.0.0", self.api_port,)).start()
-        self.ui_app.run("localhost", self.ui_port)
+    def stop(self):
+        """
+        Stop the server
+        """
+        self.api_server.shutdown()
+        self.ui_server.shutdown()
