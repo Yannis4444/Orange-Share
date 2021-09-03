@@ -1,5 +1,6 @@
 import argparse
 import logging
+import sys
 from typing import Optional
 
 from orangeshare import Orangeshare
@@ -17,7 +18,8 @@ def get_args() -> argparse.Namespace:
     parser.add_argument('-p', '--api-port', required=False, type=int, help="Port number of the api server (default: 7615)", metavar="<port>", default=7615)
     parser.add_argument('-u', '--ui-port', required=False, type=int, help="Port number of the UI server (default: 7616)", metavar="<port>", default=7616)
     parser.add_argument('-o', '--open-ui', required=False, action='count', help="Open the server controls in the browser")
-    parser.add_argument('-t', '--tray-icon', required=False, action='count', help="Run with tray icon")
+    if sys.platform == "win32":
+        parser.add_argument('-t', '--tray-icon', required=False, action='count', help="Run with tray icon")
     parser.add_argument('-v', '--verbose', required=False, action='count', default=0, help="Enable verbose output")
 
     args = parser.parse_args()
@@ -100,7 +102,7 @@ def main():
         format='[%(asctime)s] %(levelname)-8s %(name)-12s %(message)s',
     )
 
-    if args.tray_icon:
+    if sys.platform == "win32" and args.tray_icon:
         start_in_tray(args.api_port, args.ui_port, args.open_ui)
     else:
         orangeshare = Orangeshare(args.api_port, args.ui_port)

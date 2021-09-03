@@ -1,9 +1,28 @@
+import sys
+
 from setuptools import setup, find_packages
 from os import path
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md')) as f:
     long_description = f.read()
+
+install_requires=[
+    "flask",
+    "flask_restful",
+    "pyperclip",
+    "notify-py",
+    "validators",
+    "wxpython",
+    "appdirs",
+    "Flask-BasicAuth",
+    "netifaces",
+    "pillow",
+    "werkzeug"
+]
+
+if sys.platform == "win32":
+    install_requires.append("pystray")
 
 setup(
     name='orangeshare',
@@ -17,20 +36,7 @@ setup(
     license='MIT',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=[
-        "flask",
-        "flask_restful",
-        "pyperclip",
-        "notify-py",
-        "validators",
-        "wxpython",
-        "appdirs",
-        "Flask-BasicAuth",
-        "netifaces",
-        "pillow",
-        "pystray",
-        "werkzeug"
-    ],
+    install_requires=install_requires,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: End Users/Desktop',

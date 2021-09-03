@@ -152,7 +152,7 @@ Argument | Description
 -p \<port\>, --api-port \<port\> | Port number of the api server (default: 7615)
 -u \<port\>, --ui-port \<port\> | Port number of the UI server (default: 7616)
 -o, --open-ui | Open the server controls in the browser on start
--t, --tray-icon | Run with tray icon
+-t, --tray-icon | Run with tray icon (only available on windows, see [Gnome Shell Extension](#gnome-shell-extension) for Linux with Gnome)
 -v, --verbose | enable Verbose output
 
 
