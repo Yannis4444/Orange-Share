@@ -135,18 +135,40 @@ Double-clicking the icon will open the settings in your browser.
 
 ### Windows
 
-You can find a working `.exe` of Orange Share in the [Releases](https://github.com/Yannis4444/Orange-Share/releases).
+You can find some working `.exe` files of Orange Share in the [releases](https://github.com/Yannis4444/Orange-Share/releases).
 
-You can also create your own executable using [`pyinstaller`](https://github.com/pyinstaller/pyinstaller):
+There are multiple options
+ - `orangeshare.exe` will start Orange Share in a new console window
+ - `orangeshare-noconsole.exe` will start Orange Share without any further output
+ - `orangeshare-tray-icon.exe` will create a tray icon from which Orange Share can be started and stopped.
 
-```
-pyinstaller --one-file --collect-all "orangeshare" --name=orangeshare --icon=orangeshare/logo/white.ico main.py
-```
+You can also create your own executables using [`pyinstaller`](https://github.com/pyinstaller/pyinstaller) as shown in `create_exe.bat`.
+
+## Run Options
+
+Argument | Description
+---------|------------
+-h, --help | print a help message
+--version | print the current version
+-p \<port\>, --api-port \<port\> | Port number of the api server (default: 7615)
+-u \<port\>, --ui-port \<port\> | Port number of the UI server (default: 7616)
+-o, --open-ui | Open the server controls in the browser on start
+-t, --tray-icon | Run with tray icon (only available on windows, see [Gnome Shell Extension](#gnome-shell-extension) for Linux with Gnome)
+-v, --verbose | enable Verbose output
+
 
 ## Autostart
 ### Linux
 
 To run Orange Share at system startup you can copy the `orange-share.desktop` to the `~/.config/autostart` directory.
+
+## Windows
+
+You can add one of the `.exe` files from the [releases](https://github.com/Yannis4444/Orange-Share/releases) to your Windows startup folder (press `Win + R`, type `shell:startup`, select `OK`).
+
+In most cases, the `orangeshare-tray-icon.exe` will be the best option for this.
+Once added, this will show an icon in the system tray (lower right corner).
+There you can start and stop Orange Share by right-clicking.
 
 ## Configuration
 
