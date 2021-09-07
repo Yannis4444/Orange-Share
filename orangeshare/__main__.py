@@ -48,10 +48,8 @@ def start_in_tray(api_port: int = 7615, ui_port: int = 7616, open_ui: bool = Fal
     from pystray import Icon as icon, Menu as menu, MenuItem as item
     from PIL import Image
 
-    # image_active = Image.open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "logo/white.png"))
-    # image_inactive = Image.open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "logo/gray.png"))
-    image_active = Image.open("D:\git\Orange-Share\orangeshare\logo\white.png")
-    image_inactive = Image.open("D:\git\Orange-Share\orangeshare\logo\gray.png")
+    image_active = Image.open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "logo/white.png"))
+    image_inactive = Image.open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "logo/gray.png"))
 
     def get_start_stop_text(icon):
         return "Stop" if orangeshare else "Start"
