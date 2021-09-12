@@ -104,6 +104,7 @@ pip install wxpython
 pip install appdirs
 pip install Flask-BasicAuth
 pip install netifaces
+pip install pillow
 ```
 
 To start the server just run `python main.py`.

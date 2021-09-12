@@ -105,6 +105,33 @@ td{
     border: 1px solid var(--border);
 }
 
+.content .back {
+    position: absolute;
+    font-size: 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.content .back:hover,
+.content .back:focus {
+    color: #fff;
+}
+
+.content .back:before {
+    content: '';
+    border: solid var(--text);
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 4px;
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg) translateY(3px);
+}
+
+.content .back:hover:before,
+.content .back:focus:before {
+    border-color: #fff;
+}
+
 .content h1,
 .content h2 {
     text-align: center;
