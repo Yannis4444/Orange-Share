@@ -48,7 +48,7 @@ This means that whenever you click `share` on the device you can find these shor
 At the bottom of this list you can find an option to edit the shown entries.
 Here you can add the Orange Share shortcuts to your favorites if you want them to always be at the top.
 
-### Content Manager
+### Connection Manager
 
 This shortcut is always needed to manage the connections to the host computer running Orange Share.
 It is the only shortcut that needs to be run directly from the Shortcuts App or added to the home screen and run from there.
@@ -56,7 +56,7 @@ It is the only shortcut that needs to be run directly from the Shortcuts App or 
 The device is able to save multiple connections while only one can be active at a time.
 In order to do so, some files will be created on your iCloud (`/Shortcuts/orangeshare/`).
 
-[Download](https://www.icloud.com/shortcuts/1b8e0f8143cb4126b1df385038a3effc)
+[Download](https://www.icloud.com/shortcuts/d26fc0c5c5524070bf9d166c80fabd38)
 
 ### Open
 
@@ -65,13 +65,13 @@ The open shortcut will open content in its respective application on the compute
 For URLs, it will open the website in the default browser, any other files will be opened in their default applications.
 To make this work, files are saved in a temporary folder.
 
-[Download](https://www.icloud.com/shortcuts/278d32893069451e987abc965f1d3780)
+[Download](https://www.icloud.com/shortcuts/83a180facb2942d1baff9c3fab669880)
 
 ### Save
 
 The save shortcut will open a save-file-dialog on the computer with which shared content can be saved anywhere on the computer.
 
-[Download](https://www.icloud.com/shortcuts/55e67abbe30c47d6a14fa50435281be7)
+[Download](https://www.icloud.com/shortcuts/bdb142c161dc43019397fb3c76ce5dc9)
 
 ### Clipboard
 
@@ -80,7 +80,7 @@ Once copied, it can be pasted anywhere.
 
 Copying files will come soon.
 
-[Download](https://www.icloud.com/shortcuts/1f427c8806304758b3732bacaa4b76c7)
+[Download](https://www.icloud.com/shortcuts/a17a5a0da8284193bb9e1ecc9a1204c4)
 
 ## Installation
 
