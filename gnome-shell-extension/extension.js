@@ -11,21 +11,68 @@ const Lang = imports.lang;
 const GLib = imports.gi.GLib;
 const Mainloop = imports.mainloop;
 
-// TODO: different python interpreters
+let newestVersion = "1.5.0"
+let newestVersionInstalled = null;
+
 let active = false;
 let orangeShareProcess = null;
-let DISABLED_ICON = "orangeshare/logo/gray.svg"
-let ENABLED_ICON = "orangeshare/logo/white.svg"
+let DISABLED_ICON = "icons/gray.svg"
+let ENABLED_ICON = "icons/white.svg"
 let installedVersion = null;
 let lastDoubleClick = 0;
 
 let orangeShare;
 
+function getVersion() {
+    /*
+    Gets the version and writes it to installedVersion
+    the version will not be available instantly
+    also sets newestVersionInstalled
+     */
+    try {
+        let proc = Gio.Subprocess.new(
+            ["orangeshare", "--version"],
+            Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
+        );
+
+        proc.communicate_utf8_async(null, null, (proc, res) => {
+            try {
+                let [, stdout, stderr] = proc.communicate_utf8_finish(res);
+
+                if (proc.get_successful()) {
+                    installedVersion = stdout.toString().replace(/^\s+|\s+$/g, '');
+                    log("Version " + installedVersion + " of Orange Share is installed")
+
+                    newestVersionInstalled = !olderThan(installedVersion, newestVersion);
+                } else {
+                    throw new Error(stderr);
+                }
+            } catch (e) {
+                logError(e);
+                log("Orange Share is not installed (0)");
+                installedVersion = null;
+                newestVersionInstalled = false;
+            }
+        });
+    } catch (e) {
+        // not installed
+        logError(e);
+        log("Orange Share is not installed (1)");
+        installedVersion = null;
+        newestVersionInstalled = false;
+    }
+}
+
+function olderThan(a, b) {
+    let splitA = a.split(".");
+    let splitB = b.split(".");
+    return splitA[0] < splitB[0] || (splitA[0] === splitB[0] && splitA[1] < splitB[1] || (splitA[0] === splitB[0] && splitA[1] === splitB[1] && splitA[2] < splitB[2]))
+}
+
 const OrangeShare = GObject.registerClass(
     class OrangeShare extends PanelMenu.Button {
 
         _init() {
-
             super._init(0);
 
             this._notifSource == null;
@@ -39,15 +86,6 @@ const OrangeShare = GObject.registerClass(
             this.add_child(this.icon);
 
             this.connect('button-press-event', Lang.bind(this, function (display, action, deviceId, timestamp) {
-                // Main.notify('Accelerator Activated: [display={}, action={}, deviceId={}, timestamp={}]');
-                // log("Action:");
-                // log("    Type:", action.type());
-                // log("    State:", action.get_state());
-                // log("    Stage:", action.get_stage());
-                // log("    Flags:", action.get_flags());
-                // log("    Button:", action.get_button());
-                // log("    Click Count:", action.get_click_count(), typeof action.get_click_count());
-
                 if (installedVersion == null) {
                     log("Orange Share is not yet installed");
                     this.showNotification("Orange Share is not installed", "Install", this.installOrangeShare)
@@ -107,12 +145,23 @@ const OrangeShare = GObject.registerClass(
 
             this.setIcon(true);
 
-            this.showNotification("Started Orange Share", "Settings", function () {
-                this.openSettings()
-            });
+            if (!newestVersionInstalled) {
+                log("There is a newer Version of Orange Share available");
+                this.showNotification("There is a newer Version available", "Update", this.updateOrangeShare);
+            } else {
+                this.showNotification("Started Orange Share", "Settings", function () {
+                    this.openSettings();
+                });
+            }
         }
 
         disable() {
+            if (!active) {
+                log("Orange Share was not running");
+                this.setIcon(false);
+                return;
+            }
+
             log("disabling Orange Share");
 
             try {
@@ -175,16 +224,20 @@ const OrangeShare = GObject.registerClass(
         }
 
         installOrangeShare() {
-            // opens a terminal to install orangeshare
-            // GLib.spawn_command_line_sync("gnome-terminal -- pip install " + Me.dir.get_path())
-
+            // opens a terminal to install orangeshare, gets version afterwards
             Gio.Subprocess.new(
-                ["gnome-terminal", "--", "pip", "install", Me.dir.get_path()],
+                ["sh", "-c", "chmod +x " + Me.dir.get_path() + "/install.sh; gnome-terminal -- " + Me.dir.get_path() + "/install.sh"],
                 Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
             );
 
-            // The exact version is not needed
+            // exact version not needed if known that newest is installed
             installedVersion = "x.x.x";
+            newestVersionInstalled = true;
+        }
+
+        updateOrangeShare() {
+            this.disable();
+            this.installOrangeShare();
         }
 
     });
@@ -193,56 +246,12 @@ function init() {
 }
 
 function enable() {
-    // // check that the correct version of Orange Share is installed
-    // try {
-    //     installedVersion = GLib.spawn_command_line_sync("orangeshare --version")[1].toString();
-    //     log("Version " + installedVersion + " of Orange Share is installed");
-    // } catch (e) {
-    //     // not installed
-    //     logError(e);
-    //     log("Orange Share is not installed");
-    // }
-    //
-    // orangeShare = new OrangeShare();
-    // Main.panel.addToStatusArea('OrangeShare', orangeShare, 2);
-
     // check that the correct version of Orange Share is installed
+    installedVersion = getVersion();
 
-
-    try {
-        let proc = Gio.Subprocess.new(
-            ["orangeshare", "--version"],
-            Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
-        );
-
-        proc.communicate_utf8_async(null, null, (proc, res) => {
-            try {
-                let [, stdout, stderr] = proc.communicate_utf8_finish(res);
-
-                if (proc.get_successful()) {
-                    installedVersion = stdout;
-                } else {
-                    throw new Error(stderr);
-                }
-            } catch (e) {
-                logError(e);
-                log("Orange Share is not installed");
-            }
-            finally {
-                // run the extension
-                orangeShare = new OrangeShare();
-                Main.panel.addToStatusArea('OrangeShare', orangeShare, 2);
-            }
-        });
-    } catch (e) {
-        // not installed
-        logError(e);
-        log("Orange Share is not installed");
-
-        // run the extension
-        orangeShare = new OrangeShare();
-        Main.panel.addToStatusArea('OrangeShare', orangeShare, 2);
-    }
+    // run the extension
+    orangeShare = new OrangeShare();
+    Main.panel.addToStatusArea('OrangeShare', orangeShare, 2);
 }
 
 function disable() {

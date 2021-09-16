@@ -9,7 +9,6 @@ __author__ = 'Yannis Vierkoetter'
 
 import logging
 import threading
-from multiprocessing import Process
 from typing import Optional
 from werkzeug.serving import make_server
 
