@@ -86,7 +86,7 @@ Copying files will come soon.
 
 ### Using PIP
 
-You can install Orange Share using `pip` by running `pip install .` in the base directory of this project.
+Orange Share can be installed by running `pip install orangeshare`.
 
 After that, it can be run using the command `python -m orangeshare` or just `orangeshare`.
 
