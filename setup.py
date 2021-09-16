@@ -26,7 +26,7 @@ if sys.platform == "win32":
 
 setup(
     name='orangeshare',
-    version='1.4.1',
+    version='1.5.0',
     description='A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -38,7 +38,6 @@ setup(
     include_package_data=True,
     install_requires=install_requires,
     classifiers=[
-        'Development Status :: 4 - Beta',
         'Intended Audience :: End Users/Desktop',
         'License :: OSI Approved :: MIT License',
         'Framework :: Flask',

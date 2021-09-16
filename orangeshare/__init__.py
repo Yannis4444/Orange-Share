@@ -4,7 +4,7 @@ Orange-Share
 A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS
 """
 
-__version__ = "1.4.1"
+__version__ = "1.5.0"
 __author__ = 'Yannis Vierkoetter'
 
 import logging
