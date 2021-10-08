@@ -117,14 +117,16 @@ To start the server just run `python main.py`.
 
 #### Manual
 
-Installing Orange Share as a gnome shell extension can be done by cloning the repo into your local gnome-shell
-extensions directory (usually ~/.local/share/gnome-shell/extensions/):
+Installing Orange Share as a gnome shell extension can be done by copying the `gnome-shell-extension` directory
+into your local gnome-shell extensions directory (usually `~/.local/share/gnome-shell/extensions/`):
 
 ```
-$ git clone https://github.com/Yannis4444/Orange-Share.git <extensions-dir>/orange-share@Yannis4444.github.com
+$ git clone https://github.com/Yannis4444/Orange-Share.git
+$ cp -r Orange-Share/gnome-shell-extension/ ~/.local/share/gnome-shell/extensions/orange-share@Yannis4444.github.com
 ```
 
-Once cloned, you may need to restart the shell (Alt+F2 and insert 'r' in the prompt) for the extension to be listed in the extension settings.
+Once cloned, you may need to restart the shell (Alt+F2 and insert 'r' in the prompt or logging out for Wayland)
+for the extension to be listed in the extension settings.
 
 #### How it works
 

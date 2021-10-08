@@ -11,7 +11,7 @@ const Lang = imports.lang;
 const GLib = imports.gi.GLib;
 const Mainloop = imports.mainloop;
 
-let newestVersion = "1.5.0"
+let newestVersion = "1.6.0"
 let newestVersionInstalled = null;
 
 let active = false;
