@@ -20,7 +20,7 @@ def handle_file(file: str, file_name: str):
     #     notify("Copied File to clipboard: \"{}\"".format(filename))
 
     # return {"success": True}
-    return {"message": "Copying file to clipboard is not yet implemented"}
+    return {"message": "Copying files to clipboard is not yet implemented"}
 
 
 def handle_text(text: str, *args):
