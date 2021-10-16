@@ -1,5 +1,6 @@
 echo "Do you really want to install Orange Share?"
 echo "This will run 'pip install orangeshare'"
+echo "You can find out more about it here: https://github.com/Yannis4444/Orange-Share"
 echo "[y/N]"
 
 read -r a
