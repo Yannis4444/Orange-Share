@@ -56,7 +56,7 @@ It is the only shortcut that needs to be run directly from the Shortcuts App or 
 The device is able to save multiple connections while only one can be active at a time.
 In order to do so, some files will be created on your iCloud (`/Shortcuts/orangeshare/`).
 
-[Download](https://www.icloud.com/shortcuts/d26fc0c5c5524070bf9d166c80fabd38)
+[Download](https://www.icloud.com/shortcuts/871ca1ca24d84d00bd2ac9c02df55962)
 
 ### Open
 
@@ -65,13 +65,13 @@ The open shortcut will open content in its respective application on the compute
 For URLs, it will open the website in the default browser, any other files will be opened in their default applications.
 To make this work, files are saved in a temporary folder.
 
-[Download](https://www.icloud.com/shortcuts/83a180facb2942d1baff9c3fab669880)
+[Download](https://www.icloud.com/shortcuts/970a193be8cc453fa51fb68a9104c4b5)
 
 ### Save
 
 The save shortcut will open a save-file-dialog on the computer with which shared content can be saved anywhere on the computer.
 
-[Download](https://www.icloud.com/shortcuts/bdb142c161dc43019397fb3c76ce5dc9)
+[Download](https://www.icloud.com/shortcuts/e4f3008d12334f26858851066172e40c)
 
 ### Clipboard
 
@@ -80,7 +80,7 @@ Once copied, it can be pasted anywhere.
 
 Copying files will come soon.
 
-[Download](https://www.icloud.com/shortcuts/a17a5a0da8284193bb9e1ecc9a1204c4)
+[Download](https://www.icloud.com/shortcuts/46539bc5d8f64faab67289044b205342)
 
 ## Installation
 
