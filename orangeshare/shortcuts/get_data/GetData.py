@@ -128,7 +128,7 @@ class GetData(Resource):
         result = {}
 
         app = wx.App()
-        app.locale = wx.Locale(wx.LANGUAGE_ENGLISH)
+        app.locale = wx.Locale(wx.Locale.GetSystemLanguage())
         frame = GetDataFrame(None, -1, "Send Data to Device", result_data=result)
         frame.Show()
         app.MainLoop()
