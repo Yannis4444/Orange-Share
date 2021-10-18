@@ -4,14 +4,11 @@ const St = imports.gi.St;
 const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
 const PanelMenu = imports.ui.panelMenu;
-const PopupMenu = imports.ui.popupMenu;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Util = imports.misc.util;
-const Lang = imports.lang;
-const GLib = imports.gi.GLib;
 const Mainloop = imports.mainloop;
 
-let newestVersion = "1.5.0"
+let newestVersion = "1.6.0"
 let newestVersionInstalled = null;
 
 let active = false;
@@ -85,7 +82,7 @@ const OrangeShare = GObject.registerClass(
 
             this.add_child(this.icon);
 
-            this.connect('button-press-event', Lang.bind(this, function (display, action, deviceId, timestamp) {
+            this.connect('button-press-event', function (display, action, deviceId, timestamp) {
                 if (installedVersion == null) {
                     log("Orange Share is not yet installed");
                     this.showNotification("Orange Share is not installed", "Install", this.installOrangeShare)
@@ -108,7 +105,7 @@ const OrangeShare = GObject.registerClass(
                         this.enable();
                     }
                 }
-            }));
+            }.bind(this));
         }
 
         toggle() {
@@ -201,9 +198,9 @@ const OrangeShare = GObject.registerClass(
                     });
                 };
                 // Take care of note leaving unneeded sources
-                this._notifSource.connect('destroy', Lang.bind(this, function () {
+                this._notifSource.connect('destroy', function () {
                     this._notifSource = null;
-                }));
+                }.bind(this));
                 Main.messageTray.add(this._notifSource);
             }
             let notification = null;
@@ -217,7 +214,7 @@ const OrangeShare = GObject.registerClass(
                 notification.update(_("Orange Share"), message, {clear: true});
             }
             if (actionText != null) {
-                notification.addAction(_(actionText), Lang.bind(this, action));
+                notification.addAction(_(actionText), action.bind(this));
             }
             notification.setTransient(false);
             this._notifSource.showNotification(notification);
@@ -255,7 +252,7 @@ function enable() {
 }
 
 function disable() {
-    orangeShare.disconnect("button-press-event");
     orangeShare.disable()
     orangeShare.destroy();
+    orangeShare = null;
 }

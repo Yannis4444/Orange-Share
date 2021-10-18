@@ -1,5 +1,6 @@
 # Orange Share
-A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS.
+A small python server that accepts requests from an Apple shortcut to allow sharing all sorts of media from iOS with any desktop OS.
+It allows sending content right from the share sheet - similar to AirDrop between Apple Devices
 
 ## How it works
 Orange Share consists of a webserver that should be able to run on any Unix or Windows Computer and a few Shortcuts
@@ -16,7 +17,7 @@ The API which is used by the mobile devices is opened on port 7615 by default.
 It is accessible from devices in the network and secured with Basic Auth.
 This means that only connected devices are able to send data to the computer.
 Note that due to the http protocol, connection data will be sent over unencrypted connections.
-Orange Share only allows for data to be sent to the computer; it is not possible to get data from the computer,
+Orange Share never sends out any data from the computer without a confirmation on the computer,
 even if the correct credentials are known.
 Everything that is sent to the computer is either copied to the clipboard, saved to a temporary directory or will require user input.
 
@@ -56,7 +57,7 @@ It is the only shortcut that needs to be run directly from the Shortcuts App or 
 The device is able to save multiple connections while only one can be active at a time.
 In order to do so, some files will be created on your iCloud (`/Shortcuts/orangeshare/`).
 
-[Download](https://www.icloud.com/shortcuts/d26fc0c5c5524070bf9d166c80fabd38)
+[Download](https://www.icloud.com/shortcuts/871ca1ca24d84d00bd2ac9c02df55962)
 
 ### Open
 
@@ -65,13 +66,13 @@ The open shortcut will open content in its respective application on the compute
 For URLs, it will open the website in the default browser, any other files will be opened in their default applications.
 To make this work, files are saved in a temporary folder.
 
-[Download](https://www.icloud.com/shortcuts/83a180facb2942d1baff9c3fab669880)
+[Download](https://www.icloud.com/shortcuts/970a193be8cc453fa51fb68a9104c4b5)
 
 ### Save
 
 The save shortcut will open a save-file-dialog on the computer with which shared content can be saved anywhere on the computer.
 
-[Download](https://www.icloud.com/shortcuts/bdb142c161dc43019397fb3c76ce5dc9)
+[Download](https://www.icloud.com/shortcuts/e4f3008d12334f26858851066172e40c)
 
 ### Clipboard
 
@@ -80,7 +81,14 @@ Once copied, it can be pasted anywhere.
 
 Copying files will come soon.
 
-[Download](https://www.icloud.com/shortcuts/a17a5a0da8284193bb9e1ecc9a1204c4)
+[Download](https://www.icloud.com/shortcuts/46539bc5d8f64faab67289044b205342)
+
+### Get Data
+
+This shortcut can be used to get data from the computer.
+It will open a window on the computer where either a file or the current clipboard content can be sent to the phone.
+
+[Download](https://www.icloud.com/shortcuts/f1e9e2f318f447508ab956884936c614)
 
 ## Installation
 
@@ -90,24 +98,18 @@ Orange Share can be installed by running `pip install orangeshare`.
 
 After that, it can be run using the command `python -m orangeshare` or just `orangeshare`.
 
-### Manual
+### Windows
 
-To run Orange Share you will need to install the following packages.
+You can find some working `.exe` files of Orange Share in the [releases](https://github.com/Yannis4444/Orange-Share/releases).
 
-```shell
-pip install flask
-pip install flask_restful
-pip install pyperclip
-pip install notify-py
-pip install validators
-pip install wxpython
-pip install appdirs
-pip install Flask-BasicAuth
-pip install netifaces
-pip install pillow
-```
+There are multiple options
+- `orangeshare.exe` will start Orange Share in a new console window
+- `orangeshare-noconsole.exe` will start Orange Share without any further output
+- `orangeshare-tray-icon.exe` will create a tray icon from which Orange Share can be started and stopped.
 
-To start the server just run `python main.py`.
+Instructions for Windows autostart can be found [here](https://github.com/Yannis4444/Orange-Share#windows-1)
+
+You can also create your own executables using [`pyinstaller`](https://github.com/pyinstaller/pyinstaller) as shown in `create_exe.bat`.
 
 ### Gnome Shell Extension
 
@@ -117,14 +119,16 @@ To start the server just run `python main.py`.
 
 #### Manual
 
-Installing Orange Share as a gnome shell extension can be done by cloning the repo into your local gnome-shell
-extensions directory (usually ~/.local/share/gnome-shell/extensions/):
+Installing Orange Share as a gnome shell extension can be done by copying the `gnome-shell-extension` directory
+into your local gnome-shell extensions directory (usually `~/.local/share/gnome-shell/extensions/`):
 
 ```
-$ git clone https://github.com/Yannis4444/Orange-Share.git <extensions-dir>/orange-share@Yannis4444.github.com
+$ git clone https://github.com/Yannis4444/Orange-Share.git
+$ cp -r Orange-Share/gnome-shell-extension/ ~/.local/share/gnome-shell/extensions/orange-share@Yannis4444.github.com
 ```
 
-Once cloned, you may need to restart the shell (Alt+F2 and insert 'r' in the prompt) for the extension to be listed in the extension settings.
+Once cloned, you may need to restart the shell (Alt+F2 and insert 'r' in the prompt or logging out for Wayland)
+for the extension to be listed in the extension settings.
 
 #### How it works
 
@@ -132,17 +136,6 @@ When first enabling Orange Share by clicking the icon in the top bar, you will b
 
 Once everything is running, you can enable and disable Orange Share by clicking on the icon.
 Double-clicking the icon will open the settings in your browser.
-
-### Windows
-
-You can find some working `.exe` files of Orange Share in the [releases](https://github.com/Yannis4444/Orange-Share/releases).
-
-There are multiple options
- - `orangeshare.exe` will start Orange Share in a new console window
- - `orangeshare-noconsole.exe` will start Orange Share without any further output
- - `orangeshare-tray-icon.exe` will create a tray icon from which Orange Share can be started and stopped.
-
-You can also create your own executables using [`pyinstaller`](https://github.com/pyinstaller/pyinstaller) as shown in `create_exe.bat`.
 
 ## Run Options
 
