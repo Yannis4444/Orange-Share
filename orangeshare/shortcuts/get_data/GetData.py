@@ -1,3 +1,4 @@
+import locale
 import logging
 import os
 import threading
@@ -128,7 +129,8 @@ class GetData(Resource):
         result = {}
 
         app = wx.App()
-        app.locale = wx.Locale(wx.Locale.GetSystemLanguage())
+        # app.locale = wx.Locale(wx.Locale.GetSystemLanguage())
+        locale.setlocale(locale.LC_ALL,'C')
         frame = GetDataFrame(None, -1, "Send Data to Device", result_data=result)
         frame.Show()
         app.MainLoop()
