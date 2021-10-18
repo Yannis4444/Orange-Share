@@ -50,7 +50,7 @@ class GetDataFrame(wx.Frame):
         # file icon
         file_panel = wx.Panel(self, -1, style=wx.NO_BORDER)
         file_panel.SetCursor(wx.Cursor(wx.CURSOR_HAND))
-        bmp1 = wx.Image(os.path.join(os.path.dirname(__file__), "icons/file_dark_mode.png" if self.dark_mode else "icons/file_light_mode.png"), wx.BITMAP_TYPE_ANY).Scale(300, 300, wx.IMAGE_QUALITY_HIGH).ConvertToBitmap()
+        bmp1 = wx.Image(os.path.join(os.path.dirname(__file__), "icons/file_dark_mode.png" if self.dark_mode else "icons/file_light_mode.png"), wx.BITMAP_TYPE_ANY).Scale(200, 200, wx.IMAGE_QUALITY_HIGH).ConvertToBitmap()
         file_bitmap = wx.StaticBitmap(file_panel, -1, bmp1, (0, 0))
 
         file_bitmap.Bind(wx.EVT_LEFT_UP, self.on_file_click)
@@ -61,7 +61,7 @@ class GetDataFrame(wx.Frame):
         # clipboard icon
         clipboard_panel = wx.Panel(self, -1, style=wx.NO_BORDER)
         clipboard_panel.SetCursor(wx.Cursor(wx.CURSOR_HAND))
-        bmp2 = wx.Image(os.path.join(os.path.dirname(__file__), "icons/clipboard_dark_mode.png" if self.dark_mode else "icons/clipboard_light_mode.png"), wx.BITMAP_TYPE_ANY).Scale(300, 300, wx.IMAGE_QUALITY_HIGH).ConvertToBitmap()
+        bmp2 = wx.Image(os.path.join(os.path.dirname(__file__), "icons/clipboard_dark_mode.png" if self.dark_mode else "icons/clipboard_light_mode.png"), wx.BITMAP_TYPE_ANY).Scale(200, 200, wx.IMAGE_QUALITY_HIGH).ConvertToBitmap()
         file_bitmap = wx.StaticBitmap(clipboard_panel, -1, bmp2, (0, 0))
 
         file_bitmap.Bind(wx.EVT_LEFT_UP, self.on_clipboard)
@@ -72,7 +72,7 @@ class GetDataFrame(wx.Frame):
 
         # layout
         grid = wx.GridBagSizer(10, 10)
-        grid.Add(wx.StaticText(self, label="A device requested data from this Computer using Orange Share.\nYou can either select a file or send the current content of the clipboard.", size=(666, 50), pos=(0, 0), style=wx.ALIGN_CENTER), pos=(0, 0), span=(1, 2), flag=wx.CENTER)
+        grid.Add(wx.StaticText(self, label="A device requested data from this Computer using Orange Share.\nYou can either select a file or send the current content of the clipboard.", size=(400, -1), pos=(0, 0), style=wx.ALIGN_CENTER), pos=(0, 0), span=(1, 2), flag=wx.CENTER)
         grid.Add(file_panel, pos=(1, 0), span=(1, 1), flag=wx.EXPAND)
         grid.Add(clipboard_panel, pos=(1, 1), span=(1, 1), flag=wx.EXPAND)
         grid.Add(cancel_button, pos=(2, 0), span=(1, 2), flag=wx.EXPAND)
@@ -128,6 +128,7 @@ class GetData(Resource):
         result = {}
 
         app = wx.App()
+        app.locale = wx.Locale(wx.LANGUAGE_ENGLISH)
         frame = GetDataFrame(None, -1, "Send Data to Device", result_data=result)
         frame.Show()
         app.MainLoop()
