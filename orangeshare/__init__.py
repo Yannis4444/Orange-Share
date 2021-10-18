@@ -21,6 +21,7 @@ from orangeshare.config import Config
 from orangeshare.shortcuts import File, Text
 import orangeshare.ui.api.devices
 import orangeshare.ui.api.host
+from orangeshare.shortcuts.get_data.GetData import GetData
 from orangeshare.shortcuts.handlers.open_helper import open_url
 
 
@@ -72,6 +73,7 @@ class Orangeshare:
         # shortcuts
         self.api_api.add_resource(File.File, '/api/share/file')
         self.api_api.add_resource(Text.Text, '/api/share/text')
+        self.api_api.add_resource(GetData, '/api/computer_data')
 
         # The UI Server
         self.ui_port = ui_port

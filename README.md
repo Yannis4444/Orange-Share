@@ -1,5 +1,6 @@
 # Orange Share
-A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS.
+A small python server that accepts requests from an Apple shortcut to allow sharing all sorts of media from iOS with any desktop OS.
+It allows sending content right from the share sheet - similar to AirDrop between Apple Devices
 
 ## How it works
 Orange Share consists of a webserver that should be able to run on any Unix or Windows Computer and a few Shortcuts
@@ -16,7 +17,7 @@ The API which is used by the mobile devices is opened on port 7615 by default.
 It is accessible from devices in the network and secured with Basic Auth.
 This means that only connected devices are able to send data to the computer.
 Note that due to the http protocol, connection data will be sent over unencrypted connections.
-Orange Share only allows for data to be sent to the computer; it is not possible to get data from the computer,
+Orange Share never sends out any data from the computer without a confirmation on the computer,
 even if the correct credentials are known.
 Everything that is sent to the computer is either copied to the clipboard, saved to a temporary directory or will require user input.
 
@@ -82,6 +83,13 @@ Copying files will come soon.
 
 [Download](https://www.icloud.com/shortcuts/46539bc5d8f64faab67289044b205342)
 
+### Get Data
+
+This shortcut can be used to get data from the computer.
+It will open a window on the computer where either a file or the current clipboard content can be sent to the phone.
+
+[Download](https://www.icloud.com/shortcuts/f1e9e2f318f447508ab956884936c614)
+
 ## Installation
 
 ### Using PIP
@@ -90,24 +98,18 @@ Orange Share can be installed by running `pip install orangeshare`.
 
 After that, it can be run using the command `python -m orangeshare` or just `orangeshare`.
 
-### Manual
+### Windows
 
-To run Orange Share you will need to install the following packages.
+You can find some working `.exe` files of Orange Share in the [releases](https://github.com/Yannis4444/Orange-Share/releases).
 
-```shell
-pip install flask
-pip install flask_restful
-pip install pyperclip
-pip install notify-py
-pip install validators
-pip install wxpython
-pip install appdirs
-pip install Flask-BasicAuth
-pip install netifaces
-pip install pillow
-```
+There are multiple options
+- `orangeshare.exe` will start Orange Share in a new console window
+- `orangeshare-noconsole.exe` will start Orange Share without any further output
+- `orangeshare-tray-icon.exe` will create a tray icon from which Orange Share can be started and stopped.
 
-To start the server just run `python main.py`.
+Instructions for Windows autostart can be found [here](https://github.com/Yannis4444/Orange-Share#windows-1)
+
+You can also create your own executables using [`pyinstaller`](https://github.com/pyinstaller/pyinstaller) as shown in `create_exe.bat`.
 
 ### Gnome Shell Extension
 
@@ -134,17 +136,6 @@ When first enabling Orange Share by clicking the icon in the top bar, you will b
 
 Once everything is running, you can enable and disable Orange Share by clicking on the icon.
 Double-clicking the icon will open the settings in your browser.
-
-### Windows
-
-You can find some working `.exe` files of Orange Share in the [releases](https://github.com/Yannis4444/Orange-Share/releases).
-
-There are multiple options
- - `orangeshare.exe` will start Orange Share in a new console window
- - `orangeshare-noconsole.exe` will start Orange Share without any further output
- - `orangeshare-tray-icon.exe` will create a tray icon from which Orange Share can be started and stopped.
-
-You can also create your own executables using [`pyinstaller`](https://github.com/pyinstaller/pyinstaller) as shown in `create_exe.bat`.
 
 ## Run Options
 
