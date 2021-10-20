@@ -1,10 +1,10 @@
 {
     "name" : "Orange Share",
-    "description" : "A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS",
+    "description" : "A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS. It allows sending content right from the share sheet - similar to AirDrop between Apple Devices",
     "shell-version" : [
         "40"
     ],
     "url" : "https://github.com/Yannis4444/Orange-Share/",
     "uuid" : "orange-share@Yannis4444.github.com",
-    "version" : 6
+    "version" : 7
 }
