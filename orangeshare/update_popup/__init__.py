@@ -26,7 +26,7 @@ class GetDataFrame(wx.Frame):
         ico = wx.Icon(os.path.join(os.path.dirname(__file__), "../logo/white.ico"), wx.BITMAP_TYPE_ICO)
         self.SetIcon(ico)
 
-        text = wx.StaticText(self, label="A new Version of Orange Share is available.", size=(400, -1), pos=(0, 0))
+        text = wx.StaticText(self, label="Version {} of Orange Share is available.".format(orangeshare.newer_version), size=(400, -1), pos=(0, 0))
 
         self.checkbox = wx.CheckBox(self, label="do not show again for this version")
 
