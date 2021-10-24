@@ -8,6 +8,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Util = imports.misc.util;
 const Mainloop = imports.mainloop;
 
+// TODO: get from github api
 let newestVersion = "1.6.1"
 let newestVersionInstalled = null;
 
@@ -31,6 +32,8 @@ function getVersion() {
             ["orangeshare", "--version"],
             Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
         );
+
+        // TODO: suggested changes from review
 
         proc.communicate_utf8_async(null, null, (proc, res) => {
             try {

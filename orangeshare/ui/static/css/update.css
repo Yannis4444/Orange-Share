@@ -1,0 +1,32 @@
+a.release,
+a.download {
+    display: block;
+    background: var(--accent-blue);
+    height: 40px;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.5s cubic-bezier(.4,2,.17,1);
+    font-size: 20px;
+    line-height: 40px;
+    font-weight: bold;
+    outline: none;
+    text-align: center;
+    width: 300px;
+    margin: 30px auto 0 auto;
+}
+
+a.release:hover,
+a.download:hover,
+a.release:focus,
+a.download:focus {
+    transform: scale(1.1);
+    transition: transform 0.5s cubic-bezier(.4,2.5,.17,1.5);
+}
+
+.code {
+    font-family: Monospaced;
+    color: #fff;
+    background: var(--fg-darkened);
+    padding: 5px 8px;
+}

@@ -6,9 +6,6 @@
 
     <title>Orange Share</title>
 
-    <script type="text/javascript" src="/static/js/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="/static/js/update.js"></script>
-
     <link rel=stylesheet type=text/css href="/static/css/main.css">
     <link rel=stylesheet type=text/css href="/static/css/update.css">
 </head>
@@ -19,10 +16,57 @@
     </a>
 </div>
 
+{% if newer_version_available %}
+
 <div class="content">
     <a class="back" href="/">back</a>
-    <h1 class="section">A new version is available</h1>
-    <a href="https://github.com/Yannis4444/Orange-Share/releases/latest">Read the release notes</a>
+    <h1 class="section">Version {{ newer_version }} is Available</h1>
+    <a class="release" href="https://github.com/Yannis4444/Orange-Share/releases/latest">Read the release notes</a>
+
+    <p>
+        Depending on the type of installation, there are different ways for updating.
+    </p>
+    <p>
+        This page might include instructions that are not relevant for you.
+    </p>
+
+    {% if windows %}
+
+    <h2 class="section">Updater for Windows</h2>
+    <p>
+        To update an instance of Orange Share that was installed using a windows executable,
+        you can download the installer below and run it on your machine.
+    </p>
+    {% for executable in executables %}
+    <a class="download" href="{{ executable[1] }}">{{ executable[0] }}</a>
+    {% endfor %}
+
+    {% endif %}
+
+    <h2 class="section">PIP</h2>
+    <p>
+        If you have installed Orange Share using pip, you can run <span class="code">pip install --update orangeshare</span> to update.
+    </p>
+
+    {% if gnome %}
+
+    <h2 class="section">GNOME Shell Extension</h2>
+    <p>
+        If you are using the GNOME Shell Extension, you can update by selecting <i>update</i> in the notification that is shown when starting Orange Share.
+    </p>
+
+    {% endif %}
+
 </div>
+
+{% else %}
+
+<div class="content">
+    <a class="back" href="/">back</a>
+    <h1 class="section">You Are Using the Newest Version</h1>
+</div>
+
+{% endif %}
+
 </body>
 </html>

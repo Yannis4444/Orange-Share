@@ -5,12 +5,12 @@ A small python server that accepts requests from an apple shortcut to allow shar
 """
 
 # TODO: set to correct version (1.6.1)
-__version__ = "1.4.1"
+__version__ = "1.5.1"
 __author__ = 'Yannis Vierkoetter'
 
 import logging
 import threading
-from typing import Optional
+from typing import Optional, List
 
 import requests
 from werkzeug.serving import make_server
@@ -26,32 +26,58 @@ import orangeshare.ui.api.devices
 import orangeshare.ui.api.host
 from orangeshare.shortcuts.get_data.GetData import GetData
 from orangeshare.shortcuts.handlers.open_helper import open_url
+from orangeshare.update_popup import UpdatePopup
 
 newer_version_available: Optional[bool] = None
+newer_version: Optional[str] = None
+newer_version_executables: List[List["str"]] = []
 
-def set_newer_version_available():
+def check_for_new_version(orange_share):
     """
     Checks if a newer Version of Orange Share is available using the github API.
     Will run the request as a Thread to avoid blocking.
     Result will be written to self.newer_version_available.
     True if a newer Version is available, False if not or the request failed
+
+    will open the pop up if a new version is available
+
+    :param orange_share: the orangeshare instance
     """
 
-    def get_version():
+    global newer_version_available
+
+    if newer_version_available is not None:
+        # already run
+        return
+
+    def get_version(orange_share):
         global newer_version_available
         try:
-            response = requests.get("https://api.github.com/repos/Yannis4444/orange-share/releases/latest")
-            available_version = response.json()["tag_name"].replace("v", "").split(".")
+            response = requests.get("https://api.github.com/repos/Yannis4444/orange-share/releases/latest").json()
+            available_version = response["tag_name"].replace("v", "").split(".")
             current_version = __version__.split(".")
             newer_version_available = current_version[0] < available_version[0] or (current_version[0] == available_version[0] and current_version[1] < available_version[1] or (current_version[0] == available_version[0] and current_version[1] == available_version[1] and current_version[2] < available_version[2]))
             if newer_version_available:
+                global newer_version, newer_version_executables
+
                 logging.info("there is a newer version available")
+
+                newer_version = response["tag_name"].replace("v", "")
+
+                # get the executables
+                for asset in response["assets"]:
+                    if asset["name"].endswith(".exe"):
+                        newer_version_executables.append([asset["name"], asset["browser_download_url"]])
+
+                # check if popup has to be opened
+                config = Config.get_config()
+                ignored_version = config.config.get("UPDATE", "ignore", fallback="")
+                if ignored_version != newer_version:
+                    UpdatePopup(orange_share)
         except Exception as e:
             logging.info("could not check if newer version is available: {}".format(e))
 
-    threading.Thread(target=get_version).start()
-
-set_newer_version_available()
+    threading.Thread(target=get_version, args=(orange_share,)).start()
 
 
 class ServerThread(threading.Thread):
@@ -127,12 +153,14 @@ class Orangeshare:
         self.api_server: Optional[ServerThread] = None
         self.ui_server: Optional[ServerThread] = None
 
-    def open_ui(self):
+    def open_ui(self, target="/"):
         """
         Opens the settings ui
+
+        :param target: which part of the ui to open (default: "/")
         """
 
-        open_url("http://localhost:{}".format(self.ui_port))
+        open_url("http://localhost:{}{}".format(self.ui_port, target))
 
     def run(self, open_ui: bool = False):
         """
@@ -152,8 +180,8 @@ class Orangeshare:
             # threading.Timer(1, self.open_ui).start()
             self.open_ui()
 
-        # TODO: check if update available and open "whats new" and option to ignore
-        # https://api.github.com/repos/Yannis4444/orange-share/releases/latest
+        # check if update is available and maybe show popup
+        check_for_new_version(self)
 
     def stop(self):
         """
