@@ -25,10 +25,12 @@ OutputBaseFilename=orangeshare-{#MyAppVersion}
 SetupIconFile=orangeshare\logo\white.ico
 Compression=lzma
 SolidCompression=yes
+CloseApplications=force
 WizardStyle=modern  
 WizardImageFile=windows_installer_data/wizard.bmp
 WizardImageStretch=yes
 WizardSmallImageFile=orangeshare/logo/black.bmp
+LicenseFile=LICENSE
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -47,4 +49,4 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDi
 Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Parameters: "-t -i"; IconFilename: "{app}\logo\white.ico"; Tasks:StartMenuEntry
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Parameters: """-t"""; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\{#MyAppExeName}"; Parameters: "-t -o"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
