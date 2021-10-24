@@ -4,12 +4,15 @@ Orange-Share
 A small python server that accepts requests from an apple shortcut to allow sharing all sorts of media from iOS with any desktop OS
 """
 
-__version__ = "1.6.0"
+# TODO: set to correct version (1.6.1)
+__version__ = "1.4.1"
 __author__ = 'Yannis Vierkoetter'
 
 import logging
 import threading
 from typing import Optional
+
+import requests
 from werkzeug.serving import make_server
 
 from flask import Flask
@@ -23,6 +26,32 @@ import orangeshare.ui.api.devices
 import orangeshare.ui.api.host
 from orangeshare.shortcuts.get_data.GetData import GetData
 from orangeshare.shortcuts.handlers.open_helper import open_url
+
+newer_version_available: Optional[bool] = None
+
+def set_newer_version_available():
+    """
+    Checks if a newer Version of Orange Share is available using the github API.
+    Will run the request as a Thread to avoid blocking.
+    Result will be written to self.newer_version_available.
+    True if a newer Version is available, False if not or the request failed
+    """
+
+    def get_version():
+        global newer_version_available
+        try:
+            response = requests.get("https://api.github.com/repos/Yannis4444/orange-share/releases/latest")
+            available_version = response.json()["tag_name"].replace("v", "").split(".")
+            current_version = __version__.split(".")
+            newer_version_available = current_version[0] < available_version[0] or (current_version[0] == available_version[0] and current_version[1] < available_version[1] or (current_version[0] == available_version[0] and current_version[1] == available_version[1] and current_version[2] < available_version[2]))
+            if newer_version_available:
+                logging.info("there is a newer version available")
+        except Exception as e:
+            logging.info("could not check if newer version is available: {}".format(e))
+
+    threading.Thread(target=get_version).start()
+
+set_newer_version_available()
 
 
 class ServerThread(threading.Thread):
@@ -86,6 +115,7 @@ class Orangeshare:
         self.ui_app.add_url_rule("/devices", methods=["GET"], view_func=orangeshare.ui.devices)
         self.ui_app.add_url_rule("/shortcuts", methods=["GET"], view_func=orangeshare.ui.shortcuts)
         self.ui_app.add_url_rule("/settings", methods=["GET"], view_func=orangeshare.ui.settings)
+        self.ui_app.add_url_rule("/update", methods=["GET"], view_func=orangeshare.ui.update)
         self.ui_app.add_url_rule("/favicon.ico", methods=["GET"], view_func=orangeshare.ui.favicon)
 
         # API for the UI
@@ -121,6 +151,9 @@ class Orangeshare:
         if open_ui or Config.get_config().new_config:
             # threading.Timer(1, self.open_ui).start()
             self.open_ui()
+
+        # TODO: check if update available and open "whats new" and option to ignore
+        # https://api.github.com/repos/Yannis4444/orange-share/releases/latest
 
     def stop(self):
         """

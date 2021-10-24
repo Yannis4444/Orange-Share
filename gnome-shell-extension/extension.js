@@ -8,7 +8,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Util = imports.misc.util;
 const Mainloop = imports.mainloop;
 
-let newestVersion = "1.6.0"
+let newestVersion = "1.6.1"
 let newestVersionInstalled = null;
 
 let active = false;
