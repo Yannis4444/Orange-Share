@@ -27,6 +27,4 @@ def settings():
 
 
 def update():
-    # TODO: not always windows
-    # return render_template("update.html", newer_version_available=orangeshare.newer_version_available, newer_version=orangeshare.newer_version, windows=sys.platform == "win32", gnome=sys.platform in ["linux", "linux2"], executables=orangeshare.newer_version_executables)
-    return render_template("update.html", newer_version_available=orangeshare.newer_version_available, newer_version=orangeshare.newer_version, windows=True, gnome=sys.platform in ["linux", "linux2"], executables=orangeshare.newer_version_executables)
+    return render_template("update.html", newer_version_available=orangeshare.newer_version_available, newer_version=orangeshare.newer_version, windows=sys.platform == "win32", gnome=sys.platform in ["linux", "linux2"], executables=orangeshare.newer_version_executables)
