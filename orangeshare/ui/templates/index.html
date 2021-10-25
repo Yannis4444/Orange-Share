@@ -48,6 +48,10 @@
                 <label>GitHub</label>
             </a>
         </div>
+        {% if newer_version_available %}
+        <a href="/update" class="newversion">Version {{ newer_version }} is available!</a>
+        {% endif %}
     </div>
+    <a class="version" href="/update">Version {{version}}</a>
 </body>
 </html>

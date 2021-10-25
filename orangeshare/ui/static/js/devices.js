@@ -218,11 +218,6 @@ function closeAddNew(event) {
     $("#addNew").removeClass("active");
 }
 
-function renderQRCodes() {
-    // goes through all devices and regenerates their QR codes
-    // TODO
-}
-
 $(function () {
     // load host config (ip, name)
     $.get(

@@ -1,0 +1,84 @@
+a.release,
+a.download {
+    display: block;
+    background: var(--accent-blue);
+    height: 40px;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.5s cubic-bezier(.4,2,.17,1);
+    font-size: 20px;
+    line-height: 40px;
+    font-weight: bold;
+    outline: none;
+    text-align: center;
+    width: 300px;
+    margin: 30px auto 0 auto;
+}
+
+a.release:hover,
+a.download:hover,
+a.release:focus,
+a.download:focus {
+    transform: scale(1.1);
+    transition: transform 0.5s cubic-bezier(.4,2.5,.17,1.5);
+}
+
+.code {
+    font-family: Monospaced;
+    color: #fff;
+    background: var(--fg-darkened);
+    padding: 5px 8px;
+}
+
+h2.version {
+    text-align: left;
+    position: relative;
+    font-weight: bold;
+    border-bottom: 1px solid var(--border);
+    padding: 0 5px;
+    margin-top: 50px;
+}
+
+h2.version .date {
+    position: absolute;
+    right: 5px;
+    color: var(--text-gray);
+    font-size: 16px;
+    bottom: 2px;
+}
+
+.newshortcuts {
+    display: block;
+    margin-top: -16px;
+    color: var(--text-gray);
+    padding-left: 40px;
+    text-decoration: none;
+}
+
+h3.new,
+h3.improved,
+h3.fixed {
+    margin: 10px 0 0 40px;
+    font-size: 20px;
+}
+
+h3.new {
+    color: var(--accent-green-text);
+}
+
+h3.improved {
+    color: var(--accent-blue-text);
+}
+
+h3.fixed {
+    color: var(--accent-orange-text);
+}
+
+ul.news {
+    margin: 5px 40px;
+}
+
+ul.news li {
+    line-height: 24px;
+}

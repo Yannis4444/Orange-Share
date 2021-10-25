@@ -28,6 +28,15 @@ h1 .logo {
     transform: translateY(16px);
 }
 
+.version {
+    position: fixed;
+    right: 16px;
+    bottom: 10px;
+    font-size: 20px;
+    color: var(--text-gray);
+    text-decoration: none;
+}
+
 .buttons {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(330px, 350px));
@@ -88,4 +97,24 @@ h1 .logo {
 
 .buttons a.github {
     background: var(--accent-dark);
+}
+
+@keyframes flyin {
+    from {
+        transform: scale(1.6);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+.newversion {
+    display: block;
+    width: max-content;
+    text-align: center;
+    margin: 42px auto 0 auto;
+    font-size: 24px;
+    animation-duration: 0.5s;
+    animation-name: flyin;
 }

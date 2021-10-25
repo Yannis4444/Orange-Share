@@ -1,4 +1,8 @@
+import sys
+
 from flask import render_template, send_from_directory
+
+import orangeshare
 from orangeshare import Config
 
 
@@ -7,7 +11,7 @@ def favicon():
 
 
 def index():
-    return render_template("index.html")
+    return render_template("index.html", version=orangeshare.__version__, newer_version_available=orangeshare.newer_version_available, newer_version=orangeshare.newer_version)
 
 
 def devices():
@@ -20,3 +24,7 @@ def shortcuts():
 
 def settings():
     return render_template("settings.html", conf_file=Config.get_config().file)
+
+
+def update():
+    return render_template("update.html", newer_version_available=orangeshare.newer_version_available, newer_version=orangeshare.newer_version, windows=sys.platform == "win32", gnome=sys.platform in ["linux", "linux2"], executables=orangeshare.newer_version_executables)
