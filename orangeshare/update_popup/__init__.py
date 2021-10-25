@@ -28,7 +28,7 @@ class GetDataFrame(wx.Frame):
 
         text = wx.StaticText(self, label="Version {} of Orange Share is available.".format(orangeshare.newer_version), size=(400, -1), pos=(0, 0))
 
-        self.checkbox = wx.CheckBox(self, label="do not show again for this version")
+        self.checkbox = wx.CheckBox(self, label="don't show again")
 
         show_button = wx.Button(self, -1, size=(200, -1), label='Show Me')
         show_button.Bind(wx.EVT_BUTTON, self.on_show)
@@ -37,7 +37,7 @@ class GetDataFrame(wx.Frame):
         ignore_button.Bind(wx.EVT_BUTTON, self.on_ignore)
 
         # layout
-        grid = wx.GridBagSizer(10, 10)
+        grid = wx.GridBagSizer(10, 0)
         grid.Add(text, pos=(0, 0), span=(1, 2), flag=wx.CENTER)
         grid.Add(self.checkbox, pos=(1, 0), span=(1, 2), flag=wx.CENTER)
         grid.Add(show_button, pos=(2, 0), span=(1, 1), flag=wx.EXPAND)
