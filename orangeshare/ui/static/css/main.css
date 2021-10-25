@@ -16,6 +16,11 @@
     --accent-purple: #37296a;
     --accent-green: #184212;
     --accent-dark: #111217;
+    --accent-red: #640505;
+    --accent-red-text: #c70808;
+    --accent-green-text: #319403;
+    --accent-blue-text: #193ebb;
+    --accent-orange-text: #ba5c11;
 }
 
 html {

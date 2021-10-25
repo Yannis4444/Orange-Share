@@ -34,6 +34,7 @@ h1 .logo {
     bottom: 10px;
     font-size: 20px;
     color: var(--text-gray);
+    text-decoration: none;
 }
 
 .buttons {
