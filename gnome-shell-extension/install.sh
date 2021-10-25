@@ -8,16 +8,16 @@ read -r a
 a=${a,,}
 
 if [ $a == "n" ] || [ $a == "no" ] || [ $a == "0" ]; then
-    echo "Bye!"
+  echo "Bye!"
 else
-    if python3 -m pip install --upgrade orangeshare; then
-      echo "-----------------------------------------------"
-      echo "Successfully installed Orange Share"
-    else
-      echo "-----------------------------------------------"
-      echo "An error occurred while installing Orange Share"
-    fi
+  if python3 -m pip install --upgrade orangeshare; then
+    echo "-----------------------------------------------"
+    echo "Successfully installed Orange Share"
+  else
+    echo "-----------------------------------------------"
+    echo "An error occurred while installing Orange Share"
+  fi
 
-    echo "Press ENTER to exit"
-    read -r x
+  echo "Press ENTER to exit"
+  read -r x
 fi

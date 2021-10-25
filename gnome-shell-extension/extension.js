@@ -9,7 +9,7 @@ const Util = imports.misc.util;
 const Mainloop = imports.mainloop;
 
 // TODO: get from github api
-let newestVersion = "1.6.1"
+let newestVersion = "1.7.0"
 let newestVersionInstalled = null;
 
 let active = false;
@@ -32,8 +32,6 @@ function getVersion() {
             ["orangeshare", "--version"],
             Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
         );
-
-        // TODO: suggested changes from review
 
         proc.communicate_utf8_async(null, null, (proc, res) => {
             try {
@@ -85,7 +83,7 @@ const OrangeShare = GObject.registerClass(
 
             this.add_child(this.icon);
 
-            this.connect('button-press-event', function (display, action, deviceId, timestamp) {
+            this.connect('button-press-event', (display, action, deviceId, timestamp) => {
                 if (installedVersion == null) {
                     log("Orange Share is not yet installed");
                     this.showNotification("Orange Share is not installed", "Install", this.installOrangeShare)
@@ -108,7 +106,7 @@ const OrangeShare = GObject.registerClass(
                         this.enable();
                     }
                 }
-            }.bind(this));
+            });
         }
 
         toggle() {
@@ -201,9 +199,9 @@ const OrangeShare = GObject.registerClass(
                     });
                 };
                 // Take care of note leaving unneeded sources
-                this._notifSource.connect('destroy', function () {
+                this._notifSource.connect('destroy', () => {
                     this._notifSource = null;
-                }.bind(this));
+                });
                 Main.messageTray.add(this._notifSource);
             }
             let notification = null;
