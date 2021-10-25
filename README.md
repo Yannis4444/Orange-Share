@@ -136,7 +136,7 @@ Copying files will be coming soon.
 
 ### Get Data
 
-<img width="350" src="images/get_data.jpeg" alt="Get Data Dialog">
+<img width="350" src="images/get_data.png" alt="Get Data Dialog">
 
 This shortcut can be used to get data from the computer.
 It will open a window on the computer where either a file or the current clipboard content can be sent to the phone.
