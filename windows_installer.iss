@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Orange Share"
-#define MyAppVersion "1.6.0"
+#define MyAppVersion "1.7.0"
 #define MyAppPublisher "Yannis Vierkoetter"
 #define MyAppURL "https://github.com/Yannis4444/Orange-Share"
 #define MyAppExeName "orangeshare.exe"
