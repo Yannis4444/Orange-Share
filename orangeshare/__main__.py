@@ -22,6 +22,7 @@ def get_args() -> argparse.Namespace:
     parser.add_argument('-o', '--open-ui', required=False, action='count', help="Open the server controls in the browser")
     if sys.platform == "win32":
         parser.add_argument('-t', '--tray-icon', required=False, action='count', help="Run with tray icon")
+        parser.add_argument('-i', '--inactive-tray', required=False, action='count', help="Start inactive when run in tray")
     parser.add_argument('-v', '--verbose', required=False, action='count', default=0, help="Enable verbose output")
 
     args = parser.parse_args()
@@ -37,12 +38,13 @@ def get_args() -> argparse.Namespace:
 orangeshare: Optional[Orangeshare] = None
 
 
-def start_in_tray(api_port: int = 7615, ui_port: int = 7616, open_ui: bool = False):
+def start_in_tray(api_port: int = 7615, ui_port: int = 7616, active=True, open_ui: bool = False):
     """
     Creates a tray icon and starts and stops Orange Share from its actions
 
     :param api_port: The port to run the API on
     :param ui_port: The port to run the UI on
+    :param active: If it should be started as active or inactive
     :param open_ui: If the UI should be opened each time
     """
 
@@ -55,7 +57,7 @@ def start_in_tray(api_port: int = 7615, ui_port: int = 7616, open_ui: bool = Fal
     def get_start_stop_text(icon):
         return "Stop" if orangeshare else "Start"
 
-    def start_stop(icon, item):
+    def start_stop(icon, item=None):
         global orangeshare
         if orangeshare is None:
             icon.icon = image_active
@@ -83,7 +85,7 @@ def start_in_tray(api_port: int = 7615, ui_port: int = 7616, open_ui: bool = Fal
         icon.visible = False
         icon.stop()
 
-    icon(
+    i = icon(
         'Orange Share',
         image_inactive,
         "Orange Share",
@@ -98,7 +100,12 @@ def start_in_tray(api_port: int = 7615, ui_port: int = 7616, open_ui: bool = Fal
                 "Exit",
                 exit_app)
         )
-    ).run()
+    )
+
+    if active:
+        start_stop(icon)
+
+    i.run()
 
 
 def main():
@@ -111,7 +118,7 @@ def main():
     )
 
     if sys.platform == "win32" and args.tray_icon:
-        start_in_tray(args.api_port, args.ui_port, args.open_ui)
+        start_in_tray(args.api_port, args.ui_port, active=not bool(args.inactive_tray), open_ui=args.open_ui)
     else:
         orangeshare = Orangeshare(args.api_port, args.ui_port)
         orangeshare.run(bool(args.open_ui))
