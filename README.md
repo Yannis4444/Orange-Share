@@ -97,7 +97,7 @@ This means that whenever you click `share` on the device you can find these shor
 At the bottom of this list you can find an option to edit the shown entries.
 Here you can add the Orange Share shortcuts to your favorites if you want them to always be at the top.
 
-<img width="350" src="images/share_sheet.png" alt="Share Sheet">
+![Share Sheet](images/share_sheet.png)
 
 ### Connection Manager
 
@@ -136,9 +136,9 @@ Copying files will be coming soon.
 
 ### Get Data
 
+<img width="350" src="images/get_data.png" alt="Get Data Dialog">
+
 This shortcut can be used to get data from the computer.
 It will open a window on the computer where either a file or the current clipboard content can be sent to the phone.
 
 [Download](https://www.icloud.com/shortcuts/f1e9e2f318f447508ab956884936c614)
-
-<img width="350" src="images/get_data.png" alt="Get Data Dialog">
