@@ -23,7 +23,7 @@ class GetDataFrame(wx.Frame):
 
         self.orange_share = orange_share
 
-        ico = wx.Icon(os.path.join(os.path.dirname(__file__), "../logo/white.ico"), wx.BITMAP_TYPE_ICO)
+        ico = wx.Icon(os.path.join(os.path.dirname(__file__), os.pardir, "logo/white.ico"), wx.BITMAP_TYPE_ICO)
         self.SetIcon(ico)
 
         text = wx.StaticText(self, label="Version {} of Orange Share is available.".format(orangeshare.newer_version), size=(400, -1), pos=(0, 0))
