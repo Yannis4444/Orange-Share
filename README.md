@@ -97,7 +97,7 @@ This means that whenever you click `share` on the device you can find these shor
 At the bottom of this list you can find an option to edit the shown entries.
 Here you can add the Orange Share shortcuts to your favorites if you want them to always be at the top.
 
-<img width="350" src="images/share_sheet.jpg" alt="Share Sheet">
+<img width="350" src="images/share_sheet.png" alt="Share Sheet">
 
 ### Connection Manager
 
