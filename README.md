@@ -97,7 +97,7 @@ This means that whenever you click `share` on the device you can find these shor
 At the bottom of this list you can find an option to edit the shown entries.
 Here you can add the Orange Share shortcuts to your favorites if you want them to always be at the top.
 
-<img width="1170" src="images/share_sheet.png" alt="Share Sheet">
+<img width="350" src="images/share_sheet.png" alt="Share Sheet">
 
 ### Connection Manager
 
@@ -141,4 +141,4 @@ It will open a window on the computer where either a file or the current clipboa
 
 [Download](https://www.icloud.com/shortcuts/f1e9e2f318f447508ab956884936c614)
 
-<img width="438" src="images/get_data.png" alt="Get Data Dialog">
+<img width="350" src="images/get_data.png" alt="Get Data Dialog">
