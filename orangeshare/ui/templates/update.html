@@ -53,9 +53,6 @@
                 Hosting the python part of the application on the Gnome Extension page was not allowed which is why pip is used for installation and updating.
                 Starting the update will run <span class="code">{{ python_executable }} -m pip install --update orangeshare</span>.
             </p>
-            <p>
-                After updating restart Orange Share by clicking the icon in the system tray twice.
-            </p>
             <label class="update" onclick="pipUpdate()" id="pip_update">
                 <span class="text">Update</span>
                 <svg class="spinner" viewBox="0 0 50 50">
@@ -63,6 +60,9 @@
                 </svg>
                 <span class="checkmark"></span>
             </label>
+            <h2>
+                After updating restart Orange Share by clicking the icon in the system tray twice.
+            </h2>
 
         {% else %}
 

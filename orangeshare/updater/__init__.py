@@ -3,7 +3,6 @@ import os
 import subprocess
 import sys
 import threading
-import _thread
 from typing import Optional, List, Tuple
 
 import requests
@@ -165,6 +164,8 @@ class Updater:
         """
 
         cmd = [sys.executable, "-m", "pip", "install", "--upgrade", "orangeshare"]
+        # TODO: remove
+        cmd = [sys.executable, "-m", "pip", "install", "--upgrade", "/home/yannis/git/Orange-Share"]
 
         logging.info("running {}".format(" ".join(cmd)))
 

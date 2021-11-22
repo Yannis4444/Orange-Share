@@ -25,6 +25,13 @@ function pipUpdate() {
     update("/api/update/pip", "#pip_update");
 }
 
+function olderThan(a, b) {
+    // compares two versions, true if a is older than b
+    let splitA = a.split(".");
+    let splitB = b.split(".");
+    return splitA[0] < splitB[0] || (splitA[0] === splitB[0] && splitA[1] < splitB[1] || (splitA[0] === splitB[0] && splitA[1] === splitB[1] && splitA[2] < splitB[2]))
+}
+
 $(function () {
     // check if the newer version is met in a set interval
     // once the new version is reached, reload
@@ -33,7 +40,8 @@ $(function () {
             $.get(
                 "/api/info/version",
                 function (data) {
-                    if (data.version === newer_version) {
+                    // check that this is at least as new as the newest version
+                    if (!olderThan(data.version, newer_version)) {
                         window.location.reload(true);
                     }
                 }

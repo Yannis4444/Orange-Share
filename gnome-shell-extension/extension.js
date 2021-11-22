@@ -8,11 +8,6 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Util = imports.misc.util;
 const Mainloop = imports.mainloop;
 
-// TODO: get from github api (get newest version with flag from orangeshare)
-// TODO: move update to pip update called from the python part
-let newestVersion = "1.7.0"
-let newestVersionInstalled = null;
-
 let active = false;
 let orangeShareProcess = null;
 let DISABLED_ICON = "icons/gray.svg"
@@ -26,7 +21,6 @@ function getVersion() {
     /*
     Gets the version and writes it to installedVersion
     the version will not be available instantly
-    also sets newestVersionInstalled
      */
     try {
         let proc = Gio.Subprocess.new(
@@ -41,8 +35,6 @@ function getVersion() {
                 if (proc.get_successful()) {
                     installedVersion = stdout.toString().replace(/^\s+|\s+$/g, '');
                     log("Version " + installedVersion + " of Orange Share is installed")
-
-                    newestVersionInstalled = !olderThan(installedVersion, newestVersion);
                 } else {
                     throw new Error(stderr);
                 }
@@ -50,7 +42,6 @@ function getVersion() {
                 logError(e);
                 log("Orange Share is not installed (0)");
                 installedVersion = null;
-                newestVersionInstalled = false;
             }
         });
     } catch (e) {
@@ -58,14 +49,7 @@ function getVersion() {
         logError(e);
         log("Orange Share is not installed (1)");
         installedVersion = null;
-        newestVersionInstalled = false;
     }
-}
-
-function olderThan(a, b) {
-    let splitA = a.split(".");
-    let splitB = b.split(".");
-    return splitA[0] < splitB[0] || (splitA[0] === splitB[0] && splitA[1] < splitB[1] || (splitA[0] === splitB[0] && splitA[1] === splitB[1] && splitA[2] < splitB[2]))
 }
 
 const OrangeShare = GObject.registerClass(
@@ -144,14 +128,9 @@ const OrangeShare = GObject.registerClass(
 
             this.setIcon(true);
 
-            if (!newestVersionInstalled) {
-                log("There is a newer Version of Orange Share available");
-                this.showNotification("There is a newer Version available", "Update", this.updateOrangeShare);
-            } else {
-                this.showNotification("Started Orange Share", "Settings", function () {
-                    this.openSettings();
-                });
-            }
+            this.showNotification("Started Orange Share", "Settings", function () {
+                this.openSettings();
+            });
         }
 
         disable() {
@@ -231,21 +210,14 @@ const OrangeShare = GObject.registerClass(
 
             // exact version not needed if known that newest is installed
             installedVersion = "x.x.x";
-            newestVersionInstalled = true;
         }
-
-        updateOrangeShare() {
-            this.disable();
-            this.installOrangeShare();
-        }
-
     });
 
 function init() {
 }
 
 function enable() {
-    // check that the correct version of Orange Share is installed
+    // check which version of Orange Share is installed
     installedVersion = getVersion();
 
     // run the extension
