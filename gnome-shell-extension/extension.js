@@ -8,7 +8,8 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Util = imports.misc.util;
 const Mainloop = imports.mainloop;
 
-// TODO: get from github api
+// TODO: get from github api (get newest version with flag from orangeshare)
+// TODO: move update to pip update called from the python part
 let newestVersion = "1.7.0"
 let newestVersionInstalled = null;
 
@@ -129,7 +130,7 @@ const OrangeShare = GObject.registerClass(
             try {
                 if (orangeShareProcess == null) {
                     orangeShareProcess = Gio.Subprocess.new(
-                        ["orangeshare"],
+                        ["orangeshare", "--gnome-extension"],
                         Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
                     );
                 }

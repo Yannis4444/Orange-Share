@@ -6,6 +6,13 @@
 
     <title>Orange Share</title>
 
+    <script type="text/javascript" src="/static/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        let newer_version = "{{ newer_version }}";
+        let newer_version_available = {% if newer_version_available %} true {% else %} false {% endif %};
+    </script>
+    <script type="text/javascript" src="/static/js/update.js"></script>
+
     <link rel=stylesheet type=text/css href="/static/css/main.css">
     <link rel=stylesheet type=text/css href="/static/css/update.css">
 </head>
@@ -18,53 +25,61 @@
 
 {% if newer_version_available %}
 
-<div class="content">
-    <a class="back" href="/">back</a>
-    <h1 class="section">Version {{ newer_version }} is Available</h1>
-    <a class="release" href="https://github.com/Yannis4444/Orange-Share/releases/latest">Read the release notes</a>
+    <div class="content">
+        <a class="back" href="/">back</a>
+        <h1 class="section">Version {{ newer_version }} is Available</h1>
+        <a class="release" href="https://github.com/Yannis4444/Orange-Share/releases/latest">Read the release notes</a>
 
-    <p>
-        Depending on the type of installation, there are different ways for updating.
-    </p>
-    <p>
-        This page might include instructions that are not relevant for you.
-    </p>
+        {% if windows_installation %}
 
-    {% if windows %}
+            <p>
+                An Orange Share instance that was installed using the windows installer can be updated right from this page.
+                It is also possible to download the installer from the release and manually run it on your machine instead.
+            </p>
+            <label class="update" onclick="windowsUpdate()" id="windows_update">
+                <span class="text">Update</span>
+                <svg class="spinner" viewBox="0 0 50 50">
+                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                </svg>
+                <span class="checkmark"></span>
+            </label>
 
-    <h2 class="section">Updater for Windows</h2>
-    <p>
-        To update an instance of Orange Share that was installed using a windows executable,
-        you can download the installer below and run it on your machine.
-    </p>
-    {% for executable in executables %}
-    <a class="download" href="{{ executable[1] }}">{{ executable[0] }}</a>
-    {% endfor %}
+        {% elif gnome_extension %}
 
-    {% endif %}
+            <p>
+                The Gnome Extension version of Orange Share can be updated right from this page.
+            </p>
+            <p>
+                Hosting the python part of the application on the Gnome Extension page was not allowed which is why pip is used for installation and updating.
+                Starting the update will run <span class="code">{{ python_executable }} -m pip install --update orangeshare</span>.
+            </p>
+            <p>
+                After updating restart Orange Share by clicking the icon in the system tray twice.
+            </p>
+            <label class="update" onclick="pipUpdate()" id="pip_update">
+                <span class="text">Update</span>
+                <svg class="spinner" viewBox="0 0 50 50">
+                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                </svg>
+                <span class="checkmark"></span>
+            </label>
 
-    <h2 class="section">PIP</h2>
-    <p>
-        If you installed Orange Share using pip, you can run <span class="code">pip install --update orangeshare</span> to update.
-    </p>
+        {% else %}
 
-    {% if gnome %}
+            <p>
+                If you installed Orange Share using pip, you can run <span class="code">pip install --update orangeshare</span> to update.
+            </p>
 
-    <h2 class="section">GNOME Shell Extension</h2>
-    <p>
-        If you are using the GNOME Shell Extension, you can update by selecting <i>update</i> in the notification that is shown when starting Orange Share.
-    </p>
+        {% endif %}
 
-    {% endif %}
-
-</div>
+    </div>
 
 {% else %}
 
-<div class="content">
-    <a class="back" href="/">back</a>
-    <h1 class="section">No newer version was found</h1>
-</div>
+    <div class="content">
+        <a class="back" href="/">back</a>
+        <h1 class="section">You are using the newest version of Orange Share</h1>
+    </div>
 
 {% endif %}
 
@@ -81,6 +96,9 @@
             Orange Share will now inform you about new versions
         </li>
         <li>
+            Gnome Extension updates moved to the main script
+        </li>
+        <li>
             Version Info in the UI
         </li>
     </ul>
@@ -89,6 +107,10 @@
         <li>
             Small GNOME Shell Extension improvements
         </li>
+    </ul>
+    <h3 class="fixed">Fixed</h3>
+    <ul class="news">
+        <li>Fixed Get Data Shortcut on Windows</li>
     </ul>
 
     <h2 class="version">1.6.0<span class="date">Oct 19, 2021</span></h2>

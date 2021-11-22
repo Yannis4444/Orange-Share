@@ -12,6 +12,7 @@ from flask_restful import Resource
 from orangeshare import Config
 
 
+# TODO: fix on windows
 class DropTarget(wx.FileDropTarget):
     def __init__(self, obj, result_data):
         wx.FileDropTarget.__init__(self)

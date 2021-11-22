@@ -44,9 +44,9 @@ Source: "dist\orangeshare.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "orangeshare\logo\white.ico"; DestDir: "{app}\logo"; Flags: ignoreversion
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Parameters: "-t"; IconFilename: "{app}\logo\white.ico"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Parameters: "-t"; IconFilename: "{app}\logo\white.ico"; Tasks: desktopicon
-Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Parameters: "-t -i"; IconFilename: "{app}\logo\white.ico"; Tasks:StartMenuEntry
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Parameters: "--windows-installation -t"; IconFilename: "{app}\logo\white.ico"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Parameters: "--windows-installation -t"; IconFilename: "{app}\logo\white.ico"; Tasks: desktopicon
+Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Parameters: "--windows-installation -t -i"; IconFilename: "{app}\logo\white.ico"; Tasks:StartMenuEntry
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Parameters: "-t -o"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\{#MyAppExeName}"; Parameters: "--windows-installation -t"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall

@@ -25,6 +25,12 @@ def get_args() -> argparse.Namespace:
         parser.add_argument('-i', '--inactive-tray', required=False, action='count', help="Start inactive when run in tray")
     parser.add_argument('-v', '--verbose', required=False, action='count', default=0, help="Enable verbose output")
 
+    # internal flags
+    # if this is started inside a windows installation
+    parser.add_argument('--windows-installation', required=False, action='count', default=0, help=argparse.SUPPRESS)
+    # if this is started as part of the gnome extension
+    parser.add_argument('--gnome-extension', required=False, action='count', default=0, help=argparse.SUPPRESS)
+
     args = parser.parse_args()
 
     if args.version:

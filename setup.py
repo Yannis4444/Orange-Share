@@ -18,7 +18,8 @@ install_requires=[
     "Flask-BasicAuth",
     "netifaces",
     "pillow",
-    "werkzeug"
+    "werkzeug",
+    "requests"
 ]
 
 if sys.platform == "win32":
