@@ -24,6 +24,7 @@ import orangeshare.ui.api.devices
 import orangeshare.ui.api.host
 import orangeshare.ui.api.update
 import orangeshare.ui.api.info
+from orangeshare.shortcuts.connected import Connected
 from orangeshare.shortcuts.get_data.GetData import GetData
 from orangeshare.shortcuts.handlers.open_helper import open_url
 from orangeshare.updater import Updater
@@ -99,6 +100,7 @@ class Orangeshare:
         self.api_api.add_resource(File.File, '/api/share/file')
         self.api_api.add_resource(Text.Text, '/api/share/text')
         self.api_api.add_resource(GetData, '/api/computer_data')
+        self.api_api.add_resource(Connected, '/api/connected')
 
         # The UI Server
         self.ui_port = ui_port
