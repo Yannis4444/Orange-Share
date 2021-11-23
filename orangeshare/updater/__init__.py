@@ -164,8 +164,6 @@ class Updater:
         """
 
         cmd = [sys.executable, "-m", "pip", "install", "--upgrade", "orangeshare"]
-        # TODO: remove
-        cmd = [sys.executable, "-m", "pip", "install", "--upgrade", "/home/yannis/git/Orange-Share"]
 
         logging.info("running {}".format(" ".join(cmd)))
 
