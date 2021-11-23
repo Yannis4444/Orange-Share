@@ -54,7 +54,7 @@ class Updater:
 
         version = response["tag_name"].replace("v", "")
 
-        logging.info("got newest version from GitHub: {}".format(version))
+        logging.info("got newest available version from GitHub: {}".format(version))
 
         # get the executables
         newer_version_executables = []
@@ -74,7 +74,7 @@ class Updater:
         response = requests.get("https://pypi.org/pypi/orangeshare/json").json()
         version = response["info"]["version"]
 
-        logging.info("got newest version from PyPi: {}".format(version))
+        logging.info("got newest available version from PyPi: {}".format(version))
 
         return version
 
