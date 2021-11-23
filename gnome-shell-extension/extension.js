@@ -4,6 +4,7 @@ const St = imports.gi.St;
 const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
 const PanelMenu = imports.ui.panelMenu;
+const PopupMenu = imports.ui.popupMenu;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Util = imports.misc.util;
 const Mainloop = imports.mainloop;
@@ -16,6 +17,8 @@ let installedVersion = null;
 let lastDoubleClick = 0;
 
 let orangeShare;
+
+// TODO: check functionality in GNOME 41
 
 function getVersion() {
     /*
@@ -64,10 +67,14 @@ const OrangeShare = GObject.registerClass(
                 style_class: 'system-status-icon',
             });
 
+            // add (right click) menu
+            this.addMenu();
+
             this.setIcon(active);
 
             this.add_child(this.icon);
 
+            // set actions for click
             this.connect('button-press-event', (display, action, deviceId, timestamp) => {
                 if (installedVersion == null) {
                     log("Orange Share is not yet installed");
@@ -76,6 +83,11 @@ const OrangeShare = GObject.registerClass(
                 }
 
                 if (action.get_button() === 1) {
+                    // left click
+
+                    // close menu right away when left clicking
+                    this.menu.close();
+
                     if (action.get_click_count() === 1) {
                         // this.toggle();
                         // set the icon now and maybe revert the change again
@@ -91,6 +103,22 @@ const OrangeShare = GObject.registerClass(
                         this.enable();
                     }
                 }
+            });
+        }
+
+        addMenu() {
+            this.pmActiveItem = new PopupMenu.PopupSwitchMenuItem(_("Active"), false, { reactive: true });
+            this.menu.addMenuItem(this.pmActiveItem);
+            this.pmActiveItem.connect('toggled', () => {
+                this.toggle();
+            });
+
+            this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+
+            let pmOpenSettingsItem = new PopupMenu.PopupMenuItem('Open Settings');
+            this.menu.addMenuItem(pmOpenSettingsItem);
+            pmOpenSettingsItem.connect('activate', () => {
+                this.openSettings();
             });
         }
 
@@ -158,7 +186,9 @@ const OrangeShare = GObject.registerClass(
         }
 
         setIcon(active) {
+            // also sets the switch in menu
             this.icon.gicon = Gio.icon_new_for_string(Me.dir.get_path() + "/" + (active ? ENABLED_ICON : DISABLED_ICON));
+            this.pmActiveItem.setToggleState(active);
         }
 
         openSettings() {
