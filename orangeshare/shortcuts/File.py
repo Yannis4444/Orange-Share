@@ -6,6 +6,7 @@ from flask_restful import Resource, reqparse
 import orangeshare.shortcuts.handlers.open
 import orangeshare.shortcuts.handlers.save
 import orangeshare.shortcuts.handlers.clipboard
+from orangeshare.shortcuts import check_shortcut_version
 
 parser = reqparse.RequestParser()
 parser.add_argument('mode',
@@ -34,12 +35,12 @@ class File(Resource):
         logging.info("Received File \"{}\" for {}".format(filename, args["mode"]))
 
         if args["mode"] == "open":
-            return orangeshare.shortcuts.handlers.open.handle_file(args["file"], filename)
+            return check_shortcut_version(orangeshare.shortcuts.handlers.open.handle_file(args["file"], filename))
 
         elif args["mode"] == "save":
-            return orangeshare.shortcuts.handlers.save.handle_file(args["file"], filename)
+            return check_shortcut_version(orangeshare.shortcuts.handlers.save.handle_file(args["file"], filename))
 
         elif args["mode"] == "clipboard":
-            return orangeshare.shortcuts.handlers.clipboard.handle_file(args["file"], filename)
+            return check_shortcut_version(orangeshare.shortcuts.handlers.clipboard.handle_file(args["file"], filename))
 
-        return {"message": "unknown mode \"{}\"".format(args["mode"])}, 400
+        return check_shortcut_version({"message": "unknown mode \"{}\"".format(args["mode"])}), 400

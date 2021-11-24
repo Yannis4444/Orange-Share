@@ -34,7 +34,8 @@ class Host(Resource):
             ifaddrs = ifaddresses(interface)
             if AF_INET in ifaddrs:
                 for link in ifaddrs[AF_INET]:
-                    ip_list[interface] = link['addr']
+                    if link['addr'] not in ["127.0.0.1"]:
+                        ip_list[interface] = link['addr']
 
         config = Config.get_config()
 

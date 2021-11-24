@@ -9,9 +9,8 @@ __author__ = 'Yannis Vierkoetter'
 
 import logging
 import threading
-from typing import Optional, List
+from typing import Optional
 
-import requests
 from werkzeug.serving import make_server
 
 from flask import Flask
@@ -23,60 +22,12 @@ from orangeshare.config import Config
 from orangeshare.shortcuts import File, Text
 import orangeshare.ui.api.devices
 import orangeshare.ui.api.host
+import orangeshare.ui.api.update
+import orangeshare.ui.api.info
+from orangeshare.shortcuts.connected import Connected
 from orangeshare.shortcuts.get_data.GetData import GetData
 from orangeshare.shortcuts.handlers.open_helper import open_url
-from orangeshare.update_popup import UpdatePopup
-
-newer_version_available: Optional[bool] = None
-newer_version: Optional[str] = None
-newer_version_executables: List[List["str"]] = []
-
-def check_for_new_version(orange_share):
-    """
-    Checks if a newer Version of Orange Share is available using the github API.
-    Will run the request as a Thread to avoid blocking.
-    Result will be written to self.newer_version_available.
-    True if a newer Version is available, False if not or the request failed
-
-    will open the pop up if a new version is available
-
-    :param orange_share: the orangeshare instance
-    """
-
-    global newer_version_available
-
-    if newer_version_available is not None:
-        # already run
-        return
-
-    def get_version(orange_share):
-        global newer_version_available
-        try:
-            response = requests.get("https://api.github.com/repos/Yannis4444/orange-share/releases/latest").json()
-            available_version = response["tag_name"].replace("v", "").split(".")
-            current_version = __version__.split(".")
-            newer_version_available = current_version[0] < available_version[0] or (current_version[0] == available_version[0] and current_version[1] < available_version[1] or (current_version[0] == available_version[0] and current_version[1] == available_version[1] and current_version[2] < available_version[2]))
-            if newer_version_available:
-                global newer_version, newer_version_executables
-
-                logging.info("there is a newer version available")
-
-                newer_version = response["tag_name"].replace("v", "")
-
-                # get the executables
-                for asset in response["assets"]:
-                    if asset["name"].endswith(".exe"):
-                        newer_version_executables.append([asset["name"], asset["browser_download_url"]])
-
-                # check if popup has to be opened
-                config = Config.get_config()
-                ignored_version = config.config.get("UPDATE", "ignore", fallback="")
-                if ignored_version != newer_version:
-                    UpdatePopup(orange_share)
-        except Exception as e:
-            logging.info("could not check if newer version is available: {}".format(e))
-
-    threading.Thread(target=get_version, args=(orange_share,)).start()
+from orangeshare.updater import Updater
 
 
 class ServerThread(threading.Thread):
@@ -101,7 +52,23 @@ class ServerThread(threading.Thread):
 class Orangeshare:
     """
     The Orange-Share Server
+    Singleton
     """
+
+    _instance = None
+
+    @staticmethod
+    def get_orangeshare() -> 'Orangeshare':
+        """
+        Get the Orange Share instance (singleton)
+        Should be created using the constructor first to change parameters
+
+        :return: The Orange Share instance
+        """
+
+        if Orangeshare._instance is None:
+            Orangeshare()
+        return Orangeshare._instance
 
     def __init__(self, api_port=7615, ui_port=7616):
         """
@@ -111,6 +78,11 @@ class Orangeshare:
         :param api_port: The port to run the API on
         :param ui_port: The port to run the UI on
         """
+
+        if Orangeshare._instance is not None:
+            raise Exception("Orangeshare is a singleton")
+        else:
+            Orangeshare._instance = self
 
         # The API server
         self.api_port = api_port
@@ -128,6 +100,7 @@ class Orangeshare:
         self.api_api.add_resource(File.File, '/api/share/file')
         self.api_api.add_resource(Text.Text, '/api/share/text')
         self.api_api.add_resource(GetData, '/api/computer_data')
+        self.api_api.add_resource(Connected, '/api/connected')
 
         # The UI Server
         self.ui_port = ui_port
@@ -148,6 +121,9 @@ class Orangeshare:
         self.ui_api.add_resource(orangeshare.ui.api.devices.NewDevice, '/api/devices/new')
         self.ui_api.add_resource(orangeshare.ui.api.devices.DeleteDevice, '/api/devices/delete')
         self.ui_api.add_resource(orangeshare.ui.api.host.Host, '/api/host')
+        self.ui_api.add_resource(orangeshare.ui.api.update.WindowsUpdate, '/api/update/windows')
+        self.ui_api.add_resource(orangeshare.ui.api.update.PipUpdate, '/api/update/pip')
+        self.ui_api.add_resource(orangeshare.ui.api.info.Version, '/api/info/version')
 
         self.api_server: Optional[ServerThread] = None
         self.ui_server: Optional[ServerThread] = None
@@ -180,7 +156,7 @@ class Orangeshare:
             self.open_ui()
 
         # check if update is available and maybe show popup
-        check_for_new_version(self)
+        Updater.get_updater().check_for_new_version(self, __version__)
 
     def stop(self):
         """
@@ -188,3 +164,13 @@ class Orangeshare:
         """
         self.api_server.shutdown()
         self.ui_server.shutdown()
+
+    @property
+    def version(self):
+        """
+        The Version of Orange Share
+
+        :return: The Version
+        """
+
+        return __version__

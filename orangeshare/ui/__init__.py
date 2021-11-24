@@ -4,6 +4,7 @@ from flask import render_template, send_from_directory
 
 import orangeshare
 from orangeshare import Config
+from orangeshare.updater import Updater
 
 
 def favicon():
@@ -11,7 +12,8 @@ def favicon():
 
 
 def index():
-    return render_template("index.html", version=orangeshare.__version__, newer_version_available=orangeshare.newer_version_available, newer_version=orangeshare.newer_version)
+    updater = Updater.get_updater()
+    return render_template("index.html", version=orangeshare.__version__, newer_version_available=updater.newer_version_available, newer_version=updater.newer_version)
 
 
 def devices():
@@ -27,4 +29,12 @@ def settings():
 
 
 def update():
-    return render_template("update.html", newer_version_available=orangeshare.newer_version_available, newer_version=orangeshare.newer_version, windows=sys.platform == "win32", gnome=sys.platform in ["linux", "linux2"], executables=orangeshare.newer_version_executables)
+    updater = Updater.get_updater()
+    return render_template(
+        "update.html",
+        newer_version_available=updater.newer_version_available,
+        newer_version=updater.newer_version,
+        windows_installation="--windows-installation" in sys.argv,
+        gnome_extension="--gnome-extension" in sys.argv,
+        python_executable=sys.executable
+    )

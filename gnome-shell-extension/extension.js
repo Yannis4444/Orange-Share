@@ -4,13 +4,10 @@ const St = imports.gi.St;
 const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
 const PanelMenu = imports.ui.panelMenu;
+const PopupMenu = imports.ui.popupMenu;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Util = imports.misc.util;
 const Mainloop = imports.mainloop;
-
-// TODO: get from github api
-let newestVersion = "1.7.0"
-let newestVersionInstalled = null;
 
 let active = false;
 let orangeShareProcess = null;
@@ -21,11 +18,13 @@ let lastDoubleClick = 0;
 
 let orangeShare;
 
-function getVersion() {
+// TODO: check functionality in GNOME 41
+
+function getVersion(callback = function (version) {}) {
     /*
     Gets the version and writes it to installedVersion
     the version will not be available instantly
-    also sets newestVersionInstalled
+    A callback can be supplied to be called with the version (null if not installed)
      */
     try {
         let proc = Gio.Subprocess.new(
@@ -40,8 +39,7 @@ function getVersion() {
                 if (proc.get_successful()) {
                     installedVersion = stdout.toString().replace(/^\s+|\s+$/g, '');
                     log("Version " + installedVersion + " of Orange Share is installed")
-
-                    newestVersionInstalled = !olderThan(installedVersion, newestVersion);
+                    callback(installedVersion);
                 } else {
                     throw new Error(stderr);
                 }
@@ -49,7 +47,7 @@ function getVersion() {
                 logError(e);
                 log("Orange Share is not installed (0)");
                 installedVersion = null;
-                newestVersionInstalled = false;
+                callback(installedVersion);
             }
         });
     } catch (e) {
@@ -57,7 +55,7 @@ function getVersion() {
         logError(e);
         log("Orange Share is not installed (1)");
         installedVersion = null;
-        newestVersionInstalled = false;
+        callback(installedVersion);
     }
 }
 
@@ -79,34 +77,96 @@ const OrangeShare = GObject.registerClass(
                 style_class: 'system-status-icon',
             });
 
+
+            // add (right click) menu
+            this.addRegularMenu();
+
             this.setIcon(active);
 
             this.add_child(this.icon);
 
+            // set actions for click
             this.connect('button-press-event', (display, action, deviceId, timestamp) => {
+                let that = this;
                 if (installedVersion == null) {
-                    log("Orange Share is not yet installed");
-                    this.showNotification("Orange Share is not installed", "Install", this.installOrangeShare)
-                    return;
-                }
-
-                if (action.get_button() === 1) {
-                    if (action.get_click_count() === 1) {
-                        // this.toggle();
-                        // set the icon now and maybe revert the change again
-                        this.setIcon(!active);
-                        Mainloop.timeout_add(250, () => {
-                            if (Date.now() > lastDoubleClick + 250) {
-                                this.toggle();
-                            }
-                        });
-                    } else if (action.get_click_count() === 2) {
-                        lastDoubleClick = Date.now();
-                        this.openSettings();
-                        this.enable();
-                    }
+                    // check that there is really no installed version
+                    getVersion(function (version) {
+                        if (version == null) {
+                            log("Orange Share is not yet installed");
+                            that.showNotification("Orange Share is not installed", "Install", that.installOrangeShare)
+                            that.addInstallMenu();
+                        } else {
+                            // is installed
+                            that.handleClick(action);
+                        }
+                    })
+                } else {
+                    this.handleClick(action);
                 }
             });
+        }
+
+        handleClick(action) {
+            // add (right click) menu
+            this.addRegularMenu();
+
+            if (action.get_button() === 1) {
+                // left click
+
+                // close menu right away when left clicking
+                this.menu.close();
+
+                if (action.get_click_count() === 1) {
+                    // set the icon now and maybe revert the change again
+                    this.setIcon(!active);
+                    Mainloop.timeout_add(250, () => {
+                        if (Date.now() > lastDoubleClick + 250) {
+                            this.toggle();
+                        }
+                    });
+                } else if (action.get_click_count() === 2) {
+                    lastDoubleClick = Date.now();
+                    this.openSettings();
+                    this.enable();
+                }
+            }
+        }
+
+        addRegularMenu() {
+            this.menu.removeAll();
+
+            this.pmActiveItem = new PopupMenu.PopupSwitchMenuItem(_("Active"), active, {reactive: true});
+            this.menu.addMenuItem(this.pmActiveItem);
+            this.pmActiveItem.connect('toggled', () => {
+                this.toggle();
+            });
+
+            this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+
+            let pmOpenSettingsItem = new PopupMenu.PopupMenuItem('Open Settings');
+            this.menu.addMenuItem(pmOpenSettingsItem);
+            pmOpenSettingsItem.connect('activate', () => {
+                this.openSettings();
+            });
+
+            // add update menu if this is a pre 1.7.0 version
+            if (installedVersion != null && installedVersion !== "x.x.x" && olderThan(installedVersion, "1.7.0")) {
+                this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+
+                let pmUpdateItem = new PopupMenu.PopupMenuItem('Update');
+                this.menu.addMenuItem(pmUpdateItem);
+                pmUpdateItem.connect('activate', this.updateOrangeShare);
+            }
+        }
+
+        addInstallMenu() {
+            // menu that includes only one install button
+            this.menu.removeAll();
+
+            // show install button in menu
+            let pmOpenSettingsItem = new PopupMenu.PopupMenuItem('Install');
+            this.menu.addMenuItem(pmOpenSettingsItem);
+            pmOpenSettingsItem.connect('activate', this.installOrangeShare);
         }
 
         toggle() {
@@ -129,7 +189,7 @@ const OrangeShare = GObject.registerClass(
             try {
                 if (orangeShareProcess == null) {
                     orangeShareProcess = Gio.Subprocess.new(
-                        ["orangeshare"],
+                        ["orangeshare", "--gnome-extension"],
                         Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
                     );
                 }
@@ -143,14 +203,18 @@ const OrangeShare = GObject.registerClass(
 
             this.setIcon(true);
 
-            if (!newestVersionInstalled) {
-                log("There is a newer Version of Orange Share available");
-                this.showNotification("There is a newer Version available", "Update", this.updateOrangeShare);
-            } else {
-                this.showNotification("Started Orange Share", "Settings", function () {
-                    this.openSettings();
-                });
+            // if this is earlier than version 1.7.0 show update popup to allow updates for older versions
+            // in newer versions updates are performed from the python script
+            if (installedVersion != null && installedVersion !== "x.x.x" && olderThan(installedVersion, "1.7.0")) {
+                this.showNotification("Update Available Here", "Update Now", function () {
+                    this.updateOrangeShare();
+                })
+                return;
             }
+
+            this.showNotification("Started Orange Share", "Settings", function () {
+                this.openSettings();
+            });
         }
 
         disable() {
@@ -178,7 +242,9 @@ const OrangeShare = GObject.registerClass(
         }
 
         setIcon(active) {
+            // also sets the switch in menu
             this.icon.gicon = Gio.icon_new_for_string(Me.dir.get_path() + "/" + (active ? ENABLED_ICON : DISABLED_ICON));
+            this.pmActiveItem.setToggleState(active);
         }
 
         openSettings() {
@@ -222,29 +288,30 @@ const OrangeShare = GObject.registerClass(
         }
 
         installOrangeShare() {
-            // opens a terminal to install orangeshare, gets version afterwards
+            // opens a terminal to install orangeshare, sets dummy version afterwards
             Gio.Subprocess.new(
                 ["sh", "-c", "chmod +x " + Me.dir.get_path() + "/install.sh; gnome-terminal -- " + Me.dir.get_path() + "/install.sh"],
                 Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
             );
-
-            // exact version not needed if known that newest is installed
-            installedVersion = "x.x.x";
-            newestVersionInstalled = true;
         }
 
         updateOrangeShare() {
-            this.disable();
-            this.installOrangeShare();
-        }
+            // opens a terminal to update orangeshare, sets dummy version afterwards
+            Gio.Subprocess.new(
+                ["sh", "-c", "chmod +x " + Me.dir.get_path() + "/update.sh; gnome-terminal -- " + Me.dir.get_path() + "/update.sh"],
+                Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
+            );
 
+            // prevent from asking for update multiple times
+            installedVersion = "x.x.x";
+        }
     });
 
 function init() {
 }
 
 function enable() {
-    // check that the correct version of Orange Share is installed
+    // check which version of Orange Share is installed
     installedVersion = getVersion();
 
     // run the extension
