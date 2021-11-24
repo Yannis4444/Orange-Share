@@ -97,7 +97,7 @@ This means that whenever you click `share` on the device you can find these shor
 At the bottom of this list you can find an option to edit the shown entries.
 Here you can add the Orange Share shortcuts to your favorites if you want them to always be at the top.
 
-![share_sheet](images/share_sheet.png)
+<img alt="share_sheet" src="images/share_sheet.png" title="share_sheet" width="400"/>
 
 ### Connection Manager
 
@@ -108,7 +108,7 @@ It is also possible to add this as a back tap action for easier access.
 The device is able to save multiple connections while only one can be active at a time.
 In order to do so, some files will be created on your iCloud (`/Shortcuts/orangeshare/`).
 
-[Download](https://www.icloud.com/shortcuts/871ca1ca24d84d00bd2ac9c02df55962)
+[Download](https://www.icloud.com/shortcuts/c80782d8c8954b1f96de6784441fb9a6)
 
 ### Open
 
@@ -117,13 +117,13 @@ The open shortcut will open content in its respective application on the compute
 For URLs, it will open the website in the default browser, any other files will be opened in their default applications.
 To make this work, files are saved in a temporary folder.
 
-[Download](https://www.icloud.com/shortcuts/970a193be8cc453fa51fb68a9104c4b5)
+[Download](https://www.icloud.com/shortcuts/ebc4cd8ec7954ac68f723d79fdf30276)
 
 ### Save
 
 The save shortcut will open a save-file-dialog on the computer with which shared content can be saved anywhere on the computer.
 
-[Download](https://www.icloud.com/shortcuts/e4f3008d12334f26858851066172e40c)
+[Download](https://www.icloud.com/shortcuts/ca1d351c41e14806b40c21c995a8f4f0)
 
 ### Clipboard
 
@@ -132,11 +132,11 @@ Once copied, it can be pasted anywhere.
 
 Copying files will be coming soon.
 
-[Download](https://www.icloud.com/shortcuts/46539bc5d8f64faab67289044b205342)
+[Download](https://www.icloud.com/shortcuts/7f10334354f9479aaf156139383f3a73)
 
 ### Get Data
 
-![Get Data Dialog](images/get_data.png)
+<img alt="Get Data Dialog" src="images/get_data.png" width="400"/>
 
 This shortcut can be used to get data from the computer.
 It will open a window on the computer where either a file or the current clipboard content can be sent to the phone.
