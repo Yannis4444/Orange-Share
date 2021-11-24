@@ -1,9 +1,8 @@
-echo "Orange Share Installation"
+echo "Orange Share Update"
 echo "--------------------------------------------------------------------------------"
-echo "Hosting the python part of the application on the Gnome Extension page was not"
-echo "allowed which is why pip is used for installation and updating."
+echo "Updates will be moved to the python part of the application in the next version."
+echo "Next time you will be able to update right from the user interface."
 echo "--------------------------------------------------------------------------------"
-echo "Do you really want to install Orange Share?"
 echo "This will run 'python3 -m pip install --upgrade orangeshare'"
 echo "You can find out more about it here: https://github.com/Yannis4444/Orange-Share"
 echo "[Y/n]"
@@ -17,10 +16,11 @@ if [ $a == "n" ] || [ $a == "no" ] || [ $a == "0" ]; then
 else
   if python3 -m pip install --upgrade orangeshare; then
     echo "--------------------------------------------------------------------------------"
-    echo "Successfully installed Orange Share"
+    echo "Successfully updated Orange Share"
+    echo "You need to restart it by clicking the icon twice for the changes to take effect"
   else
     echo "--------------------------------------------------------------------------------"
-    echo "An error occurred while installing Orange Share"
+    echo "An error occurred while updating Orange Share"
   fi
 
   echo "Press ENTER to exit"
