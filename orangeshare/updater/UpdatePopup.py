@@ -22,7 +22,8 @@ class GetDataFrame(wx.Frame):
         ico = wx.Icon(os.path.join(os.path.dirname(__file__), os.pardir, "logo/white.ico"), wx.BITMAP_TYPE_ICO)
         self.SetIcon(ico)
 
-        text = wx.StaticText(self, label="Version {} of Orange Share is available.".format(self.newer_version), size=(400, -1), pos=(0, 0))
+        text = wx.StaticText(self, label="Version {} of Orange Share is available.".format(self.newer_version), size=(400, -1), pos=(0, 0), style=wx.ALIGN_CENTER)
+        text.SetFont(wx.Font(-1, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
 
         self.checkbox = wx.CheckBox(self, label="don't show again")
 
@@ -33,7 +34,7 @@ class GetDataFrame(wx.Frame):
         ignore_button.Bind(wx.EVT_BUTTON, self.on_ignore)
 
         # layout
-        grid = wx.GridBagSizer(10, 0)
+        grid = wx.GridBagSizer(15, 0)
         grid.Add(text, pos=(0, 0), span=(1, 2), flag=wx.CENTER)
         grid.Add(self.checkbox, pos=(1, 0), span=(1, 2), flag=wx.CENTER)
         grid.Add(show_button, pos=(2, 0), span=(1, 1), flag=wx.EXPAND)
