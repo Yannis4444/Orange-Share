@@ -301,6 +301,9 @@ const OrangeShare = GObject.registerClass(
                 ["sh", "-c", "chmod +x " + Me.dir.get_path() + "/update.sh; gnome-terminal -- " + Me.dir.get_path() + "/update.sh"],
                 Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE
             );
+
+            // prevent from asking for update multiple times
+            installedVersion = "x.x.x";
         }
     });
 
