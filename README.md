@@ -102,7 +102,8 @@ There is also the `Get Data` Shortcut which allows you to request data from the 
 
 <img alt="Get Data Dialog" src="images/get_data.png" width="400"/>
 
-***
+You have now completed the basic steps to set up Orange Share and should be able to share content between you devices.
+If you encounter any problems please let me know by creating an issue.
 
 ## Updating
 
