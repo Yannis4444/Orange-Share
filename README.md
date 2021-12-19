@@ -22,90 +22,11 @@ Note that due to the http protocol, connection data will be sent over unencrypte
 Orange Share never sends out any data from the computer without a confirmation on the computer,
 even if the correct credentials are set.
 
-## Quick Start
+## 📲 Quick Start
 
-### Installation
+A quick start guide can be found [here](https://github.com/Aircoookie/WLED/blob/master/QUICKSTART.md)
 
-Choose one of the following methods of installation depending on the system you want to install on.
-
-#### Windows
-
-Go to the [releases](https://github.com/Yannis4444/Orange-Share/releases),
-download the newest Orange Share executable (`orangeshare-x.x.x.exe`)
-and run the installer.
-
-This Version of Orange Share will show an icon in the system tray (lower right corner; may be hidden behind the up arrow).
-The Tray Icon offers a right click menu to start, stop and exit Orange Share.
-
-It also allows you to add Orange Share to Windows startup when installing.
-If you enable this option Orange Share will start as inactive and can be activated from the tray.
-
-#### GNOME Shell Extension
-
-A GNOME Shell Extension is available [here](https://extensions.gnome.org/extension/4469/orange-share/).
-
-When first enabling Orange Share by clicking the icon in the top bar, you will be prompted to install the python package.
-I was not allowed to host the python part on the GNOME Shell Extension page which is why installing and updating will be taken care of using pip.
-
-Once everything is installed, you can enable and disable Orange Share by clicking on an icon in the top bar.
-Right-click will open a short menu with some options and double-clicking the icon will open the settings in your browser.
-
-#### Using PIP
-
-Orange Share can be installed by running `pip install orangeshare`.
-
-After that, it can be run using the command `python -m orangeshare` or just `orangeshare` on Linux.
-
-### Downloading the Shortcuts
-
-To use Orange Share you will need a few Shortcuts.
-These can be downloaded right from the user interface by scanning the QR codes with the camera app on your iPhone/iPad.
-
-There are different Shortcuts with different functions.
-Here I will only go over the basics you need to know to get started.
-You can find a more in depth description in the user interface and [below](https://github.com/Yannis4444/Orange-Share#shortcuts.
-
-If you run into problems with "untrusted shortcuts" take a look at [this](https://github.com/Yannis4444/Orange-Share#untrusted-shortcuts).
-This is a security mechanism from Apple to make sure users do not just run any shortcut.
-
-### Connecting a Device to the Computer
-
-All the communication between the shortcuts and the computer use Basic Auth to avoid unauthorised requests.
-Therefore, you need to create a new connection under Connected Devices in the settings.
-
-There you can set the name of your computer which is only relevant for display purposes on the devices and the IP address of your computer.
-The IP will be saved in combination with your WiFi name.
-This means that you can set different IPs for different Networks.
-If you are unsure which IP is the right one just go through them until one works.
-
-To add a connection click ADD and then enter a name for the connection.
-Click ADD again and scan the resulting QR code using the Connection Manager Shortcut (Scann QR Code).
-This will establish and test the connection.
-
-You can manage connected devices from this shortcut as well.
-To connect to a computer you can also simply scan the QR code again.
-
-If you wish to synchronise your connection between your devices you can set to do so using iCloud here too.
-
-<img alt="add_connection" src="images/add_connection.png" title="add_connection" width="400"/>
-
-### Sharing Data
-
-Once everything is set up, you can choose any content you wish to share on your iPhone/iPad (like a photo) and click share.
-There you should find the different Orange Share options.
-
-If you wish to have Orange Share always appear on top you can use `Edit Actions...` at the bottom of this list.
-
-### Requesting Data from the Computer
-
-There is also the `Get Data` Shortcut which allows you to request data from the computer.
-
-<img alt="Get Data Dialog" src="images/get_data.png" width="400"/>
-
-You have now completed the basic steps to set up Orange Share and should be able to share content between you devices.
-If you encounter any problems please let me know by creating an issue.
-
-## Updating
+## ⬆️ Updating
 
 Once a new version of Orange Share is available, you will be notified.
 You can of cause ignore this if you wish to - I will not force you to update.
@@ -113,9 +34,19 @@ You can of cause ignore this if you wish to - I will not force you to update.
 The Windows and GNOME Shell Extension versions can be updated right from the user interface.
 Instructions on how to do so will be shown there as well.
 
-The pip version can be updated just like any pip package by calling `pip install --upgrade orangeshare`.
+The pip version can be updated just like any pip package by running `pip install --upgrade orangeshare`.
 
-## Shortcuts
+### New Shortcuts
+
+Some versions will come with new shortcuts.
+These will also be marked on the update page. 
+Often the old shortcuts will still work, but it is advised that you download the new ones once available.
+When there are newer shortcuts available, you will be notified after running shortcuts.
+
+To get the updated shortcuts just scan the QR codes on the Shortcuts page in the user interface
+where you first downloaded them.
+
+## 🔗 Shortcuts
 
 Orange Share uses several [shortcuts](https://support.apple.com/guide/shortcuts/welcome/ios) for different parts of its functionality.
 These shortcuts have to be installed on the device from which content shall be shared.
@@ -185,7 +116,7 @@ It will open a window on the computer where either a file or the current clipboa
 
 [Download](https://www.icloud.com/shortcuts/f1e9e2f318f447508ab956884936c614)
 
-## Advanced Options
+## 🛠️ Advanced Options
 
 ### Run Options
 
@@ -199,14 +130,7 @@ Argument | Description
 -t, --tray-icon | Run with tray icon (only available on windows, see [Gnome Shell Extension](#gnome-shell-extension) for Linux with Gnome)
 -v, --verbose | enable Verbose output
 
-
-### Linux Autostart
-
-To run Orange Share at system startup you can copy the `orange-share.desktop` to the `~/.config/autostart` directory.
-
-Autostart for windows and GNOME can be handled by the installer and the extension.
-
-## Configuration
+## ⚙ Configuration
 
 A configuration file can be found in the user's config directory.
 On Linux for example this would be `~/.config/orangeshare/config.ini`.
