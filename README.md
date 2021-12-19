@@ -3,7 +3,7 @@
 </p>
 
 A small python server that accepts requests from an Apple shortcut to allow sharing all sorts of media from iOS with any desktop OS.
-It allows sending content right from the share sheet - similar to AirDrop between Apple Devices
+It allows sending content right from the share sheet - similar to AirDrop between Apple Devices.
 
 <table>
     <thead>
@@ -32,10 +32,10 @@ It allows sending content right from the share sheet - similar to AirDrop betwee
 
 
 ## Table of contents
-* [Quick Start](#-quick-start)
-* [How it works](#ℹ-how-it-works)
-* [Updating](#%EF%B8%8F-updating)
-* [Shortcuts](#-shortcuts)
+* [Quick Start](#calling-quick-start)
+* [How it works](#information_source-how-it-works)
+* [Updating](#arrow_up%EF%B8%8F-updating)
+* [Shortcuts](#link-shortcuts)
 * [Run Options](#%EF%B8%8F-run-options)
 * [Configuration](#-configuration)
 
@@ -166,7 +166,7 @@ Argument | Description
 -p \<port\>, --api-port \<port\> | Port number of the api server (default: 7615)
 -u \<port\>, --ui-port \<port\> | Port number of the UI server (default: 7616)
 -o, --open-ui | Open the server controls in the browser on start
--t, --tray-icon | Run with tray icon (only available on windows, see [Gnome Shell Extension](#gnome-shell-extension) for Linux with Gnome)
+-t, --tray-icon | Run with tray icon (only available on windows, see [Gnome Shell Extension](https://github.com/Yannis4444/Orange-Share/blob/master/QuickStart.md#gnome-shell-extension) for Linux with Gnome)
 -v, --verbose | enable Verbose output
 
 ## ⚙ Configuration
