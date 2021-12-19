@@ -5,6 +5,14 @@
 A small python server that accepts requests from an Apple shortcut to allow sharing all sorts of media from iOS with any desktop OS.
 It allows sending content right from the share sheet - similar to AirDrop between Apple Devices
 
+## Table of contents
+* [Quick Start](#-quick-start)
+* [How it works](#ℹ-how-it-works)
+* [Updating](#%EF%B8%8F-updating)
+* [Shortcuts](#-shortcuts)
+* [Run Options](#%EF%B8%8F-run-options)
+* [Configuration](#-configuration)
+
 ## 📲 Quick Start
 
 A quick start guide can be found [here](https://github.com/Yannis4444/Orange-Share/blob/master/QuickStart.md).
@@ -121,9 +129,9 @@ It will open a window on the computer where either a file or the current clipboa
 
 [Download](https://www.icloud.com/shortcuts/f1e9e2f318f447508ab956884936c614)
 
-## 🛠️ Advanced Options
+## 🛠️ Run Options
 
-### Run Options
+If you are running Orange Share from the command line you can use the following parameters.
 
 Argument | Description
 ---------|------------
