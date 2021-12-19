@@ -2,7 +2,7 @@
 A small python server that accepts requests from an Apple shortcut to allow sharing all sorts of media from iOS with any desktop OS.
 It allows sending content right from the share sheet - similar to AirDrop between Apple Devices
 
-## How it works
+## ℹ How it works
 Orange Share consists of a webserver that should be able to run on any computer operating system and a few Shortcuts
 that allow the user to open, save and copy content from an iPhone or iPad to a computer as well as request data from the computer.
 
@@ -24,7 +24,7 @@ even if the correct credentials are set.
 
 ## 📲 Quick Start
 
-A quick start guide can be found [here](https://github.com/Aircoookie/WLED/blob/master/QUICKSTART.md)
+A quick start guide can be found [here](https://github.com/Yannis4444/Orange-Share/blob/master/QuickStart.md).
 
 ## ⬆️ Updating
 
