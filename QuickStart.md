@@ -39,7 +39,7 @@ These can be downloaded right from the user interface by scanning the QR codes w
 
 There are different Shortcuts with different functions.
 Here I will only go over the basics you need to know to get started.
-You can find a more in depth description in the user interface and [below](https://github.com/Yannis4444/Orange-Share#shortcuts.
+You can find a more in depth description in the user interface and [here](https://github.com/Yannis4444/Orange-Share#shortcuts).
 
 If you run into problems with "untrusted shortcuts" take a look at [this](https://github.com/Yannis4444/Orange-Share#untrusted-shortcuts).
 This is a security mechanism from Apple to make sure users do not just run any shortcut.
@@ -51,7 +51,7 @@ Therefore, you need to create a new connection under Connected Devices in the se
 
 There you can set the name of your computer which is only relevant for display purposes on the devices and the IP address of your computer.
 The IP will be saved in combination with your WiFi name.
-This means that you can set different IPs for different Networks.
+This means that you can set different IPs for different networks.
 If you are unsure which IP is the right one just go through them until one works.
 
 To add a connection click ADD and then enter a name for the connection.
@@ -72,6 +72,10 @@ If you wish to synchronise your connection between your devices you can set to d
 Once everything is set up, you can choose any content you wish to share on your iPhone/iPad (like a photo) and click share.
 There you should find the different Orange Share options.
 
+<p align="center">
+    <img alt="share_sheet" src="images/share_sheet.png" title="share_sheet" width="350"/>
+</p>
+
 If you wish to have Orange Share always appear on top you can use `Edit Actions...` at the bottom of this list.
 
 ## Requesting Data from the Computer
@@ -81,6 +85,8 @@ There is also the `Get Data` Shortcut which allows you to request data from the 
 <p align="center">
     <img alt="Get Data Dialog" src="images/get_data.png" width="400"/>
 </p>
+
+***
 
 You have now completed the basic steps to set up Orange Share and should be able to share content between you devices.
 If you encounter any problems please let me know by
