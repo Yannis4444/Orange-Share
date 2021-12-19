@@ -1,4 +1,7 @@
-# Orange Share
+<p align="center">
+  <img width="600" src="images/banner.png" alt="Orange Share">
+</p>
+
 A small python server that accepts requests from an Apple shortcut to allow sharing all sorts of media from iOS with any desktop OS.
 It allows sending content right from the share sheet - similar to AirDrop between Apple Devices
 
