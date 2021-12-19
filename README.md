@@ -5,6 +5,32 @@
 A small python server that accepts requests from an Apple shortcut to allow sharing all sorts of media from iOS with any desktop OS.
 It allows sending content right from the share sheet - similar to AirDrop between Apple Devices
 
+<table>
+    <thead>
+        <tr>
+            <td align="left">
+                :exclamation:  Disclaimer
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <p>
+                    Since iOS 1.15 there are some problems with Shortcuts.
+                    Sharing links for example does not work right now and shortcuts sometimes just stop without any information.
+                    This is something I cannot control and has to be fixed by Apple.
+                    Regardless Orange Share still works for the most part, you might just need to rerun a shortcut once in a while.
+                </p>
+                <p>
+                    I apologize for the inconvenience!
+                </p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
 ## Table of contents
 * [Quick Start](#-quick-start)
 * [How it works](#ℹ-how-it-works)
@@ -13,11 +39,11 @@ It allows sending content right from the share sheet - similar to AirDrop betwee
 * [Run Options](#%EF%B8%8F-run-options)
 * [Configuration](#-configuration)
 
-## 📲 Quick Start
+## :calling: Quick Start
 
 A quick start guide can be found [here](https://github.com/Yannis4444/Orange-Share/blob/master/QuickStart.md).
 
-## ℹ How it works
+## :information_source: How it works
 Orange Share consists of a webserver that should be able to run on any computer operating system and a few Shortcuts
 that allow the user to open, save and copy content from an iPhone or iPad to a computer as well as request data from the computer.
 
@@ -39,7 +65,7 @@ Note that due to the http protocol, connection data will be sent over unencrypte
 Orange Share never sends out any data from the computer without a confirmation on the computer,
 even if the correct credentials are set.
 
-## ⬆️ Updating
+## :arrow_up:️ Updating
 
 Once a new version of Orange Share is available, you will be notified.
 You can of cause ignore this if you wish to - I will not force you to update.
@@ -59,7 +85,7 @@ When there are newer shortcuts available, you will be notified after running sho
 To get the updated shortcuts just scan the QR codes on the Shortcuts page in the user interface
 where you first downloaded them.
 
-## 🔗 Shortcuts
+## :link: Shortcuts
 
 Orange Share uses several [shortcuts](https://support.apple.com/guide/shortcuts/welcome/ios) for different parts of its functionality.
 These shortcuts have to be installed on the device from which content shall be shared.
