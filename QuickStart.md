@@ -63,7 +63,9 @@ To connect to a computer you can also simply scan the QR code again.
 
 If you wish to synchronise your connection between your devices you can set to do so using iCloud here too.
 
-<img alt="add_connection" src="images/add_connection.png" title="add_connection" width="400"/>
+<p align="center">
+    <img alt="add_connection" src="images/add_connection.png" title="add_connection" width="400"/>
+</p>
 
 ## Sharing Data
 
@@ -76,7 +78,9 @@ If you wish to have Orange Share always appear on top you can use `Edit Actions.
 
 There is also the `Get Data` Shortcut which allows you to request data from the computer.
 
-<img alt="Get Data Dialog" src="images/get_data.png" width="400"/>
+<p align="center">
+    <img alt="Get Data Dialog" src="images/get_data.png" width="400"/>
+</p>
 
 You have now completed the basic steps to set up Orange Share and should be able to share content between you devices.
 If you encounter any problems please let me know by

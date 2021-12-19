@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="600" src="images/banner.png" alt="Orange Share">
+    <img alt="Orange Share" src="images/banner.png" title="Orange Share" width="600"/>
 </p>
 
 A small python server that accepts requests from an Apple shortcut to allow sharing all sorts of media from iOS with any desktop OS.
@@ -16,7 +16,9 @@ that allow the user to open, save and copy content from an iPhone or iPad to a c
 The shortcuts will show up in the share sheet of files, links etc. and allow you to share whatever the content is with
 the computer it is set up with.
 
-<img alt="share_sheet" src="images/share_sheet.png" title="share_sheet" width="400"/>
+<p align="center">
+    <img alt="share_sheet" src="images/share_sheet.png" title="share_sheet" width="350"/>
+</p>
 
 By default, you can access the UI with settings for Orange Share on [localhost:7616](http://localhost:7616).
 Here you can also find the shortcuts and establish connections to the devices.
