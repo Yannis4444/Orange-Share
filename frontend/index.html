@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>Orange Share</title>
+
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script type="text/javascript" src="./static/js/jquery-3.6.0.min.js"></script>
+    <script>if (window.module) module = window.module;</script>
+    <script type="text/javascript" src="./static/js/index.js"></script>
+
+    <link rel=stylesheet type=text/css href="./static/css/index.css">
+</head>
+<body>
+<div class="header">
+    <h1><span class="logo"></span><label>Orange Share</label></h1>
+</div>
+<div class="tabs">
+    <span class="active" onclick="changeTab(event, 0)">Connections</span>
+    <span onclick="changeTab(event, 1)">Receive</span>
+    <span onclick="changeTab(event, 2)">Send</span>
+</div>
+<div class="content">
+    <div id="contentMover">
+        <div id="connections" class="contentPage">
+            Connections
+        </div>
+        <div id="received" class="contentPage">
+            Received
+        </div>
+        <div id="send" class="contentPage">
+            Send
+        </div>
+    </div>
+</div>
+</body>
+</html>

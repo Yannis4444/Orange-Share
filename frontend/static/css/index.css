@@ -1,0 +1,146 @@
+@font-face {
+    font-family: Mulish;
+    src: url("../fonts/Mulish-VariableFont_wght.ttf");
+}
+
+:root {
+    /*Backgrounds*/
+    --bg: #15191d;
+    --fg: #1f2328;
+
+    /*Text*/
+    --default-text: #ccc;
+    --dark-text: #777;
+    --highlighted-text: #fff;
+
+    /*Buttons*/
+    --inactive-button: #444;
+    --button-color: #fff;
+    --button-highlight: #fff;
+
+    /*Accent Colors*/
+    --accent-blue: #4682b4;
+    --accent-green: #267214;
+    --accent-red: #7a1512;
+    --bg-accent-blue: #284156;
+    --bg-accent-green: #1c4115;
+    --bg-accent-red: #4a1514;
+
+    /*Tooltips*/
+    --tooltip-background: #0005;
+    --tooltip-color: #aaa;
+
+    /*Other content*/
+    --devider: #444;
+}
+
+html {
+    background: var(--bg);
+}
+
+body {
+    margin: 0;
+}
+
+* {
+    font-family: 'Mulish', sans-serif;
+}
+
+h1,
+h2,
+h3,
+th {
+    color: var(--highlighted-text);
+}
+
+p,
+ul,
+ol,
+label,
+span,
+a,
+td{
+    color: var(--default-text);
+}
+
+body {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    height: 100vh;
+}
+
+.header {
+    width: 100vw;
+    background: var(--fg);
+}
+
+.header h1 {
+    font-size: 24px;
+    padding-left: 40px;
+    margin: 20px auto 16px auto;
+    width: fit-content;
+    display: block;
+    background-image: url("../../../logo/white.svg");
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: 30px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    background: var(--fg);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--devider);
+}
+
+.tabs span {
+    display: block;
+    padding: 0 16px;
+    position: relative;
+    cursor: pointer;
+}
+
+.tabs span:after {
+    content: '';
+    display: block;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent-blue);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.tabs span.active:after {
+    opacity: 1;
+}
+
+.content {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+#contentMover {
+    display: flex;
+    width: 300vw;
+    height: 100%;
+    transition: margin-left 0.2s;
+}
+
+.contentPage {
+    height: 100%;
+    width: 100vw;
+    overflow-y: auto;
+}
+
+#connections {
+}
+
+#received {
+}
+
+#send {
+}
