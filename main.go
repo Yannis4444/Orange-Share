@@ -92,7 +92,7 @@ func main() {
 	f := false
 	title := "Orange Share"
 
-	windowWidth := 480
+	windowWidth := 420
 	if devTools {
 		windowWidth += 500
 	}

@@ -7,6 +7,7 @@
     /*Backgrounds*/
     --bg: #15191d;
     --fg: #1f2328;
+    --fg2: #262c31;
 
     /*Text*/
     --default-text: #ccc;
@@ -32,6 +33,93 @@
 
     /*Other content*/
     --devider: #444;
+
+    --drop-shadow-small: 1px 2px 4px 1px #0004;
+    --drop-shadow-large: 1px 2px 12px 2px #0007;
+}
+
+.tooltip {
+    display: block;
+    position: absolute;
+    width: max-content;
+    left: 50%;
+    bottom: -28px;
+    transform: translateX(-50%);
+    background: var(--tooltip-background);
+    color: var(--tooltip-color) !important;
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 4px 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*Pop ups*/
+
+#popups {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 1000;
+}
+
+#popups > div {
+    background: var(--fg2);
+    padding: 8px 12px;
+    box-shadow: var(--drop-shadow-small);
+    border-top: 4px solid var(--devider);
+    margin: 12px;
+    position: relative;
+    animation: popupIn 0.2s linear forwards;
+}
+
+@keyframes popupIn {
+    0% {
+        transform: translateY(25%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+#popups > div.red {
+    border-top: 4px solid var(--bg-accent-red);
+}
+
+#popups > div.blue {
+    border-top: 4px solid var(--bg-accent-blue);
+}
+
+#popups > div.green {
+    border-top: 4px solid var(--bg-accent-green);
+}
+
+#popups h1 {
+    font-size: 16px;
+    margin: 0;
+    font-weight: normal;
+}
+
+#popups p {
+    margin: 0;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/*End of Pop ups*/
+
+:hover > .tooltip {
+    opacity: 1;
 }
 
 html {
@@ -59,7 +147,7 @@ ol,
 label,
 span,
 a,
-td{
+td {
     color: var(--default-text);
 }
 
@@ -134,12 +222,105 @@ body {
     height: 100%;
     width: 100vw;
     overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.contentPage::-webkit-scrollbar {
+    display: none;
 }
 
 #connections {
 }
 
-#received {
+#received .message {
+    background: var(--fg);
+    width: 80vw;
+    margin: 20px auto 0 auto;
+    border-radius: 12px;
+    padding: 8px 12px;
+}
+
+#received .compact .message {
+    display: grid;
+    height: 18vw;
+    grid-template-areas:
+        "preview title"
+        "preview time"
+        "preview buttons";
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns: 24vw 1fr;
+    grid-column-gap: 12px;
+}
+
+#received .message .name label {
+    color: var(--default-text);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#received .message .time label {
+    color: var(--dark-text);
+    font-size: 12px;
+}
+
+#received .message .buttons .button {
+    position: relative;
+    display: inline-flex;
+    background: var(--inactive-button);
+    padding: 4px;
+    border-radius: 50px;
+    margin-top: 6px;
+    margin-right: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#received .message .buttons .button:hover,
+#received .message .buttons .button:active {
+    background: var(--accent-blue);
+    border-color: var(--button-color);
+}
+
+#received .message .buttons .button svg {
+    stroke: var(--default-text);
+    transition: stroke 0.2s;
+}
+
+#received .message .buttons .button:hover svg,
+#received .message .buttons .button:active svg {
+    stroke: var(--highlighted-text);
+}
+
+#received .message .preview {
+    grid-area: preview;
+    background-color: #000;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+#received .message:nth-child(1) .preview {
+    background-image: url("../../../test_stuff/never_gonna_give_you_up.jpg");
+}
+#received .message:nth-child(2) .preview {
+    background-image: url("../../../test_stuff/IMG_2866.JPEG");
+}
+#received .message:nth-child(3) .preview {
+    background-image: url("../../../test_stuff/IMG_2891.JPEG");
+}
+
+#received .message .title {
+    grid-area: title;
+}
+
+#received .message .time {
+    grid-area: time;
+}
+
+#received .message .buttons {
+    grid-area: buttons;
 }
 
 #send {
