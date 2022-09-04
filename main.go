@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// Button for this
 const devTools = false
 
 var L *log.Logger
@@ -15,24 +16,47 @@ var L *log.Logger
 var Astilectron *astilectron.Astilectron
 var Window *astilectron.Window
 
-func onBlur(astilectron.Event) bool {
-	if err := Window.Hide(); err != nil {
-		L.Fatal(fmt.Errorf("hiding window failed: %w", err))
-	}
-
-	return false
+type GenericCommand struct {
+	Type    string
+	Command string
 }
 
-func onTrayClick(event astilectron.Event) bool {
-	// TODO: move window here
-	// TODO: hide when already shown
+func SendCommand(command string) {
+	Window.SendMessage(GenericCommand{"cmd", command})
+}
+
+func OpenWindow() {
 	if !Window.IsShown() {
 		if err := Window.Show(); err != nil {
 			L.Fatal(fmt.Errorf("showing window failed: %w", err))
 		}
 	}
 
-	moveWindowToCorner(*event.Bounds.X+(*event.Bounds.Width/2), *event.Bounds.Y+(*event.Bounds.Height/2))
+	// TODO: get the correct corner
+	//moveWindowToCorner(*event.Bounds.X+(*event.Bounds.Width/2), *event.Bounds.Y+(*event.Bounds.Height/2))
+	moveWindowToCorner(10000, 10000)
+
+	_ = Window.Focus()
+}
+
+func CloseWindow() {
+	if err := Window.Hide(); err != nil {
+		L.Fatal(fmt.Errorf("hiding window failed: %w", err))
+	}
+
+	SendCommand("home")
+}
+
+func onBlur(astilectron.Event) bool {
+	CloseWindow()
+
+	return false
+}
+
+func onTrayClick(event astilectron.Event) bool {
+	// TODO: hide when already shown
+
+	OpenWindow()
 
 	return false
 }
@@ -52,13 +76,13 @@ func moveWindowToCorner(x int, y int) {
 	windowX := 0
 	if x > primaryDisplay.Bounds().Width/2 {
 		// right side
-		windowX = primaryDisplay.WorkArea().X + primaryDisplay.WorkArea().Width - windowBounds.Width - 0
+		windowX = primaryDisplay.WorkArea().X + primaryDisplay.WorkArea().Width - windowBounds.Width
 	}
 
 	windowY := 0
 	if y > primaryDisplay.Bounds().Height/2 {
 		// bottom
-		windowY = primaryDisplay.WorkArea().Y + primaryDisplay.WorkArea().Height - windowBounds.Height - 0
+		windowY = primaryDisplay.WorkArea().Y + primaryDisplay.WorkArea().Height - windowBounds.Height
 	}
 
 	if err = Window.MoveInDisplay(primaryDisplay, windowX, windowY); err != nil {
@@ -100,6 +124,7 @@ func main() {
 
 	// New window
 	if Window, err = Astilectron.NewWindow("frontend/index.html", &astilectron.WindowOptions{
+		AlwaysOnTop: &t,
 		Center:      astikit.BoolPtr(true),
 		Height:      astikit.IntPtr(666),
 		Width:       astikit.IntPtr(windowWidth),
@@ -140,12 +165,15 @@ func main() {
 		Window.OpenDevTools()
 	}
 
-	time.Sleep(5 * time.Second)
-	NewMessage("test_stuff/never_gonna_give_you_up.jpg")
-	time.Sleep(5 * time.Second)
-	NewMessage("test_stuff/IMG_2866.JPEG")
-	time.Sleep(5 * time.Second)
-	NewMessage("test_stuff/IMG_2891.JPEG")
+	NewConnection("Yannis' iPhone", "iPhone")
+	NewConnection("Yannis' iPad", "iPad")
+	NewConnection("Laptop", "linux/amd64")
+
+	NewMessage("IMG_2866.JPEG", "test_stuff/IMG_2866.JPEG")
+	time.Sleep(10 * time.Second)
+	NewMessage("IMG_2891.JPEG", "test_stuff/IMG_2891.JPEG")
+	time.Sleep(10 * time.Second)
+	NewMessage("never_gonna_give_you_up.jpg", "test_stuff/never_gonna_give_you_up.jpg")
 
 	// Blocking pattern
 	Astilectron.Wait()

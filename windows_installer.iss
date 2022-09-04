@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Orange Share"
-#define MyAppVersion "1.7.0"
+#define MyAppVersion "2.0.0"
 #define MyAppPublisher "Yannis Vierkoetter"
 #define MyAppURL "https://github.com/Yannis4444/Orange-Share"
 #define MyAppExeName "orangeshare.exe"
@@ -22,14 +22,14 @@ DefaultDirName={autopf}\{#MyAppName}
 DisableDirPage=no
 DisableProgramGroupPage=yes
 OutputBaseFilename=orangeshare-{#MyAppVersion}
-SetupIconFile=orangeshare\logo\white.ico
+SetupIconFile=logo\white.ico
 Compression=lzma
 SolidCompression=yes
 CloseApplications=force
 WizardStyle=modern  
 WizardImageFile=windows_installer_data/wizard.bmp
 WizardImageStretch=yes
-WizardSmallImageFile=orangeshare/logo/black.bmp
+WizardSmallImageFile=logo/black.bmp
 LicenseFile=LICENSE
 
 [Languages]
@@ -40,8 +40,12 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "StartMenuEntry" ; Description: "Run Orange Share in Tray on Windows Startup" ; GroupDescription: "Windows Startup";
 
 [Files]
-Source: "dist\orangeshare.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "orangeshare\logo\white.ico"; DestDir: "{app}\logo"; Flags: ignoreversion
+Source: "orangeshare.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "logo\*.ico"; DestDir: "{app}\logo"; Flags: ignoreversion
+Source: "logo\*.svg"; DestDir: "{app}\logo"; Flags: ignoreversion
+Source: "logo\*.png"; DestDir: "{app}\logo"; Flags: ignoreversion
+Source: "frontend\*"; DestDir: "{app}\frontend"; Flags: ignoreversion recursesubdirs
+Source: "test_stuff\*"; DestDir: "{app}\test_stuff"; Flags: ignoreversion recursesubdirs
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Parameters: "--windows-installation -t"; IconFilename: "{app}\logo\white.ico"

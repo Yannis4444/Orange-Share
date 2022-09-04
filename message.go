@@ -5,10 +5,15 @@ import (
 	"log"
 )
 
-func NewMessage(path string) {
-	// This will send a message and execute a callback
-	// Callbacks are optional
-	Window.SendMessage(ImageToBase64(path), func(m *astilectron.EventMessage) {
+type Message struct {
+	Type         string
+	ID           string
+	Name         string
+	PreviewImage string
+}
+
+func NewMessage(name, path string) {
+	Window.SendMessage(Message{"message", "42", name, ImageToBase64(path)}, func(m *astilectron.EventMessage) {
 		//Window.SendMessage("test_stuff/never_gonna_give_you_up.jpg", func(m *astilectron.EventMessage) {
 		// Unmarshal
 		var s string
@@ -16,5 +21,7 @@ func NewMessage(path string) {
 
 		// Process message
 		log.Printf("received %s\n", s)
+
+		OpenWindow()
 	})
 }

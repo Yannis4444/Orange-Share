@@ -281,8 +281,16 @@ body {
     transition: background-color 0.2s;
 }
 
+.message .buttons.large .button {
+    padding: 8px;
+}
+
 .message .buttons .button:not(:nth-last-child(1)) {
     margin-right: 8px;
+}
+
+.message .buttons.large .button:not(:nth-last-child(1)) {
+    margin-right: 24px;
 }
 
 .message .buttons .button:hover,
@@ -303,6 +311,7 @@ body {
 
 #received .message .preview {
     grid-area: preview;
+    border-radius: 4px;
     background-color: #000;
     background-size: contain;
     background-repeat: no-repeat;
@@ -322,12 +331,13 @@ body {
     grid-area: buttons;
 }
 
-#fullscreenWindows .message {
+#fullscreenWindows > div {
     position: fixed;
-    top: 0;
+    top: 66px;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 66px);
+    border-top: 1px solid var(--devider);
     background: var(--bg);
 }
 
@@ -361,9 +371,10 @@ body {
 
 #fullscreenWindows .message h1 {
     text-align: center;
-    margin-top: 16vh;
+    margin-top: 8vh;
     margin-bottom: 32px;
     font-size: 20px;
+    font-weight: normal;
 }
 
 #fullscreenWindows .message .view {
