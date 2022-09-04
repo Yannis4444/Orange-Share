@@ -5,6 +5,7 @@ import (
 	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilectron"
 	"log"
+	"time"
 )
 
 const devTools = false
@@ -100,7 +101,7 @@ func main() {
 	// New window
 	if Window, err = Astilectron.NewWindow("frontend/index.html", &astilectron.WindowOptions{
 		Center:      astikit.BoolPtr(true),
-		Height:      astikit.IntPtr(700),
+		Height:      astikit.IntPtr(666),
 		Width:       astikit.IntPtr(windowWidth),
 		Frame:       &f,
 		Resizable:   &f,
@@ -138,6 +139,13 @@ func main() {
 	if devTools {
 		Window.OpenDevTools()
 	}
+
+	time.Sleep(5 * time.Second)
+	NewMessage("test_stuff/never_gonna_give_you_up.jpg")
+	time.Sleep(5 * time.Second)
+	NewMessage("test_stuff/IMG_2866.JPEG")
+	time.Sleep(5 * time.Second)
+	NewMessage("test_stuff/IMG_2891.JPEG")
 
 	// Blocking pattern
 	Astilectron.Wait()

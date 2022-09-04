@@ -239,6 +239,7 @@ body {
     margin: 20px auto 0 auto;
     border-radius: 12px;
     padding: 8px 12px;
+    border: 1px solid var(--devider);
 }
 
 #received .compact .message {
@@ -251,6 +252,7 @@ body {
     grid-template-rows: auto auto 1fr;
     grid-template-columns: 24vw 1fr;
     grid-column-gap: 12px;
+    grid-row-gap: 2px;
 }
 
 #received .message .name label {
@@ -264,32 +266,39 @@ body {
     font-size: 12px;
 }
 
-#received .message .buttons .button {
+#received .message .buttons {
+    grid-area: buttons;
+    margin-top: 4px;
+}
+
+.message .buttons .button {
     position: relative;
     display: inline-flex;
     background: var(--inactive-button);
     padding: 4px;
     border-radius: 50px;
-    margin-top: 6px;
-    margin-right: 8px;
     cursor: pointer;
     transition: background-color 0.2s;
 }
 
-#received .message .buttons .button:hover,
-#received .message .buttons .button:active {
+.message .buttons .button:not(:nth-last-child(1)) {
+    margin-right: 8px;
+}
+
+.message .buttons .button:hover,
+.message .buttons .button:active {
     background: var(--accent-blue);
     border-color: var(--button-color);
 }
 
-#received .message .buttons .button svg {
-    stroke: var(--default-text);
+.message .buttons .button svg {
+    stroke: var(--button-color);
     transition: stroke 0.2s;
 }
 
-#received .message .buttons .button:hover svg,
-#received .message .buttons .button:active svg {
-    stroke: var(--highlighted-text);
+.message .buttons .button:hover svg,
+.message .buttons .button:active svg {
+    stroke: var(--button-highlight);
 }
 
 #received .message .preview {
@@ -299,16 +308,6 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
-}
-
-#received .message:nth-child(1) .preview {
-    background-image: url("../../../test_stuff/never_gonna_give_you_up.jpg");
-}
-#received .message:nth-child(2) .preview {
-    background-image: url("../../../test_stuff/IMG_2866.JPEG");
-}
-#received .message:nth-child(3) .preview {
-    background-image: url("../../../test_stuff/IMG_2891.JPEG");
 }
 
 #received .message .title {
@@ -321,6 +320,67 @@ body {
 
 #received .message .buttons {
     grid-area: buttons;
+}
+
+#fullscreenWindows .message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--bg);
+}
+
+#fullscreenWindows .message .close {
+    position: absolute;
+    top: 12px;
+    left: 20px;
+    color: var(--default-text);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+#fullscreenWindows .message .close:hover {
+    color: var(--accent-blue);
+}
+
+#fullscreenWindows .message .close:before {
+    content: '';
+    border: solid var(--default-text);
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg) translateY(3px);
+}
+
+#fullscreenWindows .message .close:hover:before,
+#fullscreenWindows .message .close:focus:before {
+    border-color: var(--accent-blue);
+}
+
+#fullscreenWindows .message h1 {
+    text-align: center;
+    margin-top: 16vh;
+    margin-bottom: 32px;
+    font-size: 20px;
+}
+
+#fullscreenWindows .message .view {
+    height: 50vh;
+    width: 90vw;
+    margin: 0 auto;
+}
+
+#fullscreenWindows .message .buttons {
+    width: fit-content;
+    margin: 32px auto;
+}
+
+#fullscreenWindows .message .view.image {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 #send {

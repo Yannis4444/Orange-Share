@@ -26,7 +26,6 @@ function toIsoString(date) {
 
 function dateToString(timestamp) {
     // todo setting to switch
-    console.log(timestamp);
     return toIsoString(new Date(timestamp));
 }
 
@@ -68,12 +67,67 @@ function PopUp(title, color = "blue", autoHide = 3000) {
     })
 }
 
+function closeFullscreenWindows() {
+    $("#fullscreenWindows").html("");
+}
+
 // any kind of received message
 class ReceivedMessage {
     constructor(id, name, timestamp) {
         this.id = id;
         this.name = name;
         this.timestamp = timestamp;
+    }
+
+    createButtons() {
+        let message = this;
+
+        return $("<div class='buttons'></div>")
+            .append(
+                // https://tablericons.com/ 16px 2.5px
+                $("<span class='button'><svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon icon-tabler icon-tabler-maximize\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" stroke-width=\"2.5\" stroke=\"#000000\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n" +
+                    "  <path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/>\n" +
+                    "  <path d=\"M4 8v-2a2 2 0 0 1 2 -2h2\" />\n" +
+                    "  <path d=\"M4 16v2a2 2 0 0 0 2 2h2\" />\n" +
+                    "  <path d=\"M16 4h2a2 2 0 0 1 2 2v2\" />\n" +
+                    "  <path d=\"M16 20h2a2 2 0 0 0 2 -2v-2\" />\n" +
+                    "</svg><label class='tooltip'>Open</label></span>")
+                    .click((e) => {
+                        message.open();
+                        e.stopPropagation();
+                    }),
+                $("<span class='button'><svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon icon-tabler icon-tabler-copy\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" stroke-width=\"2.5\" stroke=\"#000000\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n" +
+                    "  <path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/>\n" +
+                    "  <rect x=\"8\" y=\"8\" width=\"12\" height=\"12\" rx=\"2\" />\n" +
+                    "  <path d=\"M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2\" />\n" +
+                    "</svg><label class='tooltip'>Clipboard</label></span>")
+                    .click((e) => {
+                        message.clipboard();
+                        e.stopPropagation();
+                    }),
+                $("<span class='button'><svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon icon-tabler icon-tabler-download\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" stroke-width=\"2.5\" stroke=\"#000000\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n" +
+                    "  <path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/>\n" +
+                    "  <path d=\"M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2\" />\n" +
+                    "  <polyline points=\"7 11 12 16 17 11\" />\n" +
+                    "  <line x1=\"12\" y1=\"4\" x2=\"12\" y2=\"16\" />\n" +
+                    "</svg><label class='tooltip'>Save</label></span>")
+                    .click((e) => {
+                        message.save();
+                        e.stopPropagation();
+                    }),
+                $("<span class='button'><svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon icon-tabler icon-tabler-trash\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" stroke-width=\"2.5\" stroke=\"#000000\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n" +
+                    "  <path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/>\n" +
+                    "  <line x1=\"4\" y1=\"7\" x2=\"20\" y2=\"7\" />\n" +
+                    "  <line x1=\"10\" y1=\"11\" x2=\"10\" y2=\"17\" />\n" +
+                    "  <line x1=\"14\" y1=\"11\" x2=\"14\" y2=\"17\" />\n" +
+                    "  <path d=\"M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12\" />\n" +
+                    "  <path d=\"M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3\" />\n" +
+                    "</svg><label class='tooltip'>Delete</label></span>")
+                    .click((e) => {
+                        message.delete();
+                        e.stopPropagation();
+                    })
+            )
     }
 
     // the element to add to the page
@@ -85,62 +139,44 @@ class ReceivedMessage {
             .append(
                 $("<div class='name ellipsis'><label>" + message.name + "</label></div>")
                     .click(() => {
-                        message.clipboard();
+                        message.viewFullscreen();
                     }),
                 $("<div class='time ellipsis'><label>" + dateToString(message.timestamp) + "</label></div>"),
-                $("<div class='buttons'></div>")
-                    .append(
-                        // https://tablericons.com/ 20px 2px
-                        $("<span class='button'><svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon icon-tabler icon-tabler-maximize\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" stroke-width=\"2.5\" stroke=\"#000000\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n" +
-                            "  <path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/>\n" +
-                            "  <path d=\"M4 8v-2a2 2 0 0 1 2 -2h2\" />\n" +
-                            "  <path d=\"M4 16v2a2 2 0 0 0 2 2h2\" />\n" +
-                            "  <path d=\"M16 4h2a2 2 0 0 1 2 2v2\" />\n" +
-                            "  <path d=\"M16 20h2a2 2 0 0 0 2 -2v-2\" />\n" +
-                            "</svg><label class='tooltip'>Open</label></span>")
-                            .click((e) => {
-                                message.open();
-                                e.stopPropagation();
-                            }),
-                        $("<span class='button'><svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon icon-tabler icon-tabler-copy\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" stroke-width=\"2.5\" stroke=\"#000000\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n" +
-                            "  <path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/>\n" +
-                            "  <rect x=\"8\" y=\"8\" width=\"12\" height=\"12\" rx=\"2\" />\n" +
-                            "  <path d=\"M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2\" />\n" +
-                            "</svg><label class='tooltip'>Clipboard</label></span>")
-                            .click((e) => {
-                                message.clipboard();
-                                e.stopPropagation();
-                            }),
-                        $("<span class='button'><svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon icon-tabler icon-tabler-download\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" stroke-width=\"2.5\" stroke=\"#000000\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n" +
-                            "  <path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/>\n" +
-                            "  <path d=\"M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2\" />\n" +
-                            "  <polyline points=\"7 11 12 16 17 11\" />\n" +
-                            "  <line x1=\"12\" y1=\"4\" x2=\"12\" y2=\"16\" />\n" +
-                            "</svg><label class='tooltip'>Save</label></span>")
-                            .click((e) => {
-                                message.save();
-                                e.stopPropagation();
-                            }),
-                        $("<span class='button'><svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon icon-tabler icon-tabler-trash\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" stroke-width=\"2.5\" stroke=\"#000000\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n" +
-                            "  <path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/>\n" +
-                            "  <line x1=\"4\" y1=\"7\" x2=\"20\" y2=\"7\" />\n" +
-                            "  <line x1=\"10\" y1=\"11\" x2=\"10\" y2=\"17\" />\n" +
-                            "  <line x1=\"14\" y1=\"11\" x2=\"14\" y2=\"17\" />\n" +
-                            "  <path d=\"M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12\" />\n" +
-                            "  <path d=\"M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3\" />\n" +
-                            "</svg><label class='tooltip'>Delete</label></span>")
-                            .click((e) => {
-                                message.delete();
-                                e.stopPropagation();
-                            })
-                    )
+                message.createButtons()
             );
 
         return div;
     }
 
-    showLarge() {
+    createFullscreenWrapper() {
+        // returns the view div to put stuff into
+        closeFullscreenWindows();
 
+        let div = $("<div class='message'></div>");
+        let message = this;
+
+        let view = $("<div class='view'></div>");
+
+        div
+            .append(
+                $("<label class='close'>close</label>")
+                    .click(() => {
+                        closeFullscreenWindows();
+                    }),
+                $("<h1 class='ellipsis'>" + message.name + "</h1>"),
+                view,
+                message.createButtons()
+            );
+
+        $("#fullscreenWindows")
+            .html("")
+            .append(div);
+
+        return view;
+    }
+
+    viewFullscreen() {
+        let div = this.createFullscreenWrapper()
     }
 
     open() {
@@ -156,45 +192,59 @@ class ReceivedMessage {
     }
 
     delete() {
-        PopUp("Delete is not implemented for this type of message", "red");
+        closeFullscreenWindows();
     }
 }
 
 // any kind of received message
 class ReceivedImage extends ReceivedMessage {
-    constructor(id, name, timestamp) {
+    constructor(id, name, timestamp, preview) {
         super(id, name, timestamp);
+
+        this.preview = preview
     }
 
     // the element to add to the page
     getElement() {
         let div = super.getElement();
+        let message = this;
 
         div
             .addClass("image")
             .append(
-                $("<span class='preview'></span>")
+                $('<span class="preview"></span>')
+                    .css({"background-image": "url(" + message.preview + ")"})
                     .click(() => {
-                        message.clipboard();
+                        message.viewFullscreen();
                     })
             );
 
         return div;
     }
 
-    showLarge() {
+    viewFullscreen() {
+        let div = this.createFullscreenWrapper();
+        let message = this;
 
+        div
+            .addClass("image")
+            .css({"background-image": "url(" + message.preview + ")"});
     }
 }
 
 $(document).ready(function () {
-    let message = new ReceivedImage("42", "image.png", Date.now());
-    $("#messages").append(message.getElement());
-    $("#messages").append(message.getElement());
-    $("#messages").append(message.getElement());
-    $("#messages").append(message.getElement());
-    $("#messages").append(message.getElement());
-    $("#messages").append(message.getElement());
-    $("#messages").append(message.getElement());
-    $("#messages").append(message.getElement());
+
 });
+
+document.addEventListener('astilectron-ready', function() {
+    // This will listen to messages sent by GO
+    astilectron.onMessage(function(message) {
+        $("#messages").append(new ReceivedImage("42", "image.png", Date.now(), message).getElement());
+        // Process message
+        if (message === "hello") {
+            return "world";
+        }
+
+        return "Nope!";
+    });
+})
