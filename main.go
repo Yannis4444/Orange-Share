@@ -165,9 +165,9 @@ func main() {
 		Window.OpenDevTools()
 	}
 
-	NewConnection("Yannis' iPhone", "iPhone")
-	NewConnection("Yannis' iPad", "iPad")
-	NewConnection("Laptop", "linux/amd64")
+	NewConnection("Yannis' iPhone", "192.168.178.42", "iPhone")
+	NewConnection("Yannis' iPad", "192.168.178.69", "iPad")
+	NewConnection("Laptop", "laptop.local", "linux/amd64")
 
 	NewMessage("IMG_2866.JPEG", "test_stuff/IMG_2866.JPEG")
 	time.Sleep(10 * time.Second)

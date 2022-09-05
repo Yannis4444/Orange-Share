@@ -20,11 +20,21 @@
 <div class="tabs">
     <span class="active" onclick="changeTab(0)">Connections</span>
     <span onclick="changeTab(1)">Receive</span>
-    <span onclick="changeTab( 2)">Send</span>
+    <span onclick="changeTab(2)">Send</span>
 </div>
 <div class="content">
     <div id="contentMover">
         <div id="connections" class="contentPage">
+            <div class="connectionList">
+                <div class="connectionsHeader">
+                    <label>Paired</label>
+                </div>
+                <div id="pairedConnections"></div>
+                <div class="connectionsHeader">
+                    <label>Available</label>
+                </div>
+                <div id="availableConnections"></div>
+            </div>
         </div>
         <div id="received" class="contentPage">
             <!-- TODO: swap style -->

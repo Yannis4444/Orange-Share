@@ -12,6 +12,7 @@
     /*Text*/
     --default-text: #ccc;
     --dark-text: #777;
+    --very-dark-text: #505050;
     --highlighted-text: #fff;
 
     /*Buttons*/
@@ -230,7 +231,74 @@ body {
     display: none;
 }
 
-#connections {
+#connections .connectionsHeader {
+    margin: 16px 24px 8px 24px;
+}
+
+#connections .connectionsHeader label {
+    color: var(--default-text);
+    font-size: 12px;
+}
+
+#connections #pairedConnections:empty:before,
+#connections #availableConnections:empty:before {
+    content: 'No Connections';
+    display: block;
+    color: var(--dark-text);
+    font-size: 12px;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 0 0 8px 0;
+}
+
+#connections #pairedConnections:empty:before{
+    content: 'No Paired Connections';
+}
+
+#connections #availableConnections:empty:before {
+    content: 'No Instances Discovered';
+}
+
+#connections .connection {
+    display: grid;
+    height: 12vw;
+    width: 90vw;
+    grid-template-areas:
+        "icon title"
+        "icon host";
+    grid-template-rows: auto auto;
+    grid-template-columns: 12vw 1fr;
+    grid-column-gap: 6px;
+    margin: 0 auto 16px auto;
+}
+
+#connections .connection .icon {
+    grid-area: icon;
+    display: flex;
+    justify-content: center;
+}
+
+#connections .connection .icon svg {
+    stroke: var(--default-text);
+    align-self: center;
+}
+
+#connections .connection .name {
+    grid-area: title;
+}
+
+#connections .connection .name label {
+    color: var(--default-text);
+    font-size: 16px;
+}
+
+#connections .connection .host {
+    grid-area: host;
+}
+
+#connections .connection .host label {
+    color: var(--dark-text);
+    font-size: 12px;
 }
 
 #received .message {
@@ -375,6 +443,7 @@ body {
     margin-bottom: 32px;
     font-size: 20px;
     font-weight: normal;
+    color: var(--default-text);
 }
 
 #fullscreenWindows .message .view {

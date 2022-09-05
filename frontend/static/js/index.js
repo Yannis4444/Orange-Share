@@ -71,12 +71,60 @@ function closeFullscreenWindows() {
     $("#fullscreenWindows").html("");
 }
 
+class Connection {
+    constructor(data) {
+        this.id = data.ID;
+        this.name = data.Name;
+        this.host = data.Host;
+        this.deviceType = data.DeviceType;
+    }
+
+    getIcon() {
+        if (this.deviceType.includes("iPhone")) {
+            return $("<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon icon-tabler icon-tabler-device-mobile\" width=\"36\" height=\"36\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"#000000\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n" +
+                "  <path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/>\n" +
+                "  <rect x=\"7\" y=\"4\" width=\"10\" height=\"16\" rx=\"1\" />\n" +
+                "  <line x1=\"11\" y1=\"5\" x2=\"13\" y2=\"5\" />\n" +
+                "  <line x1=\"12\" y1=\"17\" x2=\"12\" y2=\"17.01\" />\n" +
+                "</svg>");
+        } else if (this.deviceType.includes("iPad")) {
+            return $("<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon icon-tabler icon-tabler-device-tablet\" width=\"36\" height=\"36\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"#000000\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n" +
+                "  <path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/>\n" +
+                "  <rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"1\" />\n" +
+                "  <circle cx=\"12\" cy=\"17\" r=\"1\" />\n" +
+                "</svg>");
+        } else {
+            return $("<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon icon-tabler icon-tabler-device-laptop\" width=\"36\" height=\"36\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"#000000\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n" +
+                "  <path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/>\n" +
+                "  <line x1=\"3\" y1=\"19\" x2=\"21\" y2=\"19\" />\n" +
+                "  <rect x=\"5\" y=\"6\" width=\"14\" height=\"10\" rx=\"1\" />\n" +
+                "</svg>");
+        }
+    }
+
+    // the element to add to the page
+    getElement() {
+        let div = $("<div class='connection'></div>");
+        let connection = this;
+
+        div
+            .append(
+                $("<div class='name ellipsis' title='" + connection.name + "'><label>" + connection.name + "</label></div>"),
+                $("<div class='host ellipsis'><label>" + connection.host + "</label></div>"),
+                $("<div class='icon'></div>")
+                    .append(connection.getIcon())
+            );
+
+        return div;
+    }
+}
+
 // any kind of received message
 class ReceivedMessage {
-    constructor(id, name, timestamp) {
-        this.id = id;
-        this.name = name;
-        this.timestamp = timestamp;
+    constructor(data) {
+        this.id = data.ID;
+        this.name = data.Name;
+        this.timestamp = data.Timestamp;
     }
 
     createButtons(size = "small") {
@@ -249,10 +297,10 @@ class ReceivedMessage {
 
 // any kind of received message
 class ReceivedImage extends ReceivedMessage {
-    constructor(id, name, timestamp, preview) {
-        super(id, name, timestamp);
+    constructor(data) {
+        super(data);
 
-        this.preview = preview
+        this.preview = data.PreviewImage;
     }
 
     // the element to add to the page
@@ -301,21 +349,23 @@ function handleGoCommand(command) {
 
 document.addEventListener('astilectron-ready', function () {
     // This will listen to messages sent by GO
-    astilectron.onMessage(function (command) {
-        switch (command.Type) {
+    astilectron.onMessage(function (data) {
+        switch (data.Type) {
             case "cmd":
-                handleGoCommand(command.Command);
+                handleGoCommand(data.Command);
                 break;
             case "message":
-                let message = new ReceivedImage(command.ID, command.Name, Date.now(), command.PreviewImage);
+                let message = new ReceivedImage(data);
                 $("#messages").append(message.getElement());
                 message.viewFullscreen();
                 break;
             case "connection":
+                let connection = new Connection(data);
+                $("#pairedConnections").append(connection.getElement());
                 break;
             default:
                 console.log("Can't handle command:");
-                console.log(command);
+                console.log(data);
         }
 
 
