@@ -7,6 +7,7 @@ import (
 	"github.com/satori/go.uuid"
 	"log"
 	"os"
+	"time"
 )
 
 // Button for this
@@ -17,6 +18,14 @@ var L *log.Logger
 var Astilectron *astilectron.Astilectron
 var Window *astilectron.Window
 var ClientID string
+
+type InstanceInfo struct {
+	ID         string
+	Name       string
+	DeviceType string
+}
+
+var OwnInstanceInfo InstanceInfo
 
 type GenericCommand struct {
 	Type    string
@@ -98,13 +107,17 @@ func main() {
 	// Set logger
 	L = log.New(log.Writer(), log.Prefix(), log.Flags())
 
-	ClientID = uuid.NewV4().String()
-
 	var err error
 	Hostname, err = os.Hostname()
 	if err != nil {
 		L.Fatal(fmt.Errorf("getting hostname failed: %w", err))
 		return
+	}
+
+	OwnInstanceInfo = InstanceInfo{
+		uuid.NewV4().String(),
+		Hostname,
+		"linux/amd64",
 	}
 
 	// Create astilectron
@@ -177,15 +190,15 @@ func main() {
 		Window.OpenDevTools()
 	}
 
-	//NewConnection("Yannis' iPhone", "192.168.178.42", "iPhone")
-	//NewConnection("Yannis' iPad", "192.168.178.69", "iPad")
-	//NewConnection("Laptop", "laptop.local", "linux/amd64")
+	//SendConnectionToUI("Yannis' iPhone", "192.168.178.42", "iPhone")
+	//SendConnectionToUI("Yannis' iPad", "192.168.178.69", "iPad")
+	//SendConnectionToUI("Laptop", "laptop.local", "linux/amd64")
 
-	//NewMessage("IMG_2866.JPEG", "test_stuff/IMG_2866.JPEG")
-	//time.Sleep(10 * time.Second)
-	//NewMessage("IMG_2891.JPEG", "test_stuff/IMG_2891.JPEG")
-	//time.Sleep(10 * time.Second)
-	//NewMessage("never_gonna_give_you_up.jpg", "test_stuff/never_gonna_give_you_up.jpg")
+	NewMessage("IMG_2866.JPEG", "test_stuff/IMG_2866.JPEG")
+	time.Sleep(10 * time.Second)
+	NewMessage("IMG_2891.JPEG", "test_stuff/IMG_2891.JPEG")
+	time.Sleep(10 * time.Second)
+	NewMessage("never_gonna_give_you_up.jpg", "test_stuff/never_gonna_give_you_up.jpg")
 
 	InitConnectionUDP()
 	Announce()

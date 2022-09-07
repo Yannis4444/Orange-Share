@@ -72,11 +72,12 @@ function closeFullscreenWindows() {
 }
 
 class Connection {
+    // TODO: check if already known
     constructor(data) {
-        this.id = data.ID;
-        this.name = data.Name;
-        this.host = data.Host;
-        this.deviceType = data.DeviceType;
+        this.id = data.Connection.Instance.ID;
+        this.name = data.Connection.Instance.Name;
+        this.host = data.Connection.Host;
+        this.deviceType = data.Connection.Instance.DeviceType;
     }
 
     getIcon() {

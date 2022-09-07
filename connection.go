@@ -1,22 +1,36 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net"
+	"strings"
 )
 
+type InstanceAnnouncement struct {
+	ResponseRequest bool
+	Instance        InstanceInfo
+}
+
 type Connection struct {
+	Instance InstanceInfo
+	Host     string
+}
+
+var Connections map[string]Connection = make(map[string]Connection)
+
+type ConnectionMessage struct {
 	Type       string
-	ID         string
-	Name       string
-	Host       string
-	DeviceType string
+	Connection Connection
 }
 
 var PC net.PacketConn
 
-func NewConnection(name, host, deviceType string) {
-	Window.SendMessage(Connection{"connection", "42", name, host, deviceType})
+func SendConnectionToUI(connection Connection) {
+	Window.SendMessage(ConnectionMessage{
+		"connection",
+		connection,
+	})
 }
 
 func InitConnectionUDP() {
@@ -27,14 +41,19 @@ func InitConnectionUDP() {
 	}
 }
 
-func sendAnnouncement(address string) {
+func sendAnnouncement(address string, responseRequest bool) {
 	addr, err := net.ResolveUDPAddr("udp4", address)
 	if err != nil {
 		L.Fatal(fmt.Errorf("resolving udp address failed: %w", err))
 		return
 	}
 
-	_, err = PC.WriteTo([]byte(Hostname), addr)
+	//_, err = PC.WriteTo([]byte(Hostname), addr)
+	j, _ := json.Marshal(InstanceAnnouncement{
+		responseRequest,
+		OwnInstanceInfo,
+	})
+	_, err = PC.WriteTo(j, addr)
 	if err != nil {
 		L.Fatal(fmt.Errorf("transmitting data failed: %w", err))
 		return
@@ -44,7 +63,7 @@ func sendAnnouncement(address string) {
 // Announce this connection to others
 func Announce() {
 	// TODO: get the address somehow
-	sendAnnouncement("192.168.178.255:7615")
+	sendAnnouncement("192.168.178.255:7615", true)
 }
 
 // Sends an udp broadcast to all broadcast addresses
@@ -55,18 +74,35 @@ func ListenForInstances() {
 		buf := make([]byte, 1024)
 		n, addr, err := PC.ReadFrom(buf)
 		if err != nil {
+			// TODO: not fatal
 			L.Fatal(fmt.Errorf("receiving udp packet failed: %w", err))
+			continue
+		}
+
+		if addr.Network() != "udp" {
+			continue
+		}
+
+		var instance InstanceAnnouncement
+		if err := json.Unmarshal(buf[:n], &instance); err != nil {
 			return
 		}
 
-		fmt.Printf("%s sent this: %s\n", addr, buf[:n])
+		if instance.Instance.ID != OwnInstanceInfo.ID {
+			connection, ok := Connections[instance.Instance.ID]
 
-		NewConnection(string(buf[:n]), addr.String(), "linux/amd64")
+			if !ok {
+				connection = Connection{}
+				connection.Host = strings.Split(addr.String(), ":")[0]
+				connection.Instance = instance.Instance
+				Connections[instance.Instance.ID] = connection
+			}
 
-		// TODO: use ID for check
-		// TODO: set response flag to not run into loop
-		if string(buf[:n]) != Hostname {
-			sendAnnouncement(addr.String())
+			SendConnectionToUI(connection)
+
+			if instance.ResponseRequest {
+				sendAnnouncement(addr.String(), false)
+			}
 		}
 	}
 }

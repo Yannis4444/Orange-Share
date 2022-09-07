@@ -301,6 +301,15 @@ body {
     font-size: 12px;
 }
 
+#received #messages:empty:before {
+    content: 'Nothing Received Yet';
+    display: block;
+    color: var(--dark-text);
+    font-size: 12px;
+    width: fit-content;
+    margin: 24px auto;
+}
+
 #received .message {
     background: var(--fg);
     width: 80vw;
