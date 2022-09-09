@@ -261,15 +261,16 @@ body {
 
 #connections .connection {
     display: grid;
-    height: 12vw;
+    height: 13vw;
     width: 90vw;
     grid-template-areas:
-        "icon title"
-        "icon host";
-    grid-template-rows: auto auto;
-    grid-template-columns: 12vw 1fr;
+        "icon title send menu"
+        "icon host send menu"
+        "icon info send menu";
+    grid-template-rows: auto auto auto;
+    grid-template-columns: 12vw 1fr auto auto;
     grid-column-gap: 6px;
-    margin: 0 auto 16px auto;
+    margin: 0 auto 24px auto;
 }
 
 #connections .connection .icon {
@@ -299,6 +300,68 @@ body {
 #connections .connection .host label {
     color: var(--dark-text);
     font-size: 12px;
+}
+
+#connections .connection .info {
+    grid-area: info;
+}
+
+#connections .connection .info label {
+    color: var(--accent-blue);
+    font-size: 12px;
+}
+
+#connections .connection .send {
+    grid-area: send;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+#connections .connection .send > div {
+    position: relative;
+    height: fit-content;
+    background: var(--inactive-button);
+    padding: 8px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#connections .connection .send > div:hover,
+#connections .connection .send > div:active {
+    background: var(--accent-blue);
+    border-color: var(--button-color);
+}
+
+#connections .connection .send > div svg {
+    stroke: var(--button-color);
+    transition: stroke 0.2s;
+}
+
+#connections .connection .send > div:hover svg,
+#connections .connection .send > div:active svg {
+    stroke: var(--button-highlight);
+}
+
+#connections .connection .menu {
+    grid-area: menu;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+#connections .connection .menu > div {
+    cursor: pointer;
+}
+
+#connections .connection .menu span {
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--default-text);
+    margin: 6px;
 }
 
 #received #messages:empty:before {
@@ -470,7 +533,4 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-}
-
-#send {
 }

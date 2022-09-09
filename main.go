@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilectron"
@@ -26,6 +27,8 @@ type InstanceInfo struct {
 }
 
 var OwnInstanceInfo InstanceInfo
+
+var TempPath string
 
 type GenericCommand struct {
 	Type    string
@@ -118,6 +121,14 @@ func main() {
 		uuid.NewV4().String(),
 		Hostname,
 		"linux/amd64",
+	}
+
+	// Temp folder
+	TempPath = os.TempDir() + "/orangeshare"
+	if _, err := os.Stat(TempPath); errors.Is(err, os.ErrNotExist) {
+		if err := os.Mkdir(TempPath, os.ModePerm); err != nil {
+			L.Fatal(fmt.Errorf("creating temporary directory failed: %w", err))
+		}
 	}
 
 	// Create astilectron
