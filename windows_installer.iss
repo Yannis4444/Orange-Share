@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Orange Share"
-#define MyAppVersion "2.0.0"
+#define MyAppVersion "2.0.0-alpha"
 #define MyAppPublisher "Yannis Vierkoetter"
 #define MyAppURL "https://github.com/Yannis4444/Orange-Share"
 #define MyAppExeName "orangeshare.exe"
@@ -45,7 +45,6 @@ Source: "logo\*.ico"; DestDir: "{app}\logo"; Flags: ignoreversion
 Source: "logo\*.svg"; DestDir: "{app}\logo"; Flags: ignoreversion
 Source: "logo\*.png"; DestDir: "{app}\logo"; Flags: ignoreversion
 Source: "frontend\*"; DestDir: "{app}\frontend"; Flags: ignoreversion recursesubdirs
-Source: "test_stuff\*"; DestDir: "{app}\test_stuff"; Flags: ignoreversion recursesubdirs
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Parameters: "--windows-installation -t"; IconFilename: "{app}\logo\white.ico"

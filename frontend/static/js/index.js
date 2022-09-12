@@ -1,3 +1,19 @@
+function sendMessageToBackend(command, data={}, callback=(message) => {}) {
+    console.log("sending '" + command + "' message: " + data);
+    astilectron.sendMessage(JSON.stringify({
+        Command: command,
+        Data: JSON.stringify(data)
+    }), callback());
+}
+
+function enableAutoClose() {
+    sendMessageToBackend("enableAutoClose");
+}
+
+function disableAutoClose() {
+    sendMessageToBackend("disableAutoClose");
+}
+
 function changeTab(t) {
     $(".tabs span").removeClass("active");
     $(".tabs span:nth-child(" + (t + 1) + ")").addClass("active");
@@ -67,7 +83,10 @@ function PopUp(title, color = "blue", autoHide = 3000) {
     })
 }
 
-function closeFullscreenWindows() {
+function closeFullscreenWindows(enableAutoClosing = true) {
+    if (enableAutoClosing) {
+        enableAutoClose()
+    }
     $("#fullscreenWindows").html("");
 }
 
@@ -131,7 +150,9 @@ class Connection {
     }
 
     sendWindow() {
-        closeFullscreenWindows();
+        closeFullscreenWindows(false);
+
+        disableAutoClose();
 
         let div = $("<div class='send'></div>");
         let connection = this;
@@ -169,12 +190,14 @@ class Connection {
                         $("<span>Use Clipboard</span>"),
                         $("<span class='send disabled'>Send</span>")
                             .click(() => {
-                                console.log("sending " + selectedPath + " to " + connection.host);
-                                astilectron.sendMessage(JSON.stringify({
+                                // TODO: spinner
+                                enableAutoClose();
+                                sendMessageToBackend("sendFile", {
                                     Path: selectedPath,
                                     Host: connection.host
-                                }), function(message) {
+                                }, (message) => {
                                     // TODO: handle errors
+                                    closeFullscreenWindows();
                                 });
                             })
                     )
@@ -367,6 +390,7 @@ class ReceivedImage extends ReceivedMessage {
     constructor(data) {
         super(data);
 
+        // TODO: origin
         this.preview = data.PreviewImage;
     }
 
@@ -423,7 +447,7 @@ document.addEventListener('astilectron-ready', function () {
                 break;
             case "message":
                 let message = new ReceivedImage(data);
-                $("#messages").append(message.getElement());
+                $("#messages").prepend(message.getElement());
                 message.viewFullscreen();
                 break;
             case "connection":

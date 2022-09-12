@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/asticode/go-astikit"
@@ -32,12 +33,37 @@ var OwnInstanceInfo InstanceInfo
 var TempPath string
 
 type GenericCommand struct {
-	Type    string
 	Command string
+	Data    string
 }
 
 func SendCommand(command string) {
 	Window.SendMessage(GenericCommand{"cmd", command})
+}
+
+func receiveCommand(m *astilectron.EventMessage) interface{} {
+	// Unmarshal
+	var s string
+	m.Unmarshal(&s)
+
+	fmt.Println("received command: " + s)
+
+	var command GenericCommand
+	json.Unmarshal([]byte(s), &command)
+
+	switch command.Command {
+	case "sendFile":
+		SendFileFromFrontend(command.Data)
+		break
+	case "enableAutoClose":
+		AutoCloseWindow = true
+		break
+	case "disableAutoClose":
+		AutoCloseWindow = false
+		break
+	}
+
+	return nil
 }
 
 func OpenWindow() {
@@ -62,9 +88,13 @@ func CloseWindow() {
 	SendCommand("home")
 }
 
+var AutoCloseWindow = true
+
 func onBlur(astilectron.Event) bool {
 	// TODO: back in
-	//CloseWindow()
+	if AutoCloseWindow {
+		CloseWindow()
+	}
 
 	return false
 }
@@ -190,7 +220,7 @@ func main() {
 	Window.On("window.event.blur", onBlur)
 
 	// This will listen to messages sent by Javascript
-	Window.OnMessage(SendFileFromFrontend)
+	Window.OnMessage(receiveCommand)
 
 	// Tray Icon
 	// TODO: black on light mode
@@ -213,24 +243,11 @@ func main() {
 		Window.OpenDevTools()
 	}
 
-	//SendConnectionToUI("Yannis' iPhone", "192.168.178.42", "iPhone")
-	//SendConnectionToUI("Yannis' iPad", "192.168.178.69", "iPad")
-	//SendConnectionToUI("Laptop", "laptop.local", "linux/amd64")
-
-	//NewMessage("IMG_2866.JPEG", "test_stuff/IMG_2866.JPEG")
-	//time.Sleep(10 * time.Second)
-	//NewMessage("IMG_2891.JPEG", "test_stuff/IMG_2891.JPEG")
-	//time.Sleep(10 * time.Second)
-	//NewMessage("never_gonna_give_you_up.jpg", "test_stuff/never_gonna_give_you_up.jpg")
-
 	go handleRequests()
 
 	InitConnectionUDP()
 	Announce()
 	go ListenForInstances()
 
-	//SendFile("test_stuff/never_gonna_give_you_up.jpg", "http://localhost:8000/file")
-
-	// Blocking pattern
 	Astilectron.Wait()
 }

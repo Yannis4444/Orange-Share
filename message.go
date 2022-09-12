@@ -107,15 +107,11 @@ type frontendSendFile struct {
 	Host string
 }
 
-func SendFileFromFrontend(m *astilectron.EventMessage) interface{} {
-	// Unmarshal
-	var s string
-	m.Unmarshal(&s)
-
-	fmt.Println(s)
+func SendFileFromFrontend(command string) interface{} {
+	fmt.Println(command)
 
 	var message frontendSendFile
-	json.Unmarshal([]byte(s), &message)
+	json.Unmarshal([]byte(command), &message)
 
 	fmt.Println(message.Path)
 	fmt.Println(message.Host)
