@@ -251,7 +251,7 @@ body {
     padding: 0 0 8px 0;
 }
 
-#connections #pairedConnections:empty:before{
+#connections #pairedConnections:empty:before {
     content: 'No Paired Connections';
 }
 
@@ -481,7 +481,7 @@ body {
     background: var(--bg);
 }
 
-#fullscreenWindows .message .close {
+#fullscreenWindows > div .close {
     position: absolute;
     top: 12px;
     left: 20px;
@@ -490,11 +490,11 @@ body {
     transition: color 0.2s;
 }
 
-#fullscreenWindows .message .close:hover {
+#fullscreenWindows > div .close:hover {
     color: var(--accent-blue);
 }
 
-#fullscreenWindows .message .close:before {
+#fullscreenWindows > div .close:before {
     content: '';
     border: solid var(--default-text);
     border-width: 0 2px 2px 0;
@@ -504,9 +504,128 @@ body {
     -webkit-transform: rotate(135deg) translateY(3px);
 }
 
-#fullscreenWindows .message .close:hover:before,
-#fullscreenWindows .message .close:focus:before {
+#fullscreenWindows > div .close:hover:before,
+#fullscreenWindows > div .close:focus:before {
     border-color: var(--accent-blue);
+}
+
+#fullscreenWindows .send {
+    display: grid;
+    grid-template-areas:
+        "."
+        "title"
+        "dropzone"
+        "buttons"
+        ".";
+    grid-template-rows: 1fr auto 5fr auto 1fr;
+    grid-row-gap: 20px;
+}
+
+#fullscreenWindows .send .title {
+    grid-area: title;
+}
+
+#fullscreenWindows .send .title label,
+#fullscreenWindows .send .title h1 {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    font-weight: normal;
+    color: var(--default-text);
+}
+
+#fullscreenWindows .send .title label {
+    font-size: 16px;
+}
+
+#fullscreenWindows .send .title h1 {
+    font-size: 20px;
+}
+
+#fullscreenWindows .send .dropzone {
+    grid-area: dropzone;
+    width: 80vw;
+    height: 100%;
+    margin: 0 auto;
+}
+
+#fullscreenWindows .send .uploadWrapper {
+    display: grid;
+    align-content: center;
+    height: 100%;
+    border: 4px dashed var(--accent-blue);
+    position: relative;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+#fullscreenWindows .send .uploadWrapper.dropAllowed,
+#fullscreenWindows .send .uploadWrapper:hover {
+    background-color: var(--bg-accent-blue);
+    /*border: 4px dashed var(--bg);*/
+}
+
+#fullscreenWindows .send .uploadWrapper input {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    opacity: 0;
+    cursor: pointer;
+}
+
+#fullscreenWindows .send .uploadWrapper label {
+    display: block;
+    text-align: center;
+    color: var(--button-color);
+    pointer-events: none;
+}
+
+#fullscreenWindows .send .buttons {
+    grid-area: buttons;
+    padding-top: 12px;
+}
+
+#fullscreenWindows .send .buttons span {
+    display: block;
+    width: 80vw;
+    font-size: 20px;
+    padding: 8px 0;
+    text-align: center;
+    background-color: var(--bg-accent-blue);
+    color: var(--button-color);
+    border-radius: 4px;
+    margin: 12px auto;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+#fullscreenWindows .send .buttons span:hover,
+#fullscreenWindows .send .buttons span:active {
+    background-color: var(--accent-blue);
+    color: var(--button-highlight);
+}
+
+#fullscreenWindows .send .buttons span.disabled {
+    pointer-events: none;
+    cursor: default;
+    background: var(--fg) !important;
+}
+
+#fullscreenWindows .send .buttons span.send {
+    background: var(--bg-accent-green);
+    color: var(--button-color);
+}
+
+#fullscreenWindows .send .buttons span.send:hover,
+#fullscreenWindows .send .buttons span.send:active {
+    background-color: var(--accent-green);
+    color: var(--button-highlight);
 }
 
 #fullscreenWindows .message h1 {

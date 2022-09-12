@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilectron"
+	"github.com/gorilla/mux"
 	"github.com/satori/go.uuid"
 	"log"
+	"net/http"
 	"os"
-	"time"
 )
 
 // Button for this
@@ -62,7 +63,8 @@ func CloseWindow() {
 }
 
 func onBlur(astilectron.Event) bool {
-	CloseWindow()
+	// TODO: back in
+	//CloseWindow()
 
 	return false
 }
@@ -102,6 +104,13 @@ func moveWindowToCorner(x int, y int) {
 	if err = Window.MoveInDisplay(primaryDisplay, windowX, windowY); err != nil {
 		L.Fatal(fmt.Errorf("moving window failed: %w", err))
 	}
+}
+
+func handleRequests() {
+	myRouter := mux.NewRouter().StrictSlash(true)
+	myRouter.HandleFunc("/file", ReceiveFile).Methods("POST")
+	// TODO: other port
+	log.Fatal(http.ListenAndServe(":8000", myRouter))
 }
 
 var Hostname string
@@ -180,6 +189,9 @@ func main() {
 
 	Window.On("window.event.blur", onBlur)
 
+	// This will listen to messages sent by Javascript
+	Window.OnMessage(SendFileFromFrontend)
+
 	// Tray Icon
 	// TODO: black on light mode
 	icon := "logo/white.png"
@@ -205,15 +217,19 @@ func main() {
 	//SendConnectionToUI("Yannis' iPad", "192.168.178.69", "iPad")
 	//SendConnectionToUI("Laptop", "laptop.local", "linux/amd64")
 
-	NewMessage("IMG_2866.JPEG", "test_stuff/IMG_2866.JPEG")
-	time.Sleep(10 * time.Second)
-	NewMessage("IMG_2891.JPEG", "test_stuff/IMG_2891.JPEG")
-	time.Sleep(10 * time.Second)
-	NewMessage("never_gonna_give_you_up.jpg", "test_stuff/never_gonna_give_you_up.jpg")
+	//NewMessage("IMG_2866.JPEG", "test_stuff/IMG_2866.JPEG")
+	//time.Sleep(10 * time.Second)
+	//NewMessage("IMG_2891.JPEG", "test_stuff/IMG_2891.JPEG")
+	//time.Sleep(10 * time.Second)
+	//NewMessage("never_gonna_give_you_up.jpg", "test_stuff/never_gonna_give_you_up.jpg")
+
+	go handleRequests()
 
 	InitConnectionUDP()
 	Announce()
-	ListenForInstances()
+	go ListenForInstances()
+
+	//SendFile("test_stuff/never_gonna_give_you_up.jpg", "http://localhost:8000/file")
 
 	// Blocking pattern
 	Astilectron.Wait()

@@ -88,18 +88,17 @@ func ListenForInstances() {
 			continue
 		}
 
-		// TODO: move back into if
-		connection, ok := Connections[instance.Instance.ID]
-
-		if !ok {
-			connection = Connection{}
-			connection.Host = strings.Split(addr.String(), ":")[0]
-			connection.Instance = instance.Instance
-			Connections[instance.Instance.ID] = connection
-		}
-
-		SendConnectionToUI(connection)
 		if instance.Instance.ID != OwnInstanceInfo.ID {
+			connection, ok := Connections[instance.Instance.ID]
+
+			if !ok {
+				connection = Connection{}
+				connection.Host = strings.Split(addr.String(), ":")[0]
+				connection.Instance = instance.Instance
+				Connections[instance.Instance.ID] = connection
+			}
+
+			SendConnectionToUI(connection)
 
 			if instance.ResponseRequest {
 				sendAnnouncement(addr.String(), false)

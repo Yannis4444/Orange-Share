@@ -120,11 +120,69 @@ class Connection {
                     "  <path d=\"M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2\" />\n" +
                     "  <polyline points=\"7 9 12 4 17 9\" />\n" +
                     "  <line x1=\"12\" y1=\"4\" x2=\"12\" y2=\"16\" />\n" +
-                    "</svg><label class='tooltip'>Sending</label></div></div>"),
+                    "</svg><label class='tooltip'>Sending</label></div></div>")
+                    .click(() => {
+                        connection.sendWindow();
+                    }),
                 $("<div class=\'menu\'><div><span></span><span></span><span></span></div></div>")
             );
 
         return div;
+    }
+
+    sendWindow() {
+        closeFullscreenWindows();
+
+        let div = $("<div class='send'></div>");
+        let connection = this;
+
+        // TODO: not only local files but other drag and drop stuff
+        let selectedPath = "";
+
+        div
+            .append(
+                $("<label class='close'>close</label>")
+                    .click(() => {
+                        closeFullscreenWindows();
+                    }),
+                $("<div class='title'><label>Send to</label><h1 class='ellipsis'>" + connection.name + "</h1></div>"),
+                $("<div class='dropzone'></div>")
+                    .append(
+                        $("<div class='uploadWrapper'></div>")
+                            .append(
+                                // $("<input type='file' webkitdirectory directory multiple />")
+                                $("<input type='file' />")
+                                    .on("change", (e) => {
+                                        // TODO: multiple files, directories
+                                        // div.find(".uploadWrapper").css({"background-image": "url(" + fileEncryptedData + ")"})
+
+                                        div.find(".uploadWrapper label").html(e.target.files[0].name);
+                                        div.find("span.send").removeClass("disabled");
+                                        selectedPath = e.target.files[0].path;
+                                    }),
+                                $("<label>DROP FILES HERE</label>")
+                                // TODO: preview
+                            )
+                    ),
+                $("<div class='buttons'></div>")
+                    .append(
+                        $("<span>Use Clipboard</span>"),
+                        $("<span class='send disabled'>Send</span>")
+                            .click(() => {
+                                console.log("sending " + selectedPath + " to " + connection.host);
+                                astilectron.sendMessage(JSON.stringify({
+                                    Path: selectedPath,
+                                    Host: connection.host
+                                }), function(message) {
+                                    // TODO: handle errors
+                                });
+                            })
+                    )
+            );
+
+        $("#fullscreenWindows")
+            .html("")
+            .append(div);
     }
 }
 
