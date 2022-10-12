@@ -10,10 +10,12 @@ parser = reqparse.RequestParser()
 parser.add_argument('interface',
                     type=str,
                     required=False,
+                    location="form",
                     help='provide the interface')
 parser.add_argument('name',
                     type=str,
                     required=False,
+                    location="form",
                     help='provide the name of the host')
 
 

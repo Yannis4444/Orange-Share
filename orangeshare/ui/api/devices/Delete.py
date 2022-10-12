@@ -8,6 +8,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('id',
                     type=str,
                     required=True,
+                    location="form",
                     help='provide the id')
 
 
