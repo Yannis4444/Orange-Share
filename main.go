@@ -74,6 +74,7 @@ func OpenWindow() {
 	}
 
 	// TODO: get the correct corner
+	// The taskbar can probably gotten by comparing the working area to the complete display
 	//moveWindowToCorner(*event.Bounds.X+(*event.Bounds.Width/2), *event.Bounds.Y+(*event.Bounds.Height/2))
 	moveWindowToCorner(10000, 10000)
 
