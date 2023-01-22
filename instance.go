@@ -7,32 +7,46 @@ import (
 	"strings"
 )
 
+// InstanceInfo Info about an instance
+type InstanceInfo struct {
+	ID         string
+	Name       string
+	DeviceType string
+}
+
+// InstanceAnnouncement Message sent to other instances
 type InstanceAnnouncement struct {
 	ResponseRequest bool
 	Instance        InstanceInfo
 }
 
+// Connection are Instances with a known host
 type Connection struct {
 	Instance InstanceInfo
 	Host     string
 }
 
-var Connections map[string]Connection = make(map[string]Connection)
+// Connections all current connections
+var Connections = make(map[string]Connection)
 
-type ConnectionMessage struct {
+// UIConnectionMessage Message to let UI know about new connection
+type UIConnectionMessage struct {
 	Type       string
 	Connection Connection
 }
 
 var PC net.PacketConn
 
+// SendConnectionToUI Let the UI know about a new connection
 func SendConnectionToUI(connection Connection) {
-	Window.SendMessage(ConnectionMessage{
-		"connection",
-		connection,
-	})
+	// TODO:
+	//Window.SendMessage(UIConnectionMessage{
+	//	"connection",
+	//	connection,
+	//})
 }
 
+// InitConnectionUDP Listen for announcements from other instances
 func InitConnectionUDP() {
 	var err error
 	PC, err = net.ListenPacket("udp4", ":7615")
@@ -41,6 +55,7 @@ func InitConnectionUDP() {
 	}
 }
 
+// sendAnnouncement to some address
 func sendAnnouncement(address string, responseRequest bool) {
 	addr, err := net.ResolveUDPAddr("udp4", address)
 	if err != nil {
@@ -62,7 +77,7 @@ func sendAnnouncement(address string, responseRequest bool) {
 
 // Announce this connection to others
 func Announce() {
-	// TODO: get the address somehow
+	// TODO: get the address from network adapters and subnet masks
 	sendAnnouncement("192.168.178.255:7615", true)
 }
 
@@ -97,6 +112,8 @@ func ListenForInstances() {
 				connection.Instance = instance.Instance
 				Connections[instance.Instance.ID] = connection
 			}
+
+			L.Printf("Announcement from %s (%s)", connection.Host, instance.Instance.ID)
 
 			SendConnectionToUI(connection)
 
