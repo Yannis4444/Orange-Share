@@ -6,14 +6,39 @@
 
     <title>Orange Share</title>
 
-    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script>
+        if (typeof module === 'object') {
+            window.module = module;
+            module = undefined;
+        }
+    </script>
     <script type="text/javascript" src="./static/js/jquery-3.6.0.min.js"></script>
-    <script>if (window.module) module = window.module;</script>
+    <script>
+        if (window.module) module = window.module;
+    </script>
     <script type="text/javascript" src="./static/js/index.js"></script>
 
     <link rel=stylesheet type=text/css href="./static/css/index.css">
 </head>
 <body>
-    <h1>Orange Share</h1>
+<div class="header">
+    <h1><label>Orange Share</label></h1>
+</div>
+
+<div class="tabs">
+    <span class="active" onclick="changeTab(0)">Send</span>
+    <span onclick="changeTab(1)">Receive</span>
+</div>
+
+<div class="content">
+    <div id="contentMover">
+        <div id="connections" class="contentPage">
+            <div id="connectionList"></div>
+        </div>
+        <div id="received" class="contentPage">
+
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -27,6 +27,7 @@ type Connection struct {
 }
 
 // Connections all current connections
+// TODO: probably not needed
 var Connections = make(map[string]Connection)
 
 // UIConnectionMessage Message to let UI know about new connection
@@ -39,11 +40,10 @@ var PC net.PacketConn
 
 // SendConnectionToUI Let the UI know about a new connection
 func SendConnectionToUI(connection Connection) {
-	// TODO:
-	//Window.SendMessage(UIConnectionMessage{
-	//	"connection",
-	//	connection,
-	//})
+	Window.SendMessage(UIConnectionMessage{
+		"connection",
+		connection,
+	})
 }
 
 // InitConnectionUDP Listen for announcements from other instances
@@ -81,7 +81,7 @@ func Announce() {
 	sendAnnouncement("192.168.178.255:7615", true)
 }
 
-// Sends an udp broadcast to all broadcast addresses
+// ListenForInstances Sends an udp broadcast to all broadcast addresses
 // Announce needs to be called first
 // TODO: change to multicast
 func ListenForInstances() {
@@ -90,7 +90,7 @@ func ListenForInstances() {
 		n, addr, err := PC.ReadFrom(buf)
 		if err != nil {
 			// TODO: not fatal
-			L.Fatal(fmt.Errorf("receiving udp packet failed: %w", err))
+			L.Println(fmt.Errorf("receiving udp packet failed: %w", err))
 			continue
 		}
 

@@ -1,3 +1,5 @@
+/*region setup*/
+
 @font-face {
     font-family: Mulish;
     src: url("../fonts/Mulish-VariableFont_wght.ttf");
@@ -8,6 +10,7 @@
     --bg: #15191d;
     --fg: #1f2328;
     --fg2: #262c31;
+    --fg-highlight: #2c3036;
 
     /*Text*/
     --default-text: #ccc;
@@ -39,8 +42,237 @@
     --drop-shadow-large: 1px 2px 12px 2px #0007;
 }
 
+/*endregion*/
+/*region reuseable*/
+
 .ellipsis {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+/*region reuseable*/
+
+
+
+/*endregion*/
+/*endregion*/
+/*region general*/
+
+html {
+    background: var(--bg);
+}
+
+body {
+    margin: 0;
+}
+
+* {
+    font-family: 'Mulish', sans-serif;
+}
+
+h1,
+h2,
+h3,
+th {
+    color: var(--highlighted-text);
+}
+
+p,
+ul,
+ol,
+label,
+span,
+a,
+td {
+    color: var(--default-text);
+}
+
+body {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    height: 100vh;
+}
+
+/*endregion*/
+/*region header*/
+
+.header {
+    width: 100vw;
+    background: var(--fg);
+}
+
+.header h1 {
+    font-size: 36px;
+    font-weight: normal;
+    color: #FFF;
+    padding-left: 46px;
+    margin: 20px auto 12px auto;
+    width: fit-content;
+    display: block;
+    background-image: url('../../../logo/white.svg');
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: 36px;
+}
+
+/*region tabs*/
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    background: var(--fg);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--devider);
+}
+
+.tabs span {
+    display: block;
+    padding: 0 16px;
+    position: relative;
+    cursor: pointer;
+}
+
+.tabs span:after {
+    content: '';
+    display: block;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent-blue);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.tabs span.active:after {
+    opacity: 1;
+}
+
+.content {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+#contentMover {
+    display: flex;
+    width: 300vw;
+    height: 100%;
+    transition: margin-left 0.2s;
+}
+
+.contentPage {
+    height: 100%;
+    width: 100vw;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.contentPage::-webkit-scrollbar {
+    display: none;
+}
+
+/*endregion*/
+/*endregion*/
+/*region connections*/
+/*region user*/
+
+#connections #connectionList:empty:before {
+    content: 'No Devices Found';
+    display: block;
+    color: var(--dark-text);
+    font-size: 12px;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+#connections #connectionList .user {
+    margin: 20px 16px 0 16px;
+    padding: 5px;
+    background: var(--fg);
+    border: 1px solid var(--devider);
+    border-radius: 8px;
+}
+
+#connections #connectionList .userinfo {
+    display: flow-root;
+    padding: 0 4px;
+}
+
+#connections #connectionList .userinfo .username {
+    display: inline-block;
+    max-width: 100%;
+}
+
+#connections #connectionList .userinfo .email {
+    float: right;
+    display: block;
+    color: var(--dark-text);
+    max-width: 60%;
+}
+
+/*endregion*/
+/*region connection*/
+
+#connections #connectionList .connection {
+    display: grid;
+    height: 40px;
+    grid-template-areas:
+        "icon title"
+        "icon host";
+    grid-template-rows: auto auto;
+    grid-template-columns: 40px 1fr;
+    grid-column-gap: 6px;
+    margin: 6px 2px 2px 2px;
+    padding: 4px 0;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+#connections #connectionList .connection:hover {
+    background-color: var(--fg-highlight);
+}
+
+#connections #connectionList .connection .icon {
+    grid-area: icon;
+    display: flex;
+    justify-content: center;
+}
+
+#connections #connectionList .connection .icon svg {
+    stroke: var(--default-text);
+    align-self: center;
+}
+
+#connections #connectionList .connection .name {
+    grid-area: title;
+}
+
+#connections #connectionList .connection .name label {
+    color: var(--default-text);
+}
+
+#connections #connectionList .connection .host {
+    grid-area: host;
+}
+
+#connections #connectionList .connection .host label {
+    color: var(--dark-text);
+    font-size: 12px;
+}
+
+#connections #connectionList .connection .info {
+    grid-area: info;
+}
+
+#connections #connectionList .connection .info label {
+    color: var(--accent-blue);
+    font-size: 12px;
+}
+
+/*endregion*/
+/*endregion*/

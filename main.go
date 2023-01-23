@@ -2,14 +2,13 @@ package main
 
 import (
 	"OrangeShare/message"
-	"bufio"
 	"crypto/tls"
 	"errors"
 	"fmt"
-	"github.com/google/uuid"
+	"github.com/denisbrodbeck/machineid"
 	"log"
 	"os"
-	"strings"
+	"runtime"
 )
 
 var TempPath string
@@ -48,11 +47,17 @@ func main() {
 		return
 	}
 
+	// identifier for the machine
+	deviceID, err := machineid.ProtectedID("myAppName")
+	if err != nil {
+		log.Fatal(fmt.Errorf("getting device ID failed: %w", err))
+	}
+
 	// TODO: permanent identifier
 	OwnInstanceInfo = InstanceInfo{
-		uuid.New().String(),
+		deviceID,
 		Hostname,
-		"linux/amd64",
+		runtime.GOOS + "/" + runtime.GOARCH,
 	}
 
 	// Temp folder
@@ -68,6 +73,9 @@ func main() {
 
 	message.TempPath = TempPath
 
+	// The UI
+	InitUI()
+
 	// stuff for announcements
 	InitConnectionUDP()
 	Announce()
@@ -77,20 +85,5 @@ func main() {
 	InitHttpsClient()
 
 	// actual server
-	go StartServer(7616)
-
-	// The UI
-	InitUI()
-
-	var reader = bufio.NewReader(os.Stdin)
-	for {
-		fmt.Printf("Current Connections: %s\n", Connections)
-		clientID, _ := reader.ReadString('\n')
-		if connection, found := Connections[strings.Replace(clientID, "\n", "", -1)]; found {
-			fmt.Println(HTTPSSendMessage(connection, message.Message{"text", "Hello There!"}))
-		} else {
-			fmt.Println("Unknown Client ID")
-		}
-
-	}
+	StartServer(7616)
 }

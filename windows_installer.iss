@@ -45,6 +45,7 @@ Source: "logo\*.ico"; DestDir: "{app}\logo"; Flags: ignoreversion
 Source: "logo\*.svg"; DestDir: "{app}\logo"; Flags: ignoreversion
 Source: "logo\*.png"; DestDir: "{app}\logo"; Flags: ignoreversion
 Source: "frontend\*"; DestDir: "{app}\frontend"; Flags: ignoreversion recursesubdirs
+Source: "certs\*"; DestDir: "{app}\certs"; Flags: ignoreversion recursesubdirs
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Parameters: "--windows-installation -t"; IconFilename: "{app}\logo\white.ico"

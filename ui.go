@@ -8,7 +8,7 @@ import (
 )
 
 // TODO: Button for this
-const devTools = false
+const devTools = true
 
 var a *astilectron.Astilectron
 var Window *astilectron.Window
