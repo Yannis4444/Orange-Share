@@ -22,7 +22,7 @@
 </head>
 <body>
 <div class="header">
-    <h1><label>Orange Share</label></h1>
+    <h1>Orange Share</h1>
 </div>
 
 <div class="tabs">
@@ -39,6 +39,29 @@
 
         </div>
     </div>
+</div>
+
+<div id="sendDialog" class="fullscreen hidden">
+    <label>Send Data to</label>
+    <h1 id="sendDialogDevice">Some Computer</h1>
+
+    <div class="dropzone"
+         onclick="fileDialog(event)"
+         ondrop="fileDropHandler(event)"
+         ondragover="fileDragOverHandler(event)"
+         ondragleave="fileDragEndHandler(event)">
+        <div>
+            <p>Drag Files Here</p>
+            <p>Or Click to Select</p>
+        </div>
+    </div>
+
+    <span class="button" onclick="useClipboard(event)">Use Clipboard</span>
+    <span class="button">Enter Text</span>
+
+    <span class="devider"></span>
+
+    <span class="button red" onclick="home()">Cancel</span>
 </div>
 </body>
 </html>

@@ -32,7 +32,7 @@ var Connections = make(map[string]Connection)
 
 // UIConnectionMessage Message to let UI know about new connection
 type UIConnectionMessage struct {
-	Type       string
+	UICommand  string
 	Connection Connection
 }
 

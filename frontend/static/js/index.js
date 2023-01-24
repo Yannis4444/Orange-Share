@@ -14,6 +14,7 @@ function getUserContainer(user) {
 }
 
 let connections = {}
+let selectedConnection = null;
 
 class Connection {
     constructor(data) {
@@ -90,6 +91,13 @@ class Connection {
 
         this.element = $("<div class='connection'></div>")
 
+        this.element.click(() => {
+            selectedConnection = this;
+            $("#sendDialogDevice").html(this.name);
+            $("#sendDialog").removeClass("hidden");
+            disableAutoClose();
+        });
+
         userContainer.append(this.element);
     }
 }
@@ -100,12 +108,13 @@ function changeTab(t) {
     $("#contentMover").css("margin-left", "-" + (t * 100) + "vw");
 }
 
-function sendMessageToBackend(command, data = {}, callback = (message) => {
+function sendMessageToBackend(command, host = null, data = {}, callback = (message) => {
 }) {
-    console.log("sending '" + command + "' message: ", data);
+    console.log("sending '" + command + "' message for host '" + host + "': ", data);
     astilectron.sendMessage(JSON.stringify({
-        Command: command,
-        Data: JSON.stringify(data)
+        UICommand: command,
+        Host: host,
+        Data: (typeof host == 'string') ? data : JSON.stringify(data)
     }), callback());
 }
 
@@ -142,19 +151,118 @@ function dateToString(timestamp) {
     return toIsoString(new Date(timestamp));
 }
 
+function home() {
+    $(".fullscreen").addClass("hidden");
+    enableAutoClose();
+}
+
+// region sendDialog
+
+function sendFiles(fileList) {
+    // TODO: actually send files
+    // TODO: ask for confirmation (show selected files in box, click button below)
+    // TODO: show small notification on the bottom after sending something
+
+    console.log("Sending files:", fileList);
+    sendMessageToBackend("sendText", selectedConnection.host, JSON.stringify(fileList), () => {
+        home();
+    });
+}
+
+function fileDialog(event) {
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.multiple = true;
+    // TODO: directories?
+    // input.directory  = true;
+    // input.webkitdirectory  = true;
+
+    input.onchange = e => {
+        // var file = e.target.files[0];
+        // console.log(e.target);
+        // console.log(e.target.files);
+
+        let fileList = [];
+        [...e.target.files].forEach((item, i) => {
+            fileList.push(item.path);
+        });
+        sendFiles(fileList);
+    }
+
+    input.click();
+}
+
+function fileDropHandler(event) {
+    // console.log('File(s) dropped', event);
+
+    // Prevent default behavior (Prevent file from being opened)
+    event.preventDefault();
+
+    if (event.dataTransfer.items) {
+        // Use DataTransferItemList interface to access the file(s)
+        let fileList = [];
+        [...event.dataTransfer.items].forEach((item, i) => {
+            // console.log(event.dataTransfer.items);
+            // If dropped items aren't files, reject them
+            if (item.kind === 'file') {
+                const file = item.getAsFile();
+                // console.log(`… file[${i}].name = ${file.name}`);
+                // console.log(file);
+                // sendMessageToBackend("sendText", selectedConnection.host, file.path);
+                fileList.push(file.path);
+            }
+
+        });
+        sendFiles(fileList);
+    } else {
+        let fileList = [];
+        // Use DataTransfer interface to access the file(s)
+        [...event.dataTransfer.files].forEach((file, i) => {
+            // console.log(`… file[${i}].name = ${file.name}`);
+            // console.log(file);
+            fileList.push(file.path);
+        });
+        sendFiles(fileList);
+    }
+
+    event.target.classList.remove("drag");
+}
+
+function fileDragOverHandler(event) {
+    event.target.classList.add("drag");
+    event.preventDefault();
+}
+
+function fileDragEndHandler(event) {
+    event.target.classList.remove("drag");
+    event.preventDefault();
+}
+
+function useClipboard(event) {
+    // TODO: currently only works for files
+    // TODO: ask for confirmation
+    sendMessageToBackend("sendText", selectedConnection.host, require("electron").clipboard.readText(), () => {
+        home();
+    });
+}
+
+// endregion
+
 function handleGoCommand(command) {
     console.log("Handling command:", command)
     switch (command) {
         case "home":
-            // TODO: go home
+            home();
             break;
         default:
             console.log("Unknown command received: '" + command + "'");
     }
 }
 
-function handleMessage(data) {
-    console.log("Received message:", data)
+function handleTextMessage(data) {
+    console.log("Received text message:", data)
+
+    $("#received").append($("<p>" + data.Text + "</p>"))
 }
 
 function handleConnection(data) {
@@ -169,12 +277,12 @@ function handleConnection(data) {
 document.addEventListener('astilectron-ready', function () {
     // This will listen to messages sent by GO
     astilectron.onMessage(function (data) {
-        switch (data.Type) {
+        switch (data.UICommand) {
             case "cmd":
-                handleGoCommand(data.Command);
+                handleGoCommand(data.Data);
                 break;
-            case "message":
-                handleMessage(data);
+            case "textMessage":
+                handleTextMessage(data);
                 break;
             case "connection":
                 handleConnection(data);

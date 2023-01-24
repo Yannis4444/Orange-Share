@@ -1,11 +1,9 @@
 package main
 
 import (
-	"OrangeShare/message"
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
-	"io"
 	"net/http"
 )
 
@@ -50,9 +48,9 @@ func ReceiveTextHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO: ask if accept
 
 	// Write "Hello, world!" to the response body
-	io.WriteString(w, "Hello, world!\n")
+	//io.WriteString(w, "Hello, world!\n")
 
-	message.ReceiveText(w, r)
+	ReceiveText(w, r)
 }
 
 func StartServer(port int) {

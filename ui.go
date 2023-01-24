@@ -8,7 +8,7 @@ import (
 )
 
 // TODO: Button for this
-const devTools = true
+const devTools = false
 
 var a *astilectron.Astilectron
 var Window *astilectron.Window
@@ -17,13 +17,19 @@ var primaryDisplay *astilectron.Display
 
 var AutoCloseWindow = true
 
-type GenericUICommand struct {
-	Command string
-	Data    string
+type GenericCommandForUI struct {
+	UICommand string
+	Data      string
+}
+
+type GenericCommandFromUI struct {
+	UICommand string
+	Host      string
+	Data      string
 }
 
 func SendUICommand(command string) {
-	Window.SendMessage(GenericUICommand{"cmd", command})
+	Window.SendMessage(GenericCommandForUI{"cmd", command})
 }
 
 func receiveUICommand(m *astilectron.EventMessage) interface{} {
@@ -33,12 +39,12 @@ func receiveUICommand(m *astilectron.EventMessage) interface{} {
 
 	L.Println("received command: " + s)
 
-	var command GenericUICommand
+	var command GenericCommandFromUI
 	json.Unmarshal([]byte(s), &command)
 
-	switch command.Command {
-	case "sendFile":
-		//SendFileFromFrontend(command.Data)
+	switch command.UICommand {
+	case "sendText":
+		SendText(command.Host, command.Data)
 		break
 	case "enableAutoClose":
 		AutoCloseWindow = true
@@ -46,6 +52,8 @@ func receiveUICommand(m *astilectron.EventMessage) interface{} {
 	case "disableAutoClose":
 		AutoCloseWindow = false
 		break
+	default:
+		L.Println("unknown command from UI: " + s)
 	}
 
 	return nil
@@ -74,7 +82,7 @@ func CloseWindow() {
 }
 
 func onBlur(astilectron.Event) bool {
-	// TODO: back in
+	fmt.Printf("AutoCloseWindow: %s\n", AutoCloseWindow)
 	if AutoCloseWindow {
 		CloseWindow()
 	}

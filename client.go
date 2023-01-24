@@ -1,11 +1,9 @@
 package main
 
 import (
-	"OrangeShare/message"
 	"bytes"
 	"crypto/tls"
 	"crypto/x509"
-	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -63,12 +61,4 @@ func HTTPSPostJson(url string, body []byte) []byte {
 	fmt.Printf("HTTPS POST Response: %s\n", rBody)
 
 	return rBody
-}
-
-func HTTPSSendMessage(connection Connection, message message.Message) []byte {
-	data, err := json.Marshal(message)
-	if err != nil {
-		L.Fatal("Failed to marshal message")
-	}
-	return HTTPSPostJson(("https://" + connection.Host + ":7616/message"), data)
 }

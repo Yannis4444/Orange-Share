@@ -51,9 +51,78 @@
     text-overflow: ellipsis;
 }
 
-/*region reuseable*/
+.devider {
+    display: block;
+    margin: 20px auto;
+    width: 40%;
+    height: 1px;
+    background: var(--devider);
+}
 
+/*region fullscreen*/
 
+.fullscreen {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 81px);
+    border-top: 1px solid var(--devider);
+    background: var(--bg);
+    transition: opacity 0.3s, top 0.3s;
+}
+
+.fullscreen.hidden {
+    top: 50vh;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, top 0.3s;
+}
+
+/*endregion*/
+/*region buttons*/
+
+.button {
+    display: block;
+    width: 50%;
+    line-height: 36px;
+    text-align: center;
+    background: var(--fg);
+    color: var(--button-color);
+    border: 1px solid var(--devider);
+    border-radius: 50px;
+    margin: 20px auto;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.button:hover,
+.button:active {
+    background-color: var(--bg-accent-blue);
+    border-color: var(--accent-blue);
+    color: var(--button-highlight);
+}
+
+.button.green:hover,
+.button.green:active {
+    background-color: var(--bg-accent-green);
+    border-color: var(--accent-green);
+    color: var(--button-highlight);
+}
+
+.button.red:hover,
+.button.red:active {
+    background-color: var(--bg-accent-red);
+    border-color: var(--accent-red);
+    color: var(--button-highlight);
+}
+
+.button.disabled {
+    pointer-events: none;
+    cursor: default;
+    color: var(--inactive-button);
+    border-color: var(--inactive-button);
+}
 
 /*endregion*/
 /*endregion*/
@@ -65,6 +134,7 @@ html {
 
 body {
     margin: 0;
+    overflow: hidden;
 }
 
 * {
@@ -237,6 +307,10 @@ body {
     background-color: var(--fg-highlight);
 }
 
+#connections #connectionList .connection * {
+    cursor: pointer;
+}
+
 #connections #connectionList .connection .icon {
     grid-area: icon;
     display: flex;
@@ -272,6 +346,75 @@ body {
 #connections #connectionList .connection .info label {
     color: var(--accent-blue);
     font-size: 12px;
+}
+
+/*endregion*/
+/*region sendDialog*/
+
+#sendDialog {
+    position: absolute;
+}
+
+#sendDialog > label {
+    display: block;
+    text-align: center;
+    margin: 24px 0 4px 0;
+    color: var(--dark-text);
+}
+
+#sendDialog > h1 {
+    display: block;
+    margin: 0;
+    font-size: 24px;
+    font-weight: normal;
+    text-align: center;
+}
+
+#sendDialog .dropzone {
+    display: block;
+    width: 260px;
+    height: 160px;
+    margin: 32px auto 48px auto;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#sendDialog .dropzone:hover,
+#sendDialog .dropzone.drag {
+    background: var(--fg);
+}
+
+#sendDialog .dropzone div {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    /*corners*/
+    background:
+            linear-gradient(to right, var(--devider) 4px, transparent 4px) 0 0,
+            linear-gradient(to right, var(--devider) 4px, transparent 4px) 0 100%,
+            linear-gradient(to left, var(--devider) 4px, transparent 4px) 100% 0,
+            linear-gradient(to left, var(--devider) 4px, transparent 4px) 100% 100%,
+            linear-gradient(to bottom, var(--devider) 4px, transparent 4px) 0 0,
+            linear-gradient(to bottom, var(--devider) 4px, transparent 4px) 100% 0,
+            linear-gradient(to top, var(--devider) 4px, transparent 4px) 0 100%,
+            linear-gradient(to top, var(--devider) 4px, transparent 4px) 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    pointer-events: none;
+    transition: background-size 0.2s;
+}
+
+#sendDialog .dropzone:hover,
+#sendDialog .dropzone.drag div {
+    background-size: 30px 30px;
+}
+
+#sendDialog .dropzone div p {
+    display: block;
+    margin: 8px;
 }
 
 /*endregion*/

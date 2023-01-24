@@ -1,7 +1,6 @@
 package main
 
 import (
-	"OrangeShare/message"
 	"crypto/tls"
 	"errors"
 	"fmt"
@@ -70,8 +69,6 @@ func main() {
 
 	// The certificates
 	CA, CERT = LoadCertificates()
-
-	message.TempPath = TempPath
 
 	// The UI
 	InitUI()
