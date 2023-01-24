@@ -103,7 +103,8 @@ func ListenForInstances() {
 			continue
 		}
 
-		if instance.Instance.ID != OwnInstanceInfo.ID {
+		// TODO: remove true
+		if instance.Instance.ID != OwnInstanceInfo.ID || true {
 			connection, ok := Connections[instance.Instance.ID]
 
 			if !ok {

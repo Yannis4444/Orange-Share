@@ -2,7 +2,7 @@ function getUserContainer(user) {
     // TODO: hide if empty
     let containers = $("#connectionList [data-user-id=\"" + user.ID + "\"] .connections");
     if (containers.length > 0) {
-        return containers[0];
+        return containers;
     }
 
     let container = $("<div class='connections'></div>");
@@ -94,7 +94,10 @@ class Connection {
         this.element.click(() => {
             selectedConnection = this;
             $("#sendDialogDevice").html(this.name);
-            $("#sendDialog").removeClass("hidden");
+            $("#sendDialog")
+                .removeClass("hidden")
+                .removeClass("showText")
+                .find("textarea").val("");
             disableAutoClose();
         });
 
@@ -242,6 +245,17 @@ function useClipboard(event) {
     // TODO: currently only works for files
     // TODO: ask for confirmation
     sendMessageToBackend("sendText", selectedConnection.host, require("electron").clipboard.readText(), () => {
+        home();
+    });
+}
+
+function showTextInput(event) {
+    $("#sendDialog").addClass("showText");
+}
+
+function sendTextInput (event) {
+    // TODO: do not send empty text
+    sendMessageToBackend("sendText", selectedConnection.host, $("#sendDialogTextInput").val(), () => {
         home();
     });
 }
