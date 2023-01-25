@@ -6,6 +6,7 @@ import (
 	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilectron"
 	"log"
+	"os"
 	"os/exec"
 	"runtime"
 )
@@ -58,6 +59,8 @@ func receiveUICommand(m *astilectron.EventMessage) interface{} {
 	case "disableAutoClose":
 		AutoCloseWindow = false
 		break
+	case "exit":
+		os.Exit(0)
 	case "openURL":
 		OpenBrowser(command.Data)
 		break
@@ -145,7 +148,6 @@ func InitUI() {
 	if err != nil {
 		L.Fatal(fmt.Errorf("creating astilectron failed: %w", err))
 	}
-	// TODO: defer a.Close()
 
 	// Handle signals
 	Astilectron.HandleSignals()

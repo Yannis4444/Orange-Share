@@ -11,6 +11,7 @@
     --fg: #1f2328;
     --fg2: #262c31;
     --fg-highlight: #2c3036;
+    --fg2-highlight: #353a41;
 
     /*Text*/
     --default-text: #ccc;
@@ -228,6 +229,30 @@ textarea {
 }
 
 /*endregion*/
+/*region menu*/
+
+.menu {
+    display: block;
+    position: fixed;
+    background: var(--fg2);
+    width: 120px;
+    padding: 4px 0;
+    border-radius: 4px;
+    box-shadow: var(--drop-shadow-small);
+}
+
+.menu label {
+    display: block;
+    padding: 4px 8px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.menu label:hover {
+    background: var(--fg2-highlight);
+}
+
+/*endregion*/
 /*endregion*/
 /*region general*/
 
@@ -294,6 +319,7 @@ body {
 .tabs {
     display: flex;
     justify-content: center;
+    position: relative;
     background: var(--fg);
     padding-bottom: 10px;
     border-bottom: 1px solid var(--divider);
@@ -353,6 +379,32 @@ body {
 .tabs > span.badge span {
     display: block;
 }
+
+/*region mainmenu*/
+
+.tabs .mainMenu {
+    position: absolute;
+    right: 24px;
+    top: 2px;
+    cursor: pointer;
+}
+
+.tabs .mainMenu > * {
+    pointer-events: none;
+}
+
+.tabs .mainMenu svg {
+    stroke: var(--default-text);
+    transition: transform 0s, stroke 0.2s;
+}
+
+.tabs .mainMenu:hover svg {
+    stroke: var(--highlighted-text);
+    transform: rotate(45deg);
+    transition: transform 0.2s, stroke 0.2s;
+}
+
+/*endregion*/
 
 .content {
     height: 100%;

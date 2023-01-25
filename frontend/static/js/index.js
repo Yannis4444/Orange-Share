@@ -11,6 +11,18 @@ class Backend {
         }), callback);
     }
 
+    static enableAutoClose() {
+        Backend.sendMessage("enableAutoClose");
+    }
+
+    static disableAutoClose() {
+        Backend.sendMessage("disableAutoClose");
+    }
+
+    static exit() {
+        Backend.sendMessage("exit");
+    }
+
     static sendText(text) {
         console.log("Sending text:", text);
         Backend.sendMessage("sendText", selectedConnection.host, text, () => {
@@ -138,7 +150,7 @@ class Connection {
                 .removeClass("hidden")
                 .removeClass("showText")
                 .find("textarea").val("");
-            disableAutoClose();
+            Backend.disableAutoClose();
         });
 
         userContainer.append(this.element);
@@ -259,6 +271,7 @@ class FilesMessage extends Message {
                 $("<label class='time'>" + dateToString(this.timestamp) + "</label>")
             ).click(() => {
                 // TODO: do something with the file
+                Notification("Just imagine that something happened", "red");
             });
         // TODO: context menu with further options
 
@@ -307,12 +320,64 @@ function Notification(title, color = "blue", autoHide = 3000) {
     })
 }
 
-function enableAutoClose() {
-    Backend.sendMessage("enableAutoClose");
+function getPos(ele){
+    let x=0;
+    let y=0;
+    while(true){
+        x += ele.offsetLeft;
+        y += ele.offsetTop;
+        if(ele.offsetParent === null){
+            break;
+        }
+        ele = ele.offsetParent;
+    }
+    return [x, y];
 }
 
-function disableAutoClose() {
-    Backend.sendMessage("disableAutoClose");
+let currentMenu = null;
+function Menu(event, elements) {
+    if (currentMenu !== null) {
+        currentMenu.remove()
+    }
+
+    let pos = getPos(event.target);
+
+    // TODO: check to not move out the window
+
+    currentMenu = $("<div class='menu'></div>")
+        .css("right",(window.innerWidth - (pos[0] + event.target.offsetWidth)) + "px")
+        .css("top",pos[1] + event.target.offsetHeight + "px");
+
+    elements.forEach((element, i) => {
+        currentMenu.append(
+            $("<label>" + element.label + "</label>")
+                .click((e) => {
+                    element.action(e);
+                })
+        );
+    });
+
+    $("body").append(currentMenu);
+
+    event.stopPropagation();
+}
+
+function openMainMenu(event) {
+    Menu(event, [
+        {
+            label: "Settings",
+            action: () => {
+                // TODO: open settings
+                Notification("Settings not yet implemented", "red");
+            }
+        },
+        {
+            label: "Exit",
+            action: () => {
+                Backend.exit();
+            }
+        }
+    ])
 }
 
 function toIsoString(date) {
@@ -341,7 +406,7 @@ function dateToString(timestamp) {
 
 function home() {
     $(".fullscreen").addClass("hidden");
-    enableAutoClose();
+    Backend.enableAutoClose();
 }
 
 // region sendDialog
@@ -475,3 +540,12 @@ document.addEventListener('astilectron-ready', function () {
         return "";
     });
 })
+
+$( document ).ready(function() {
+    $(document).click(() => {
+        if (currentMenu !== null) {
+            currentMenu.remove();
+            currentMenu = null;
+        }
+    });
+});
