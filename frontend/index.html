@@ -26,8 +26,8 @@
 </div>
 
 <div class="tabs">
-    <span class="active" onclick="changeTab(0)">Send</span>
-    <span onclick="changeTab(1)">Receive</span>
+    <span class="send active" onclick="changeTab(event, 0)">Send</span>
+    <span class="receive" onclick="changeTab(event, 1)">Receive<span></span></span>
 </div>
 
 <div class="content">
@@ -36,7 +36,7 @@
             <div id="connectionList"></div>
         </div>
         <div id="received" class="contentPage">
-
+            <div id="receivedList"></div>
         </div>
     </div>
 </div>
@@ -80,6 +80,7 @@
     </div>
 
     <div class="text">
+        <!-- TODO: send on ctrl + enter -->
         <textarea id="sendDialogTextInput" name="Text1" cols="40" rows="8" placeholder="Enter Text Here"></textarea>
 
         <span class="button" onclick="sendTextInput(event)"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-top" width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -93,5 +94,7 @@
         <span class="cancel" onclick="home()">Cancel</span>
     </div>
 </div>
+
+<div id="notifications"></div>
 </body>
 </html>

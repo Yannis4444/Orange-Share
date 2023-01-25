@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilectron"
+	"log"
+	"os/exec"
+	"runtime"
 )
 
 // TODO: Button for this
@@ -51,6 +54,9 @@ func receiveUICommand(m *astilectron.EventMessage) interface{} {
 		break
 	case "disableAutoClose":
 		AutoCloseWindow = false
+		break
+	case "openURL":
+		OpenBrowser(command.Data)
 		break
 	default:
 		L.Println("unknown command from UI: " + s)
@@ -225,4 +231,22 @@ func ShowNotification(title, body string) {
 
 	// Show notification
 	n.Show()
+}
+
+func OpenBrowser(url string) {
+	var err error
+
+	switch runtime.GOOS {
+	case "linux":
+		err = exec.Command("xdg-open", url).Start()
+	case "windows":
+		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+	case "darwin":
+		err = exec.Command("open", url).Start()
+	default:
+		err = fmt.Errorf("unsupported platform")
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
 }

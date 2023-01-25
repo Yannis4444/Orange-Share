@@ -1,3 +1,5 @@
+// TODO: sanitize user, message etc.
+
 function getUserContainer(user) {
     // TODO: hide if empty
     let containers = $("#connectionList [data-user-id=\"" + user.ID + "\"] .connections");
@@ -105,10 +107,111 @@ class Connection {
     }
 }
 
-function changeTab(t) {
+function isValidHttpUrl(string) {
+    // https://stackoverflow.com/a/43467144/13174921
+    let url;
+    try {
+        url = new URL(string);
+    } catch (_) {
+        return false;
+    }
+    return url.protocol === "http:" || url.protocol === "https:";
+}
+
+class Message {
+    // TODO: inheritance for different types
+    constructor(data) {
+        console.log("New Message:", data)
+
+        this.text = data.Text;
+        this.timestamp = data.Timestamp;
+        // TODO: get an actual user
+        this.user = "some user";
+
+        this.isUrl = isValidHttpUrl(this.text);
+
+        // TODO: device name would be better
+        Notification("Received Text from " + this.user);
+
+        this.addListElement();
+    }
+
+    addListElement() {
+        this.element = $("<div class='message text'></div>")
+            .append(
+                // https://tablericons.com/ 40px 1px
+                (
+                    this.isUrl ? $("<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon icon-tabler icon-tabler-link\" width=\"32\" height=\"32\" viewBox=\"0 0 24 24\" stroke-width=\"1\" stroke=\"#000000\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n" +
+                        "  <path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/>\n" +
+                        "  <path d=\"M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5\" />\n" +
+                        "  <path d=\"M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5\" />\n" +
+                        "</svg>") : $("<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon icon-tabler icon-tabler-align-left\" width=\"32\" height=\"32\" viewBox=\"0 0 24 24\" stroke-width=\"1\" stroke=\"#000000\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n" +
+                        "  <path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/>\n" +
+                        "  <line x1=\"4\" y1=\"6\" x2=\"20\" y2=\"6\" />\n" +
+                        "  <line x1=\"4\" y1=\"12\" x2=\"14\" y2=\"12\" />\n" +
+                        "  <line x1=\"4\" y1=\"18\" x2=\"18\" y2=\"18\" />\n" +
+                        "</svg>")
+                ),
+                $("<label class='title ellipsis'>" + this.text + "</label>"),
+                $("<label class='user ellipsis'>" + this.user + "</label>"),
+                $("<label class='time'>" + dateToString(this.timestamp) + "</label>")
+            ).click(() => {
+                if (this.isUrl) {
+                    sendMessageToBackend("openURL", null, this.text)
+                } else {
+                    navigator.clipboard.writeText(this.text);
+                    Notification("Text copied to clipbard")
+                }
+            });
+
+        $("#receivedList")
+            .prepend(this.element)
+            .scrollTop();
+
+        // add small badge to tab
+        $(".tabs .receive:not(.active)").addClass("badge");
+    }
+}
+
+function changeTab(event, t) {
+    event.target.classList.remove("badge");
     $(".tabs span").removeClass("active");
     $(".tabs span:nth-child(" + (t + 1) + ")").addClass("active");
     $("#contentMover").css("margin-left", "-" + (t * 100) + "vw");
+}
+
+function Notification(title, color = "blue", autoHide = 3000) {
+    // colors: red, green, blue
+
+    let popup = $("<div></div>")
+        .append(
+            $("<h1>" + title + "</h1>"),
+        );
+
+    if (color !== null) {
+        popup.addClass(color);
+    }
+
+    $("#notifications").append(popup);
+
+    let to;
+    if (autoHide > 0) {
+        to = setTimeout(function () {
+            popup.remove();
+        }, autoHide);
+    }
+
+    popup.on("mouseenter", function () {
+        if (to !== undefined) {
+            clearTimeout(to);
+        }
+    })
+
+    popup.on("mouseleave", function () {
+        to = setTimeout(function () {
+            popup.remove();
+        }, 1000);
+    })
 }
 
 function sendMessageToBackend(command, host = null, data = {}, callback = (message) => {
@@ -117,7 +220,7 @@ function sendMessageToBackend(command, host = null, data = {}, callback = (messa
     astilectron.sendMessage(JSON.stringify({
         UICommand: command,
         Host: host,
-        Data: (typeof host == 'string') ? data : JSON.stringify(data)
+        Data: (typeof data == 'string') ? data : JSON.stringify(data)
     }), callback());
 }
 
@@ -130,7 +233,6 @@ function disableAutoClose() {
 }
 
 function toIsoString(date) {
-    // return date.toLocaleTimeString();
 
     // https://stackoverflow.com/a/17415677/13174921
     let tzo = -date.getTimezoneOffset(),
@@ -150,8 +252,8 @@ function toIsoString(date) {
 }
 
 function dateToString(timestamp) {
-    // TODO: setting to switch
-    return toIsoString(new Date(timestamp));
+    return new Date(timestamp).toLocaleString();
+    // return toIsoString(new Date(timestamp));
 }
 
 function home() {
@@ -253,9 +355,10 @@ function showTextInput(event) {
     $("#sendDialog").addClass("showText");
 }
 
-function sendTextInput (event) {
+function sendTextInput(event) {
     // TODO: do not send empty text
     sendMessageToBackend("sendText", selectedConnection.host, $("#sendDialogTextInput").val(), () => {
+        Notification("Sent Text to " + selectedConnection.name);
         home();
     });
 }
@@ -274,9 +377,7 @@ function handleGoCommand(command) {
 }
 
 function handleTextMessage(data) {
-    console.log("Received text message:", data)
-
-    $("#received").append($("<p>" + data.Text + "</p>"))
+    new Message(data);
 }
 
 function handleConnection(data) {
@@ -284,7 +385,7 @@ function handleConnection(data) {
     if (connectionData.Instance.ID in connections) {
         connections[connectionData.Instance.ID].updateData(connectionData);
     } else {
-        new Connection(connectionData)
+        new Connection(connectionData);
     }
 }
 

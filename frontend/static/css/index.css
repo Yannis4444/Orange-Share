@@ -173,6 +173,61 @@ textarea {
 }
 
 /*endregion*/
+/*region notifications*/
+
+#notifications {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 1000;
+}
+
+#notifications > div {
+    background: var(--fg2);
+    padding: 8px 12px;
+    box-shadow: var(--drop-shadow-small);
+    border-top: 4px solid var(--divider);
+    margin: 12px;
+    position: relative;
+    animation: popupIn 0.2s linear forwards;
+}
+
+@keyframes popupIn {
+    0% {
+        transform: translateY(25%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+#notifications > div.red {
+    border-top: 4px solid var(--bg-accent-red);
+}
+
+#notifications > div.blue {
+    border-top: 4px solid var(--bg-accent-blue);
+}
+
+#notifications > div.green {
+    border-top: 4px solid var(--bg-accent-green);
+}
+
+#notifications h1 {
+    font-size: 16px;
+    margin: 0;
+    font-weight: normal;
+}
+
+#notifications p {
+    font-size: 12px;
+    margin: 4px 0 0 0;
+}
+
+/*endregion*/
 /*endregion*/
 /*region general*/
 
@@ -244,14 +299,14 @@ body {
     border-bottom: 1px solid var(--divider);
 }
 
-.tabs span {
+.tabs > span {
     display: block;
     padding: 0 16px;
     position: relative;
     cursor: pointer;
 }
 
-.tabs span:after {
+.tabs > span:after {
     content: '';
     display: block;
     left: 0;
@@ -263,8 +318,40 @@ body {
     transition: opacity 0.2s;
 }
 
-.tabs span.active:after {
+.tabs > span.active:after {
     opacity: 1;
+}
+
+@keyframes badgePulse {
+    0% {
+        transform: scale(1);
+        background: var(--bg-accent-blue);
+    }
+    50% {
+        transform: scale(1.2);
+        background: var(--accent-blue);
+    }
+    100% {
+        transform: scale(1);
+        background: var(--bg-accent-blue);
+    }
+}
+
+.tabs > span span {
+    display: none;
+    position: absolute;
+    right: 8px;
+    top: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--bg-accent-blue);
+    pointer-events: none;
+    animation: badgePulse 1.2s ease-in-out infinite;
+}
+
+.tabs > span.badge span {
+    display: block;
 }
 
 .content {
@@ -308,7 +395,7 @@ body {
 }
 
 #connections #connectionList .user {
-    margin: 20px 16px 0 16px;
+    margin: 20px 16px 20px 16px;
     padding: 5px;
     background: var(--fg);
     border: 1px solid var(--divider);
@@ -440,15 +527,14 @@ body {
     flex-direction: column;
     text-align: center;
     /*corners*/
-    background:
-            linear-gradient(to right, var(--divider) 4px, transparent 4px) 0 0,
-            linear-gradient(to right, var(--divider) 4px, transparent 4px) 0 100%,
-            linear-gradient(to left, var(--divider) 4px, transparent 4px) 100% 0,
-            linear-gradient(to left, var(--divider) 4px, transparent 4px) 100% 100%,
-            linear-gradient(to bottom, var(--divider) 4px, transparent 4px) 0 0,
-            linear-gradient(to bottom, var(--divider) 4px, transparent 4px) 100% 0,
-            linear-gradient(to top, var(--divider) 4px, transparent 4px) 0 100%,
-            linear-gradient(to top, var(--divider) 4px, transparent 4px) 100% 100%;
+    background: linear-gradient(to right, var(--divider) 4px, transparent 4px) 0 0,
+    linear-gradient(to right, var(--divider) 4px, transparent 4px) 0 100%,
+    linear-gradient(to left, var(--divider) 4px, transparent 4px) 100% 0,
+    linear-gradient(to left, var(--divider) 4px, transparent 4px) 100% 100%,
+    linear-gradient(to bottom, var(--divider) 4px, transparent 4px) 0 0,
+    linear-gradient(to bottom, var(--divider) 4px, transparent 4px) 100% 0,
+    linear-gradient(to top, var(--divider) 4px, transparent 4px) 0 100%,
+    linear-gradient(to top, var(--divider) 4px, transparent 4px) 100% 100%;
     background-repeat: no-repeat;
     background-size: 20px 20px;
     pointer-events: none;
@@ -479,4 +565,74 @@ body {
 }
 
 /*endregion*/
+/*endregion*/
+/*region receive*/
+
+#received #receivedList:empty:before {
+    content: 'No Data Received Yet';
+    display: block;
+    color: var(--dark-text);
+    font-size: 12px;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+#received #receivedList .message {
+    display: grid;
+    grid-template-areas:
+        "icon title title"
+        "icon user time";
+    grid-template-rows: auto auto;
+    grid-template-columns: 65px 1fr auto;
+    grid-column-gap: 4px;
+    height: 40px;
+    margin: 8px 16px 8px 16px;
+    padding: 4px 8px 4px 4px;
+    background: var(--fg);
+    border: 1px solid var(--divider);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#received #receivedList .message:nth-child(1) {
+    margin-top: 20px;
+}
+
+#received #receivedList .message:hover {
+    background: var(--fg-highlight);
+}
+
+#received #receivedList * {
+    cursor: inherit;
+}
+
+#received #receivedList .message > .icon {
+    box-sizing: border-box;
+    grid-area: icon;
+    stroke: var(--default-text);
+    width: 65px;
+    height: 40px;
+    padding: 4px;
+}
+
+#received #receivedList .message .title {
+    grid-area: title;
+    color: var(--default-text);
+    font-size: 16px;
+}
+
+#received #receivedList .message .user {
+    grid-area: user;
+    color: var(--dark-text);
+    font-size: 12px;
+}
+
+#received #receivedList .message .time {
+    grid-area: time;
+    color: var(--dark-text);
+    font-size: 12px;
+}
+
 /*endregion*/

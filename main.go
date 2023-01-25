@@ -83,4 +83,6 @@ func main() {
 
 	// actual server
 	StartServer(7616)
+
+	// TODO: shut down correctly
 }
