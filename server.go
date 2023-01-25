@@ -53,10 +53,27 @@ func ReceiveTextHandler(w http.ResponseWriter, r *http.Request) {
 	ReceiveText(w, r)
 }
 
+func ReceiveFilesHandler(w http.ResponseWriter, r *http.Request) {
+	printHeader(r)
+	if r.TLS != nil {
+		printConnState(r.TLS)
+	}
+	L.Print(">>>>>>>>>>>>>>>>> End <<<<<<<<<<<<<<<<<<")
+	fmt.Println("")
+
+	// TODO: ask if accept
+
+	// Write "Hello, world!" to the response body
+	//io.WriteString(w, "Hello, world!\n")
+
+	ReceiveFiles(w, r)
+}
+
 func StartServer(port int) {
 	// Set up a /hello resource handler
 	handler := http.NewServeMux()
 	handler.HandleFunc("/data/text", ReceiveTextHandler)
+	handler.HandleFunc("/data/files", ReceiveFilesHandler)
 
 	caCertPool := x509.NewCertPool()
 	caCertPool.AppendCertsFromPEM(CA)

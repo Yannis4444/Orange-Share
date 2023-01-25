@@ -1,5 +1,43 @@
 // TODO: sanitize user, message etc.
 
+class Backend {
+    static sendMessage(command, host = null, data = {}, callback = (message) => {
+    }) {
+        console.log("sending '" + command + "' message for host '" + host + "': ", data);
+        astilectron.sendMessage(JSON.stringify({
+            UICommand: command,
+            Host: host,
+            Data: (typeof data == 'string') ? data : JSON.stringify(data)
+        }), callback);
+    }
+
+    static sendText(text) {
+        console.log("Sending text:", text);
+        Backend.sendMessage("sendText", selectedConnection.host, text, () => {
+            home();
+            Notification("Sent Text to " + selectedConnection.name);
+        });
+    }
+
+    static openUrl(url) {
+        console.log("Opening URL:", url);
+        Backend.sendMessage("openURL", null, url);
+    }
+
+    static sendFiles(fileList) {
+        // TODO: actually send files
+        // TODO: ask for confirmation? (show selected files in box, click button below)
+        // TODO: show small notification on the bottom after sending something
+        // TODO: spinner when sending any content
+
+        console.log("Sending files:", fileList);
+        Backend.sendMessage("sendFiles", selectedConnection.host, JSON.stringify(fileList), () => {
+            home();
+            Notification("Sent File(s) to " + selectedConnection.name)
+        });
+    }
+}
+
 function getUserContainer(user) {
     // TODO: hide if empty
     let containers = $("#connectionList [data-user-id=\"" + user.ID + "\"] .connections");
@@ -119,15 +157,29 @@ function isValidHttpUrl(string) {
 }
 
 class Message {
-    // TODO: inheritance for different types
     constructor(data) {
         console.log("New Message:", data)
-
-        this.text = data.Text;
         this.timestamp = data.Timestamp;
         // TODO: get an actual user
         this.user = "some user";
+    }
 
+    addToList(element) {
+        $("#receivedList")
+            .prepend(element)
+            .scrollTop();
+
+        // add small badge to tab
+        $(".tabs .receive:not(.active)").addClass("badge");
+    }
+}
+
+class TextMessage extends Message {
+    // TODO: inheritance for different types
+    constructor(data) {
+        super(data);
+
+        this.text = data.Text;
         this.isUrl = isValidHttpUrl(this.text);
 
         // TODO: device name would be better
@@ -137,7 +189,7 @@ class Message {
     }
 
     addListElement() {
-        this.element = $("<div class='message text'></div>")
+        let element = $("<div class='message text'></div>")
             .append(
                 // https://tablericons.com/ 40px 1px
                 (
@@ -157,19 +209,60 @@ class Message {
                 $("<label class='time'>" + dateToString(this.timestamp) + "</label>")
             ).click(() => {
                 if (this.isUrl) {
-                    sendMessageToBackend("openURL", null, this.text)
+                    Backend.openUrl(this.text)
                 } else {
                     navigator.clipboard.writeText(this.text);
                     Notification("Text copied to clipbard")
                 }
             });
+        // TODO: context menu with further options
+        //       maybe setting for default action
 
-        $("#receivedList")
-            .prepend(this.element)
-            .scrollTop();
+        this.addToList(element);
+    }
+}
 
-        // add small badge to tab
-        $(".tabs .receive:not(.active)").addClass("badge");
+class FilesMessage extends Message {
+    // TODO: inheritance for different types
+    constructor(data) {
+        super(data);
+
+        this.filename = data.Filename;
+
+        // TODO: device name would be better
+        Notification("Received File(s) from " + this.user);
+
+        this.addListElement(data.PreviewImage);
+    }
+
+    getImage(previewImage) {
+        // https://tablericons.com/ 32px 1px
+        if (previewImage !== "") {
+            return $('<span class="icon preview"></span>')
+                .css({"background-image": "url(" + previewImage + ")"});
+        } else {
+            // TODO: different icons for different types / folders / multiple files
+            return $("<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon icon-tabler icon-tabler-file\" width=\"32\" height=\"32\" viewBox=\"0 0 24 24\" stroke-width=\"1\" stroke=\"#000000\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n" +
+                "  <path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/>\n" +
+                "  <path d=\"M14 3v4a1 1 0 0 0 1 1h4\" />\n" +
+                "  <path d=\"M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z\" />\n" +
+                "</svg>");
+        }
+    }
+
+    addListElement(previewImage) {
+        let element = $("<div class='message text'></div>")
+            .append(
+                this.getImage(previewImage),
+                $("<label class='title ellipsis'>" + this.filename + "</label>"),
+                $("<label class='user ellipsis'>" + this.user + "</label>"),
+                $("<label class='time'>" + dateToString(this.timestamp) + "</label>")
+            ).click(() => {
+                // TODO: do something with the file
+            });
+        // TODO: context menu with further options
+
+        this.addToList(element);
     }
 }
 
@@ -214,22 +307,12 @@ function Notification(title, color = "blue", autoHide = 3000) {
     })
 }
 
-function sendMessageToBackend(command, host = null, data = {}, callback = (message) => {
-}) {
-    console.log("sending '" + command + "' message for host '" + host + "': ", data);
-    astilectron.sendMessage(JSON.stringify({
-        UICommand: command,
-        Host: host,
-        Data: (typeof data == 'string') ? data : JSON.stringify(data)
-    }), callback());
-}
-
 function enableAutoClose() {
-    sendMessageToBackend("enableAutoClose");
+    Backend.sendMessage("enableAutoClose");
 }
 
 function disableAutoClose() {
-    sendMessageToBackend("disableAutoClose");
+    Backend.sendMessage("disableAutoClose");
 }
 
 function toIsoString(date) {
@@ -263,17 +346,6 @@ function home() {
 
 // region sendDialog
 
-function sendFiles(fileList) {
-    // TODO: actually send files
-    // TODO: ask for confirmation (show selected files in box, click button below)
-    // TODO: show small notification on the bottom after sending something
-
-    console.log("Sending files:", fileList);
-    sendMessageToBackend("sendText", selectedConnection.host, JSON.stringify(fileList), () => {
-        home();
-    });
-}
-
 function fileDialog(event) {
     var input = document.createElement('input');
     input.type = 'file';
@@ -291,7 +363,7 @@ function fileDialog(event) {
         [...e.target.files].forEach((item, i) => {
             fileList.push(item.path);
         });
-        sendFiles(fileList);
+        Backend.sendFiles(fileList);
     }
 
     input.click();
@@ -313,12 +385,11 @@ function fileDropHandler(event) {
                 const file = item.getAsFile();
                 // console.log(`… file[${i}].name = ${file.name}`);
                 // console.log(file);
-                // sendMessageToBackend("sendText", selectedConnection.host, file.path);
                 fileList.push(file.path);
             }
 
         });
-        sendFiles(fileList);
+        Backend.sendFiles(fileList);
     } else {
         let fileList = [];
         // Use DataTransfer interface to access the file(s)
@@ -327,7 +398,7 @@ function fileDropHandler(event) {
             // console.log(file);
             fileList.push(file.path);
         });
-        sendFiles(fileList);
+        Backend.sendFiles(fileList);
     }
 
     event.target.classList.remove("drag");
@@ -344,11 +415,9 @@ function fileDragEndHandler(event) {
 }
 
 function useClipboard(event) {
-    // TODO: currently only works for files
+    // TODO: currently only works for text, better get content in backend
     // TODO: ask for confirmation
-    sendMessageToBackend("sendText", selectedConnection.host, require("electron").clipboard.readText(), () => {
-        home();
-    });
+    Backend.sendText(require("electron").clipboard.readText());
 }
 
 function showTextInput(event) {
@@ -357,10 +426,7 @@ function showTextInput(event) {
 
 function sendTextInput(event) {
     // TODO: do not send empty text
-    sendMessageToBackend("sendText", selectedConnection.host, $("#sendDialogTextInput").val(), () => {
-        Notification("Sent Text to " + selectedConnection.name);
-        home();
-    });
+    Backend.sendText($("#sendDialogTextInput").val());
 }
 
 // endregion
@@ -374,10 +440,6 @@ function handleGoCommand(command) {
         default:
             console.log("Unknown command received: '" + command + "'");
     }
-}
-
-function handleTextMessage(data) {
-    new Message(data);
 }
 
 function handleConnection(data) {
@@ -397,7 +459,11 @@ document.addEventListener('astilectron-ready', function () {
                 handleGoCommand(data.Data);
                 break;
             case "textMessage":
-                handleTextMessage(data);
+                new TextMessage(data);
+                break;
+            case "filesMessage":
+                // TODO
+                new FilesMessage(data);
                 break;
             case "connection":
                 handleConnection(data);

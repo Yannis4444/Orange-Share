@@ -66,6 +66,7 @@ func main() {
 			L.Fatal(fmt.Errorf("creating temporary directory failed: %w", err))
 		}
 	}
+	L.Printf("Using temporary directory '%s'\n", TempPath)
 
 	// The certificates
 	CA, CERT = LoadCertificates()

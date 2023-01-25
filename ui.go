@@ -49,6 +49,9 @@ func receiveUICommand(m *astilectron.EventMessage) interface{} {
 	case "sendText":
 		SendText(command.Host, command.Data)
 		break
+	case "sendFiles":
+		SendFiles(command.Host, command.Data)
+		break
 	case "enableAutoClose":
 		AutoCloseWindow = true
 		break

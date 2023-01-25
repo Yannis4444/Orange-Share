@@ -617,6 +617,12 @@ body {
     padding: 4px;
 }
 
+#received #receivedList .message > .icon.preview {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 #received #receivedList .message .title {
     grid-area: title;
     color: var(--default-text);

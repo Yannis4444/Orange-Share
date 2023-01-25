@@ -46,19 +46,23 @@ func HTTPSGet(url string) []byte {
 	return body
 }
 
-func HTTPSPostJson(url string, body []byte) []byte {
-	r, err := client.Post(url, "application/json", bytes.NewReader(body))
+func HTTPSPost(url, contentType string, body io.Reader) (string, []byte) {
+	r, err := client.Post(url, contentType, body)
 	if err != nil {
-		log.Fatalf("error making post request: %v", err)
+		L.Println(fmt.Errorf("error making post request: %v", err))
 	}
 
 	defer r.Body.Close()
 	rBody, err := io.ReadAll(r.Body)
 	if err != nil {
-		log.Fatalf("error reading response: %v", err)
+		L.Println(fmt.Errorf("error reading response: %v", err))
 	}
 
 	fmt.Printf("HTTPS POST Response: %s\n", rBody)
 
-	return rBody
+	return r.Status, rBody
+}
+
+func HTTPSPostJson(url string, body []byte) (string, []byte) {
+	return HTTPSPost(url, "application/json", bytes.NewReader(body))
 }
