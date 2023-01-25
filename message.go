@@ -115,6 +115,7 @@ func SendFiles(host, fileListStr string) {
 	}
 
 	// TODO: not just send first file
+	// TODO: Windows fucks this up
 	filenameSplit := strings.Split(filenames[0], "/")
 
 	fileWriter, err := bodyWriter.CreateFormFile("file", filenameSplit[len(filenameSplit)-1])
@@ -125,7 +126,7 @@ func SendFiles(host, fileListStr string) {
 	}
 
 	// open file handle
-	fh, err := os.Open(filenameSplit[len(filenameSplit)-1])
+	fh, err := os.Open(filenames[0])
 	if err != nil {
 		L.Println(fmt.Errorf("error opening file: %w", err))
 		return
