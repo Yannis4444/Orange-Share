@@ -12,6 +12,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('mode',
                     type=str,
                     required=True,
+                    location="form",
                     help='provide a mode')
 parser.add_argument('file',
                     type=werkzeug.datastructures.FileStorage,
